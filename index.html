@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>SkyNix</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+
+    margin: 0;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #171535 0%,
+            #0b0b16 55%
+        );
+
+    color: white;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    user-select: none;
+
+}
+
+.container {
+
+    width: 100%;
+
+    padding:
+        42px 38px;
+
+    text-align: center;
+
+}
+
+.logo {
+
+    font-size: 40px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #5b8cff,
+            #9a5cff
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color:
+        transparent;
+
+    margin-bottom: 8px;
+
+}
+
+.subtitle {
+
+    color: #85859c;
+
+    font-size: 14px;
+
+    margin-bottom: 30px;
+
+}
+
+button {
+
+    width: 100%;
+
+    height: 58px;
+
+    margin:
+        7px 0;
+
+    border-radius: 12px;
+
+    border:
+        1px solid #363653;
+
+    background:
+        #1d1d34;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s,
+        transform 0.15s;
+
+}
+
+button:hover {
+
+    background:
+        #292949;
+
+    transform:
+        translateY(-1px);
+
+}
+
+button:active {
+
+    transform:
+        translateY(0);
+
+}
+
+.version {
+
+    margin-top: 28px;
+
+    color: #5f5f77;
+
+    font-size: 12px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        SkyNix
+    </div>
+
+    <div class="subtitle">
+        Официальное приложение SkyNix
+    </div>
+
+    <button onclick="wiki()">
+        Wiki SkyNix
+    </button>
+
+    <button onclick="minecraft()">
+        IP SkyNix Minecraft
+    </button>
+
+    <button onclick="youtube()">
+        YouTube Senya Melnik
+    </button>
+
+    <div class="version">
+        Версия 1.0.0
+    </div>
+
+</div>
+
+<script>
+
+const {
+    shell
+} = require("electron");
+
+function wiki() {
+
+    shell.openExternal(
+        "https://wiki.skynix.workers.dev"
+    );
+
+}
+
+function youtube() {
+
+    shell.openExternal(
+        "https://www.youtube.com/@SenyaMelnik_Games"
+    );
+
+}
+
+function minecraft() {
+
+    const {
+        ipcRenderer
+    } = require("electron");
+
+    ipcRenderer.send(
+        "setup-minecraft"
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

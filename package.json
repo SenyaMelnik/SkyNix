@@ -1,0 +1,15 @@
+{
+  "name": "skynix",
+  "version": "1.0.0",
+  "description": "SkyNix official application",
+  "main": "main.js",
+  "author": "Senya Melnik",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^38.2.0",
+    "electron-builder": "^26.0.12"
+  }
+}
