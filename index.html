@@ -32,12 +32,51 @@ body {
 
     color: white;
 
-    font-family:
-        Arial,
-        sans-serif;
+    font-family: Arial, sans-serif;
 
     user-select: none;
 
+    overflow: hidden;
+}
+
+input,
+textarea,
+select {
+
+    user-select: text;
+
+    -webkit-user-select: text;
+
+    pointer-events: auto;
+}
+
+input {
+    cursor: text;
+}
+
+input[type="number"] {
+
+    user-select: text;
+
+    -webkit-user-select: text;
+
+    cursor: text;
+}
+
+.modal input {
+
+    user-select: text;
+
+    -webkit-user-select: text;
+
+    pointer-events: auto;
+}
+
+.modal input:focus {
+
+    user-select: text;
+
+    -webkit-user-select: text;
 }
 
 .container {
@@ -45,10 +84,9 @@ body {
     width: 100%;
 
     padding:
-        42px 38px;
+        38px 38px 30px;
 
     text-align: center;
-
 }
 
 .logo {
@@ -68,11 +106,9 @@ body {
 
     -webkit-background-clip: text;
 
-    -webkit-text-fill-color:
-        transparent;
+    -webkit-text-fill-color: transparent;
 
     margin-bottom: 8px;
-
 }
 
 .subtitle {
@@ -81,18 +117,21 @@ body {
 
     font-size: 14px;
 
-    margin-bottom: 30px;
+    margin-bottom: 22px;
+}
 
+.actions {
+
+    width: 100%;
 }
 
 button {
 
     width: 100%;
 
-    height: 58px;
+    height: 52px;
 
-    margin:
-        7px 0;
+    margin: 6px 0;
 
     border-radius: 12px;
 
@@ -104,16 +143,15 @@ button {
 
     color: white;
 
-    font-size: 16px;
+    font-size: 15px;
 
     font-weight: 600;
 
     cursor: pointer;
 
     transition:
-        background 0.15s,
-        transform 0.15s;
-
+        background .15s,
+        transform .15s;
 }
 
 button:hover {
@@ -123,24 +161,388 @@ button:hover {
 
     transform:
         translateY(-1px);
-
 }
 
 button:active {
 
     transform:
         translateY(0);
+}
 
+button:disabled {
+
+    opacity: .5;
+
+    cursor: default;
+
+    transform: none;
+}
+
+
+/* ======================================================
+   БЛОК КНОПОК МОДЕРАЦИИ
+   ====================================================== */
+
+.moderation-start {
+
+    margin-top: 16px;
+}
+
+
+/* ====================================================== */
+
+.discord-area {
+
+    position: absolute;
+
+    left: 18px;
+
+    bottom: 16px;
+
+    text-align: left;
+}
+
+.discord-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #77778c;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    padding: 5px 7px;
+
+    border-radius: 7px;
+
+    transition:
+        background .15s;
+}
+
+.discord-status:hover {
+
+    background:
+        rgba(255,255,255,.05);
+}
+
+.status-dot {
+
+    width: 9px;
+
+    height: 9px;
+
+    min-width: 9px;
+
+    border-radius: 50%;
+
+    background: #77778c;
+}
+
+.discord-gray {
+    color: #77778c;
+}
+
+.discord-gray .status-dot {
+    background: #77778c;
+}
+
+.discord-red {
+    color: #ff5b63;
+}
+
+.discord-red .status-dot {
+    background: #ff4d57;
+}
+
+.discord-orange {
+    color: #ffad42;
+}
+
+.discord-orange .status-dot {
+    background: #ff9d22;
+}
+
+.discord-green {
+    color: #8ee6a8;
+}
+
+.discord-green .status-dot {
+    background: #72df91;
+}
+
+.discord-login {
+
+    width: auto;
+
+    height: auto;
+
+    margin-top: 5px;
+
+    padding:
+        6px 9px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+}
+
+.discord-menu {
+
+    display: none;
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 34px;
+
+    width: 225px;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    background:
+        #17172b;
+
+    border:
+        1px solid #383855;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.45);
+}
+
+.discord-menu-name {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    margin-bottom: 3px;
+}
+
+.discord-menu-role {
+
+    color: #8a8aa0;
+
+    font-size: 12px;
+
+    margin-bottom: 10px;
+}
+
+.discord-logout {
+
+    width: 100%;
+
+    height: 34px;
+
+    margin: 0;
+
+    font-size: 12px;
+
+    border-radius: 7px;
 }
 
 .version {
 
-    margin-top: 28px;
+    position: absolute;
+
+    right: 18px;
+
+    bottom: 17px;
 
     color: #5f5f77;
 
     font-size: 12px;
+}
 
+.modal-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.72);
+}
+
+.modal-overlay.visible {
+
+    display: flex;
+}
+
+.modal {
+
+    width: 430px;
+
+    max-width:
+        calc(100% - 30px);
+
+    max-height:
+        calc(100% - 30px);
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+    border-radius: 14px;
+
+    border:
+        1px solid #383855;
+
+    background:
+        #17172b;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.65);
+}
+
+.modal-title {
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+}
+
+.modal-subtitle {
+
+    color: #85859c;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    margin-bottom: 18px;
+}
+
+.modal-label {
+
+    display: block;
+
+    color: #aaaac0;
+
+    font-size: 12px;
+
+    margin:
+        12px 0 6px;
+}
+
+.modal input,
+.modal select {
+
+    width: 100%;
+
+    height: 42px;
+
+    user-select: text;
+
+    -webkit-user-select: text;
+
+    pointer-events: auto;
+
+    cursor: text;
+
+    padding:
+        0 11px;
+
+    border:
+        1px solid #363653;
+
+    border-radius: 9px;
+
+    background:
+        #10101e;
+
+    color: white;
+
+    outline: none;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 13px;
+}
+
+.modal select {
+    cursor: pointer;
+}
+
+.modal input:focus,
+.modal select:focus {
+
+    border-color:
+        #5b8cff;
+}
+
+.modal select:disabled {
+
+    opacity: .55;
+}
+
+.modal-actions {
+
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 18px;
+}
+
+.modal-actions button {
+
+    width: 50%;
+
+    height: 42px;
+
+    margin: 0;
+
+    font-size: 13px;
+}
+
+.modal-error {
+
+    display: none;
+
+    margin-top: 12px;
+
+    color: #ff777f;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+}
+
+.modal-error.visible {
+    display: block;
+}
+
+.telegram-info {
+
+    color: #77778c;
+
+    font-size: 11px;
+
+    margin-top: 5px;
+
+    line-height: 1.4;
+}
+
+.loading {
+    opacity: .65;
 }
 
 </style>
@@ -159,57 +561,4043 @@ button:active {
         Официальное приложение SkyNix
     </div>
 
-    <button onclick="wiki()">
-        Wiki SkyNix
+    <div
+        id="actions"
+        class="actions"
+    ></div>
+
+</div>
+
+
+<div class="discord-area">
+
+    <div
+        id="discordStatus"
+        class="discord-status discord-gray"
+        onclick="toggleDiscordMenu()"
+    >
+
+        <span
+            id="discordDot"
+            class="status-dot"
+        ></span>
+
+        <span id="discordText">
+            Discord не привязан
+        </span>
+
+    </div>
+
+
+    <button
+        id="discordLogin"
+        class="discord-login"
+        onclick="loginDiscord()"
+    >
+        Войти через Discord
     </button>
 
-    <button onclick="minecraft()">
-        IP SkyNix Minecraft
-    </button>
 
-    <button onclick="youtube()">
-        YouTube Senya Melnik
-    </button>
+    <div
+        id="discordMenu"
+        class="discord-menu"
+    >
 
-    <div class="version">
-        Версия 1.0.0
+        <div
+            id="discordMenuName"
+            class="discord-menu-name"
+        >
+            Discord
+        </div>
+
+        <div
+            id="discordMenuRole"
+            class="discord-menu-role"
+        >
+            Аккаунт привязан
+        </div>
+
+        <button
+            class="discord-logout"
+            style="margin-bottom:8px"
+            onclick="openProfile()"
+        >
+            Профиль
+        </button>
+
+        <button
+            class="discord-logout"
+            onclick="logoutDiscord()"
+        >
+            Выйти из аккаунта
+        </button>
+
     </div>
 
 </div>
 
+
+<div class="version">
+    Версия 1.3.1
+</div>
+
+
+<div
+    id="moderationOverlay"
+    class="modal-overlay"
+>
+
+    <div class="modal">
+
+        <div
+            id="moderationTitle"
+            class="modal-title"
+        >
+            Модерация
+        </div>
+
+        <div
+            id="moderationSubtitle"
+            class="modal-subtitle"
+        >
+            Выберите пользователей.
+        </div>
+
+
+        <label class="modal-label">
+            Пользователь Discord
+        </label>
+
+        <select id="moderationUser">
+
+            <option value="">
+                Нет
+            </option>
+
+        </select>
+
+
+        <label class="modal-label">
+            Пользователь Telegram
+        </label>
+
+        <select id="telegramUser">
+
+            <option value="">
+                Нет
+            </option>
+
+        </select>
+
+        <div class="telegram-info">
+            Можно выбрать пользователя в Discord, Telegram или сразу в обеих системах.
+        </div>
+
+
+        <div id="muteFields">
+
+            <label class="modal-label">
+                Время
+            </label>
+
+            <input
+                id="muteAmount"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="Например: 1"
+            >
+
+            <label class="modal-label">
+                Единица времени
+            </label>
+
+            <select id="muteUnit">
+
+                <option value="s">
+                    Секунд
+                </option>
+
+                <option value="m">
+                    Минут
+                </option>
+
+                <option value="h">
+                    Часов
+                </option>
+
+                <option value="d">
+                    Дней
+                </option>
+
+            </select>
+
+            <label class="modal-label">
+                Причина
+            </label>
+
+            <input
+                id="muteReason"
+                type="text"
+                maxlength="300"
+                placeholder="Например: Спам"
+            >
+
+        </div>
+
+
+        <div
+            id="reasonFields"
+            style="display:none;"
+        >
+
+            <label class="modal-label">
+                Причина
+            </label>
+
+            <input
+                id="actionReason"
+                type="text"
+                maxlength="300"
+                placeholder="Например: Нарушение правил"
+            >
+
+        </div>
+
+
+        <div
+            id="moderationError"
+            class="modal-error"
+        ></div>
+
+
+        <div class="modal-actions">
+
+            <button
+                id="moderationCancel"
+                onclick="closeModerationModal()"
+            >
+                Отмена
+            </button>
+
+            <button
+                id="moderationConfirm"
+                onclick="confirmModeration()"
+            >
+                Подтвердить
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
 
 const {
-    shell
-} = require("electron");
+    shell,
+    ipcRenderer
+} = (
+    typeof require === "function"
+        ? require("electron")
+        : window.SkyNixMobile
+);
 
-function wiki() {
 
-    shell.openExternal(
-        "https://wiki.skynix.workers.dev"
+// ======================================================
+// НЕБЛОКИРУЮЩИЕ СООБЩЕНИЯ ВМЕСТО window.alert
+// ------------------------------------------------------
+// Системный alert в Electron (Windows) после закрытия
+// «ломает» фокус окна: в полях ввода нельзя печатать,
+// списки не выбираются, пока окно не свернуть/развернуть.
+// Поэтому показываем сообщение внутри приложения.
+// ======================================================
+
+(function () {
+
+    let container = null;
+
+    function getContainer() {
+
+        if (container && container.isConnected) {
+            return container;
+        }
+
+        container =
+            document.createElement("div");
+
+        container.style.cssText =
+            "position:fixed;left:0;right:0;bottom:24px;" +
+            "display:flex;flex-direction:column;" +
+            "align-items:center;gap:8px;" +
+            "z-index:2147483647;pointer-events:none;";
+
+        document.body.appendChild(container);
+
+        return container;
+
+    }
+
+    window.alert = function (message) {
+
+        try {
+
+            const toast =
+                document.createElement("div");
+
+            toast.textContent =
+                String(message ?? "");
+
+            toast.style.cssText =
+                "max-width:80%;padding:12px 18px;" +
+                "border-radius:12px;font-size:14px;" +
+                "line-height:1.4;color:#fff;" +
+                "background:#1b1740;" +
+                "border:1px solid #7c5cff;" +
+                "box-shadow:0 8px 24px rgba(0,0,0,.45);" +
+                "opacity:0;transition:opacity .2s;" +
+                "pointer-events:auto;";
+
+            getContainer().appendChild(toast);
+
+            requestAnimationFrame(
+                () => {
+                    toast.style.opacity = "1";
+                }
+            );
+
+            const hide = () => {
+
+                toast.style.opacity = "0";
+
+                setTimeout(
+                    () => toast.remove(),
+                    250
+                );
+
+            };
+
+            toast.onclick = hide;
+
+            setTimeout(
+                hide,
+                Math.min(
+                    12000,
+                    3500 + toast.textContent.length * 40
+                )
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Toast:",
+                error
+            );
+
+        }
+
+    };
+
+})();
+
+
+// ======================================================
+// СООБЩЕНИЯ О МУТЕ / БАНЕ (приходят от модераторов)
+// ======================================================
+
+(function () {
+
+    const queue = [];
+    const seen = new Set();
+
+    let overlay = null;
+    let current = null;
+
+    function el(tag, css, text) {
+
+        const node =
+            document.createElement(tag);
+
+        if (css) node.style.cssText = css;
+
+        if (text !== undefined) {
+            node.textContent = text;
+        }
+
+        return node;
+
+    }
+
+    function close() {
+
+        if (current) {
+
+            ipcRenderer
+                .invoke(
+                    "moderation-notice-ack",
+                    [current.id]
+                )
+                .catch(() => {});
+
+        }
+
+        current = null;
+
+        if (overlay) {
+            overlay.remove();
+            overlay = null;
+        }
+
+        showNext();
+
+    }
+
+    function showNext() {
+
+        if (current || !queue.length) return;
+
+        current = queue.shift();
+
+        const view = current.view || {};
+
+        overlay = el(
+            "div",
+            "position:fixed;inset:0;" +
+            "background:rgba(0,0,0,.7);" +
+            "display:flex;align-items:center;" +
+            "justify-content:center;" +
+            "z-index:2147483646;padding:16px;"
+        );
+
+        const card = el(
+            "div",
+            "width:100%;max-width:420px;" +
+            "background:#12102b;color:#fff;" +
+            "border:1px solid #7c5cff;" +
+            "border-radius:16px;padding:22px;" +
+            "box-shadow:0 12px 40px rgba(0,0,0,.6);"
+        );
+
+        card.appendChild(
+            el(
+                "div",
+                "font-size:20px;font-weight:700;" +
+                "margin-bottom:14px;",
+                view.title || "Модерация"
+            )
+        );
+
+        for (const row of (view.rows || [])) {
+
+            const line = el(
+                "div",
+                "margin:8px 0;font-size:15px;" +
+                "line-height:1.4;word-break:break-word;"
+            );
+
+            line.appendChild(
+                el(
+                    "span",
+                    "color:#a9a3d6;",
+                    String(row[0]) + ": "
+                )
+            );
+
+            line.appendChild(
+                el(
+                    "span",
+                    "font-weight:600;",
+                    String(row[1])
+                )
+            );
+
+            card.appendChild(line);
+
+        }
+
+        const button = el(
+            "button",
+            "margin-top:16px;width:100%;" +
+            "padding:12px;border:none;" +
+            "border-radius:12px;cursor:pointer;" +
+            "font-size:15px;font-weight:600;" +
+            "color:#fff;background:#6d4aff;",
+            "Понятно"
+        );
+
+        button.onclick = close;
+
+        card.appendChild(button);
+
+        overlay.appendChild(card);
+
+        document.body.appendChild(overlay);
+
+    }
+
+    ipcRenderer.on(
+        "moderation-notice",
+        (event, payload) => {
+
+            if (
+                !payload ||
+                !payload.id ||
+                seen.has(payload.id)
+            ) {
+                return;
+            }
+
+            seen.add(payload.id);
+
+            queue.push(payload);
+
+            showNext();
+
+        }
+    );
+
+})();
+
+
+// ======================================================
+// URL
+// ======================================================
+
+const WORKER_URL =
+    "https://discord.skynix.workers.dev";
+
+const WIKI_URL =
+    "https://wiki.skynix.workers.dev";
+
+const YOUTUBE_URL =
+    "https://www.youtube.com/@SenyaMelnik_Games";
+
+const APPLICATION_URL =
+    "https://forms.gle/gtYFhD5UeHycSRAb8";
+
+const APPLICATION_BOT_URL =
+    "https://t.me/Applications_SkyNix_BOT";
+
+
+// ======================================================
+// ROLES
+// ======================================================
+
+const ROLE_RECRUIT =
+    "Новобранец SkyNix";
+
+const ROLE_MEMBER =
+    "Участник SkyNix";
+
+const ROLE_IS_MOD =
+    "И.С.Модератор";
+
+const ROLE_ML_MOD =
+    "Мл.Модератор";
+
+const ROLE_MOD =
+    "Модератор";
+
+const ROLE_GL_MOD =
+    "Гл.Модератор";
+
+const ROLE_DEPUTY =
+    "Заместитель";
+
+const ROLE_RIGHT_HAND =
+    "Правая рука Создателя";
+
+const ROLE_ARCHON =
+    "Архонт";
+
+
+// ======================================================
+// SESSION
+// ======================================================
+
+let discordSession = null;
+
+
+// ======================================================
+// MODERATION
+// ======================================================
+
+let moderationAction = null;
+
+let moderationUsers = [];
+
+let telegramUsers = [];
+
+
+// ======================================================
+// OPEN EXTERNAL
+// ======================================================
+
+function openExternal(url) {
+
+    shell.openExternal(url);
+
+}
+
+
+// Wiki открывается в отдельном окне внутри приложения.
+// Если по какой-то причине не получилось — откроем в браузере.
+async function openWiki() {
+
+    try {
+
+        await ipcRenderer.invoke(
+            "open-wiki"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Wiki:",
+            error
+        );
+
+        openExternal(WIKI_URL);
+
+    }
+
+}
+
+
+// ======================================================
+// UTF-8 -> BASE64
+// ======================================================
+
+function encodeBase64UTF8(text) {
+
+    const bytes =
+        new TextEncoder().encode(text);
+
+    let binary = "";
+
+    const chunkSize = 0x8000;
+
+    for (
+        let i = 0;
+        i < bytes.length;
+        i += chunkSize
+    ) {
+
+        const chunk =
+            bytes.subarray(
+                i,
+                Math.min(
+                    i + chunkSize,
+                    bytes.length
+                )
+            );
+
+        binary +=
+            String.fromCharCode(
+                ...chunk
+            );
+
+    }
+
+    return btoa(binary);
+
+}
+
+
+// ======================================================
+// BASE64 -> SESSION
+// ======================================================
+
+function decodeBase64UTF8(encoded) {
+
+    const binary =
+        atob(encoded);
+
+    const bytes =
+        Uint8Array.from(
+            binary,
+            char =>
+                char.charCodeAt(0)
+        );
+
+    const decoded =
+        new TextDecoder("utf-8").decode(bytes);
+
+    return JSON.parse(decoded);
+
+}
+
+
+// ======================================================
+// LOAD SESSION
+// ======================================================
+
+function loadDiscordSession() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                "skynix_discord_session"
+            );
+
+        if (!saved) {
+
+            discordSession = null;
+
+            renderInterface();
+
+            showNotConnected();
+
+            return;
+
+        }
+
+        discordSession =
+            JSON.parse(saved);
+
+        renderInterface();
+
+        showDiscordStatus(
+            discordSession
+        );
+
+        refreshDiscordRole();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Discord: ошибка загрузки сессии:",
+            error
+        );
+
+        discordSession = null;
+
+        localStorage.removeItem(
+            "skynix_discord_session"
+        );
+
+        renderInterface();
+
+        showNotConnected();
+
+    }
+
+}
+
+
+// ======================================================
+// LOGIN
+// ======================================================
+
+async function loginDiscord() {
+
+    try {
+
+        await ipcRenderer.invoke(
+            "discord-login"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Discord: ошибка входа:",
+            error
+        );
+
+        window.alert(
+            error.message ||
+            "Не удалось открыть авторизацию Discord."
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// DISCORD SESSION FROM MAIN
+// ======================================================
+
+ipcRenderer.on(
+    "discord-session",
+    (
+        event,
+        encodedSession
+    ) => {
+
+        try {
+
+            const session =
+                decodeBase64UTF8(
+                    encodedSession
+                );
+
+            discordSession =
+                session;
+
+            localStorage.setItem(
+                "skynix_discord_session",
+                JSON.stringify(session)
+            );
+
+            showDiscordStatus(
+                session
+            );
+
+            renderInterface();
+
+            refreshDiscordRole();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Discord: ошибка callback:",
+                error
+            );
+
+        }
+
+    }
+);
+
+
+// ======================================================
+// DISCORD LOGOUT FROM MAIN
+// ======================================================
+
+ipcRenderer.on(
+    "discord-logout",
+    () => {
+
+        discordSession =
+            null;
+
+        localStorage.removeItem(
+            "skynix_discord_session"
+        );
+
+        showNotConnected();
+
+        renderInterface();
+
+    }
+);
+
+
+// ======================================================
+// REFRESH ROLE
+// ======================================================
+
+async function refreshDiscordRole() {
+
+    if (!discordSession) {
+        return;
+    }
+
+    try {
+
+        const encodedSession =
+            encodeBase64UTF8(
+                JSON.stringify(
+                    discordSession
+                )
+            );
+
+        const response =
+            await fetch(
+                `${WORKER_URL}/api/discord/me`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${encodedSession}`
+                    }
+                }
+            );
+
+        if (!response.ok) {
+            return;
+        }
+
+        const data =
+            await response.json();
+
+        if (
+            !data.success ||
+            !data.session
+        ) {
+            return;
+        }
+
+        discordSession =
+            data.session;
+
+        localStorage.setItem(
+            "skynix_discord_session",
+            JSON.stringify(
+                discordSession
+            )
+        );
+
+        showDiscordStatus(
+            discordSession
+        );
+
+        renderInterface();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Discord: ошибка обновления:",
+            error
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// DISCORD STATUS
+// ======================================================
+
+function showDiscordStatus(session) {
+
+    const status =
+        document.getElementById(
+            "discordStatus"
+        );
+
+    const text =
+        document.getElementById(
+            "discordText"
+        );
+
+    const login =
+        document.getElementById(
+            "discordLogin"
+        );
+
+    status.className =
+        "discord-status";
+
+    if (
+        session.status ===
+        "not_member"
+    ) {
+
+        status.classList.add(
+            "discord-red"
+        );
+
+        text.textContent =
+            "Не участник SkyNix";
+
+        login.style.display =
+            "none";
+
+        return;
+
+    }
+
+    if (
+        session.status ===
+        "recruit"
+    ) {
+
+        status.classList.add(
+            "discord-orange"
+        );
+
+        text.textContent =
+            "🔰 Новобранец SkyNix";
+
+        login.style.display =
+            "none";
+
+        return;
+
+    }
+
+    status.classList.add(
+        "discord-green"
+    );
+
+    if (
+        session.role &&
+        session.role !== ROLE_MEMBER
+    ) {
+
+        text.textContent =
+            `✅ Участник SkyNix (${session.role})`;
+
+    }
+
+    else {
+
+        text.textContent =
+            "✅ Участник SkyNix";
+
+    }
+
+    login.style.display =
+        "none";
+
+}
+
+
+// ======================================================
+// NOT CONNECTED
+// ======================================================
+
+function showNotConnected() {
+
+    const status =
+        document.getElementById(
+            "discordStatus"
+        );
+
+    const text =
+        document.getElementById(
+            "discordText"
+        );
+
+    const login =
+        document.getElementById(
+            "discordLogin"
+        );
+
+    status.className =
+        "discord-status discord-gray";
+
+    text.textContent =
+        "Discord не привязан";
+
+    login.style.display =
+        "block";
+
+    document.getElementById(
+        "discordMenu"
+    ).style.display =
+        "none";
+
+}
+
+
+// ======================================================
+// DISCORD MENU
+// ======================================================
+
+function toggleDiscordMenu() {
+
+    if (!discordSession) {
+        return;
+    }
+
+    const menu =
+        document.getElementById(
+            "discordMenu"
+        );
+
+    const name =
+        document.getElementById(
+            "discordMenuName"
+        );
+
+    const role =
+        document.getElementById(
+            "discordMenuRole"
+        );
+
+    name.textContent =
+        discordSession.globalName ||
+        discordSession.username ||
+        "Discord";
+
+    role.textContent =
+        discordSession.role ||
+        "Аккаунт привязан";
+
+    menu.style.display =
+        menu.style.display === "block"
+            ? "none"
+            : "block";
+
+}
+
+
+// ======================================================
+// ПРОФИЛЬ
+// ======================================================
+
+(function () {
+
+    let overlay = null;
+    let pollTimer = null;
+
+    function el(tag, css, text) {
+
+        const node =
+            document.createElement(tag);
+
+        if (css) node.style.cssText = css;
+
+        if (text !== undefined) {
+            node.textContent = text;
+        }
+
+        return node;
+
+    }
+
+    function cleanError(error) {
+
+        const message =
+            String(
+                (error && error.message) ||
+                error ||
+                ""
+            );
+
+        return (
+            message.replace(
+                /^Error invoking remote method '[^']*':\s*(Error:\s*)?/,
+                ""
+            ) ||
+            "Не удалось выполнить запрос."
+        );
+
+    }
+
+    function two(value) {
+        return String(value).padStart(2, "0");
+    }
+
+    function formatDate(timestamp) {
+
+        const date =
+            new Date(Number(timestamp));
+
+        return (
+            two(date.getDate()) +
+            "." +
+            two(date.getMonth() + 1) +
+            " " +
+            date.getHours() +
+            ":" +
+            two(date.getMinutes())
+        );
+
+    }
+
+    function formatDateTime(timestamp) {
+
+        const date =
+            new Date(Number(timestamp));
+
+        return (
+            formatDate(timestamp) +
+            " (" +
+            date.getFullYear() +
+            ")"
+        );
+
+    }
+
+    function pluralRu(n, forms) {
+
+        const n10 = n % 10;
+        const n100 = n % 100;
+
+        if (n10 === 1 && n100 !== 11) {
+            return forms[0];
+        }
+
+        if (
+            n10 >= 2 &&
+            n10 <= 4 &&
+            (n100 < 12 || n100 > 14)
+        ) {
+            return forms[1];
+        }
+
+        return forms[2];
+
+    }
+
+    function formatDuration(raw) {
+
+        const match =
+            String(raw || "").match(
+                /^(\d+)(s|m|h|d)$/i
+            );
+
+        if (!match) return null;
+
+        const value = Number(match[1]);
+
+        const words = {
+            s: ["секунда", "секунды", "секунд"],
+            m: ["минута", "минуты", "минут"],
+            h: ["час", "часа", "часов"],
+            d: ["день", "дня", "дней"]
+        };
+
+        return (
+            value +
+            " " +
+            pluralRu(
+                value,
+                words[match[2].toLowerCase()]
+            )
+        );
+
+    }
+
+    function stopPolling() {
+
+        if (pollTimer) {
+            clearInterval(pollTimer);
+            pollTimer = null;
+        }
+
+    }
+
+    function closeProfile() {
+
+        stopPolling();
+
+        if (overlay) {
+            overlay.remove();
+            overlay = null;
+        }
+
+    }
+
+    function section(title) {
+
+        const box = el(
+            "div",
+            "margin-top:18px;padding-top:14px;" +
+            "border-top:1px solid #2c2a55;"
+        );
+
+        box.appendChild(
+            el(
+                "div",
+                "font-size:16px;font-weight:700;" +
+                "margin-bottom:10px;",
+                title
+            )
+        );
+
+        return box;
+
+    }
+
+    function muted(text) {
+
+        return el(
+            "div",
+            "color:#a9a3d6;font-size:14px;" +
+            "line-height:1.4;",
+            text
+        );
+
+    }
+
+    function smallButton(text, onClick) {
+
+        const button = el(
+            "button",
+            "margin:8px 8px 0 0;padding:9px 14px;" +
+            "border:none;border-radius:10px;" +
+            "cursor:pointer;font-size:14px;" +
+            "font-weight:600;color:#fff;" +
+            "background:#6d4aff;width:auto;height:auto;",
+            text
+        );
+
+        button.onclick = onClick;
+
+        return button;
+
+    }
+
+    // ---------------- ШАПКА ----------------
+
+    function renderHeader(profile) {
+
+        const header = el(
+            "div",
+            "display:flex;align-items:center;gap:14px;"
+        );
+
+        const letter =
+            String(profile.name || "?")
+                .trim()
+                .charAt(0)
+                .toUpperCase() || "?";
+
+        function fallbackAvatar() {
+
+            return el(
+                "div",
+                "width:64px;height:64px;" +
+                "border-radius:50%;flex:none;" +
+                "background:#2c2a55;display:flex;" +
+                "align-items:center;" +
+                "justify-content:center;" +
+                "font-size:26px;font-weight:700;",
+                letter
+            );
+
+        }
+
+        if (profile.avatar) {
+
+            const img =
+                document.createElement("img");
+
+            img.src =
+                "https://cdn.discordapp.com/avatars/" +
+                profile.id +
+                "/" +
+                profile.avatar +
+                ".png?size=128";
+
+            img.style.cssText =
+                "width:64px;height:64px;" +
+                "border-radius:50%;flex:none;";
+
+            img.onerror = () => {
+                img.replaceWith(fallbackAvatar());
+            };
+
+            header.appendChild(img);
+
+        }
+        else {
+
+            header.appendChild(fallbackAvatar());
+
+        }
+
+        const info = el("div", "min-width:0;");
+
+        info.appendChild(
+            el(
+                "div",
+                "font-size:20px;font-weight:700;" +
+                "word-break:break-word;",
+                profile.name || "Пользователь"
+            )
+        );
+
+        info.appendChild(
+            el(
+                "div",
+                "margin-top:4px;color:#a9a3d6;" +
+                "font-size:14px;",
+                profile.status === "not_member"
+                    ? "Не в команде"
+                    : (profile.role || "Участник")
+            )
+        );
+
+        header.appendChild(info);
+
+        return header;
+
+    }
+
+    // ---------------- ИСТОРИЯ ----------------
+
+    const HISTORY_TEXT = {
+        mute: ["вы были замучены", "вас замутил"],
+        unmute: ["вы были размучены", "вас размутил"],
+        ban: ["вы были забанены", "вас забанил"],
+        unban: ["вы были разбанены", "вас разбанил"]
+    };
+
+    function renderHistory(profile) {
+
+        const box = section("История наказаний");
+
+        const history =
+            Array.isArray(profile.history)
+                ? profile.history
+                : [];
+
+        if (!history.length) {
+
+            box.appendChild(
+                muted("Наказаний пока нет.")
+            );
+
+            return box;
+
+        }
+
+        for (const item of history) {
+
+            const texts =
+                HISTORY_TEXT[item.action] ||
+                [String(item.action || ""), "от"];
+
+            const entry = el(
+                "div",
+                "margin:0 0 14px 0;font-size:14px;" +
+                "line-height:1.45;"
+            );
+
+            entry.appendChild(
+                el(
+                    "div",
+                    "color:#a9a3d6;font-size:13px;",
+                    formatDate(item.createdAt)
+                )
+            );
+
+            entry.appendChild(
+                el("div", "", texts[0])
+            );
+
+            entry.appendChild(
+                el(
+                    "div",
+                    "",
+                    texts[1] + " " +
+                    (item.moderator || "Модератор")
+                )
+            );
+
+            if (item.action === "mute") {
+
+                const duration =
+                    formatDuration(item.duration);
+
+                if (duration) {
+
+                    entry.appendChild(
+                        el(
+                            "div",
+                            "",
+                            "на срок " + duration
+                        )
+                    );
+
+                }
+
+            }
+
+            entry.appendChild(
+                el(
+                    "div",
+                    "word-break:break-word;",
+                    item.reason
+                        ? "по причине " + item.reason
+                        : "причина не указана"
+                )
+            );
+
+            box.appendChild(entry);
+
+        }
+
+        return box;
+
+    }
+
+    // ---------------- TELEGRAM ----------------
+
+    function renderTelegram(container) {
+
+        const box = section("Telegram");
+
+        container.appendChild(box);
+
+        const body = el("div", "");
+
+        box.appendChild(body);
+
+        function showLoading() {
+
+            body.textContent = "";
+
+            body.appendChild(muted("Загрузка..."));
+
+        }
+
+        function showError(error) {
+
+            body.textContent = "";
+
+            body.appendChild(
+                el(
+                    "div",
+                    "color:#ff8a8a;font-size:14px;",
+                    cleanError(error)
+                )
+            );
+
+            body.appendChild(
+                smallButton(
+                    "Повторить",
+                    refresh
+                )
+            );
+
+        }
+
+        function showLinked(data) {
+
+            stopPolling();
+
+            body.textContent = "";
+
+            const telegram =
+                data.telegram || {};
+
+            body.appendChild(
+                el(
+                    "div",
+                    "font-size:14px;margin-bottom:12px;",
+                    "Привязан: " +
+                    (
+                        telegram.username
+                            ? "@" + telegram.username
+                            : (telegram.name || "аккаунт Telegram")
+                    )
+                )
+            );
+
+            const warnings = data.warnings;
+
+            if (!warnings) {
+
+                body.appendChild(
+                    muted(
+                        "Данные о предупреждениях пока не загружены."
+                    )
+                );
+
+            }
+            else if (
+                !warnings.items ||
+                !warnings.items.length
+            ) {
+
+                body.appendChild(
+                    muted(
+                        "Вас нет в списках предупреждений."
+                    )
+                );
+
+            }
+            else {
+
+                for (const item of warnings.items) {
+
+                    const line = el(
+                        "div",
+                        "display:flex;" +
+                        "justify-content:space-between;" +
+                        "gap:12px;margin:6px 0;" +
+                        "font-size:14px;"
+                    );
+
+                    line.appendChild(
+                        el("span", "", item.title)
+                    );
+
+                    line.appendChild(
+                        el(
+                            "span",
+                            "font-weight:700;" +
+                            (
+                                item.count >= item.max
+                                    ? "color:#ff8a8a;"
+                                    : ""
+                            ),
+                            item.count + " из " + item.max
+                        )
+                    );
+
+                    body.appendChild(line);
+
+                }
+
+                if (warnings.updatedAt) {
+
+                    body.appendChild(
+                        el(
+                            "div",
+                            "margin-top:8px;color:#7d78b0;" +
+                            "font-size:12px;",
+                            "Обновлено: " +
+                            formatDateTime(
+                                warnings.updatedAt
+                            )
+                        )
+                    );
+
+                }
+
+            }
+
+            let confirming = false;
+
+            const unlink = smallButton(
+                "Отвязать Telegram",
+                async () => {
+
+                    if (!confirming) {
+
+                        confirming = true;
+
+                        unlink.textContent =
+                            "Точно отвязать?";
+
+                        return;
+
+                    }
+
+                    try {
+
+                        await ipcRenderer.invoke(
+                            "profile-telegram-unlink"
+                        );
+
+                    }
+
+                    catch (error) {
+
+                        window.alert(cleanError(error));
+
+                    }
+
+                    refresh();
+
+                }
+            );
+
+            unlink.style.background = "#3a3763";
+
+            body.appendChild(unlink);
+
+        }
+
+        function showNotLinked() {
+
+            stopPolling();
+
+            body.textContent = "";
+
+            body.appendChild(
+                muted(
+                    "Привяжите Telegram, чтобы видеть свои " +
+                    "предупреждения в профиле."
+                )
+            );
+
+            body.appendChild(
+                smallButton(
+                    "Привязать Telegram",
+                    startLinking
+                )
+            );
+
+        }
+
+        async function startLinking() {
+
+            showLoading();
+
+            try {
+
+                const data =
+                    await ipcRenderer.invoke(
+                        "profile-telegram-link-code"
+                    );
+
+                body.textContent = "";
+
+                body.appendChild(
+                    muted(
+                        "Откройте бота и нажмите Start. " +
+                        "Код действует 10 минут."
+                    )
+                );
+
+                body.appendChild(
+                    el(
+                        "div",
+                        "margin:12px 0 4px;font-size:22px;" +
+                        "font-weight:700;letter-spacing:3px;" +
+                        "user-select:all;",
+                        data.code
+                    )
+                );
+
+                if (data.deep_link) {
+
+                    body.appendChild(
+                        smallButton(
+                            "Открыть Telegram",
+                            () => openExternal(
+                                data.deep_link
+                            )
+                        )
+                    );
+
+                }
+
+                body.appendChild(
+                    el(
+                        "div",
+                        "margin-top:10px;color:#7d78b0;" +
+                        "font-size:12px;",
+                        data.bot_username
+                            ? "Или отправьте боту @" +
+                              data.bot_username +
+                              " сообщение: /link " +
+                              data.code
+                            : "Или отправьте боту сообщение: /link " +
+                              data.code
+                    )
+                );
+
+                body.appendChild(
+                    el(
+                        "div",
+                        "margin-top:10px;color:#a9a3d6;" +
+                        "font-size:13px;",
+                        "Ожидаем привязку..."
+                    )
+                );
+
+                stopPolling();
+
+                const startedAt = Date.now();
+
+                pollTimer = setInterval(
+                    async () => {
+
+                        if (
+                            Date.now() - startedAt >
+                            10 * 60 * 1000
+                        ) {
+
+                            showNotLinked();
+
+                            return;
+
+                        }
+
+                        try {
+
+                            const status =
+                                await ipcRenderer.invoke(
+                                    "profile-telegram-status"
+                                );
+
+                            if (status.linked) {
+                                showLinked(status);
+                            }
+
+                        }
+
+                        catch {
+                            // Следующая проверка через 4 секунды
+                        }
+
+                    },
+                    4000
+                );
+
+            }
+
+            catch (error) {
+
+                showError(error);
+
+            }
+
+        }
+
+        async function refresh() {
+
+            showLoading();
+
+            try {
+
+                const data =
+                    await ipcRenderer.invoke(
+                        "profile-telegram-status"
+                    );
+
+                if (data.linked) {
+                    showLinked(data);
+                }
+                else {
+                    showNotLinked();
+                }
+
+            }
+
+            catch (error) {
+
+                showError(error);
+
+            }
+
+        }
+
+        refresh();
+
+    }
+
+    // ---------------- ОКНО ----------------
+
+    async function openProfile() {
+
+        closeProfile();
+
+        const menu =
+            document.getElementById(
+                "discordMenu"
+            );
+
+        if (menu) {
+            menu.style.display = "none";
+        }
+
+        overlay = el(
+            "div",
+            "position:fixed;inset:0;" +
+            "background:rgba(0,0,0,.7);" +
+            "display:flex;align-items:center;" +
+            "justify-content:center;" +
+            "z-index:2147483645;padding:16px;"
+        );
+
+        overlay.addEventListener(
+            "mousedown",
+            event => {
+                if (event.target === overlay) {
+                    closeProfile();
+                }
+            }
+        );
+
+        const card = el(
+            "div",
+            "width:100%;max-width:460px;" +
+            "max-height:85vh;overflow-y:auto;" +
+            "background:#12102b;color:#fff;" +
+            "border:1px solid #7c5cff;" +
+            "border-radius:16px;padding:22px;" +
+            "box-shadow:0 12px 40px rgba(0,0,0,.6);"
+        );
+
+        overlay.appendChild(card);
+
+        card.appendChild(muted("Загрузка профиля..."));
+
+        document.body.appendChild(overlay);
+
+        try {
+
+            const profile =
+                await ipcRenderer.invoke(
+                    "profile-get"
+                );
+
+            if (!overlay) return;
+
+            card.textContent = "";
+
+            card.appendChild(renderHeader(profile));
+
+            if (profile.status !== "not_member") {
+
+                card.appendChild(
+                    renderHistory(profile)
+                );
+
+                renderTelegram(card);
+
+            }
+
+        }
+
+        catch (error) {
+
+            if (!overlay) return;
+
+            card.textContent = "";
+
+            card.appendChild(
+                el(
+                    "div",
+                    "color:#ff8a8a;font-size:14px;",
+                    cleanError(error)
+                )
+            );
+
+        }
+
+        const close = smallButton(
+            "Закрыть",
+            closeProfile
+        );
+
+        close.style.width = "100%";
+        close.style.margin = "18px 0 0 0";
+        close.style.background = "#3a3763";
+
+        card.appendChild(close);
+
+    }
+
+    window.openProfile = openProfile;
+
+})();
+
+
+// ======================================================
+// РЕДАКТОР ПРЕДУПРЕЖДЕНИЙ
+// ======================================================
+
+(function () {
+
+    const TITLES = {
+        members: "Предупреждения участников",
+        shoots: "Предупреждения съемок",
+        moderators: "Предупреждения модераторов"
+    };
+
+    const DEFAULT_MAX = {
+        members: 3,
+        shoots: 5,
+        moderators: 3
+    };
+
+    const INPUT_CSS =
+        "background:#0b0a1e;color:#fff;" +
+        "border:1px solid #3a3763;" +
+        "border-radius:8px;padding:8px;" +
+        "font-size:14px;box-sizing:border-box;" +
+        "height:auto;margin:0;";
+
+    let overlay = null;
+
+    function canEdit() {
+
+        return Boolean(
+            discordSession &&
+            [
+                ROLE_ARCHON,
+                ROLE_RIGHT_HAND,
+                ROLE_DEPUTY
+            ].includes(
+                discordSession.role
+            )
+        );
+
+    }
+
+    window.canEditWarnings = canEdit;
+
+    function el(tag, css, text) {
+
+        const node =
+            document.createElement(tag);
+
+        if (css) node.style.cssText = css;
+
+        if (text !== undefined) {
+            node.textContent = text;
+        }
+
+        return node;
+
+    }
+
+    function cleanError(error) {
+
+        return (
+            String(
+                (error && error.message) ||
+                error ||
+                ""
+            ).replace(
+                /^Error invoking remote method '[^']*':\s*(Error:\s*)?/,
+                ""
+            ) ||
+            "Не удалось выполнить запрос."
+        );
+
+    }
+
+    function button(text, background, onClick) {
+
+        const node = el(
+            "button",
+            "padding:9px 14px;border:none;" +
+            "border-radius:10px;cursor:pointer;" +
+            "font-size:14px;font-weight:600;" +
+            "color:#fff;width:auto;height:auto;" +
+            "margin:0;background:" + background + ";",
+            text
+        );
+
+        node.onclick = onClick;
+
+        return node;
+
+    }
+
+    function closeEditor() {
+
+        if (overlay) {
+            overlay.remove();
+            overlay = null;
+        }
+
+    }
+
+    async function openWarningsEditor() {
+
+        if (!canEdit()) return;
+
+        closeEditor();
+
+        const menu =
+            document.getElementById(
+                "discordMenu"
+            );
+
+        if (menu) menu.style.display = "none";
+
+        overlay = el(
+            "div",
+            "position:fixed;inset:0;" +
+            "background:rgba(0,0,0,.7);" +
+            "display:flex;align-items:center;" +
+            "justify-content:center;" +
+            "z-index:2147483645;padding:16px;"
+        );
+
+        const card = el(
+            "div",
+            "width:100%;max-width:620px;" +
+            "max-height:90vh;overflow-y:auto;" +
+            "background:#12102b;color:#fff;" +
+            "border:1px solid #7c5cff;" +
+            "border-radius:16px;padding:22px;" +
+            "box-shadow:0 12px 40px rgba(0,0,0,.6);"
+        );
+
+        overlay.appendChild(card);
+
+        card.appendChild(
+            el(
+                "div",
+                "color:#a9a3d6;font-size:14px;",
+                "Загрузка..."
+            )
+        );
+
+        document.body.appendChild(overlay);
+
+        let data;
+
+        try {
+
+            data =
+                await ipcRenderer.invoke(
+                    "warnings-get"
+                );
+
+        }
+
+        catch (error) {
+
+            if (!overlay) return;
+
+            card.textContent = "";
+
+            card.appendChild(
+                el(
+                    "div",
+                    "color:#ff8a8a;font-size:14px;" +
+                    "margin-bottom:14px;",
+                    cleanError(error)
+                )
+            );
+
+            card.appendChild(
+                button(
+                    "Закрыть",
+                    "#3a3763",
+                    closeEditor
+                )
+            );
+
+            return;
+
+        }
+
+        if (!overlay) return;
+
+        // ---------- данные ----------
+
+        const rows = {};
+
+        for (const key of Object.keys(TITLES)) {
+
+            rows[key] = (
+                data.sections[key] || []
+            ).map(entry => ({
+                id: entry.id || null,
+                name:
+                    entry.username
+                        ? "@" + entry.username
+                        : (entry.name || ""),
+                count: entry.count,
+                max: entry.max
+            }));
+
+        }
+
+        card.textContent = "";
+
+        card.appendChild(
+            el(
+                "div",
+                "font-size:20px;font-weight:700;" +
+                "margin-bottom:6px;",
+                "Предупреждения"
+            )
+        );
+
+        card.appendChild(
+            el(
+                "div",
+                "color:#a9a3d6;font-size:13px;" +
+                "margin-bottom:14px;line-height:1.4;",
+                "Имя пишите как @username. Если у человека " +
+                "нет username — просто имя. После сохранения " +
+                "бот отредактирует сообщение в Telegram."
+            )
+        );
+
+        function addRow(list, row, container) {
+
+            const line = el(
+                "div",
+                "display:flex;align-items:center;" +
+                "gap:8px;margin:6px 0;"
+            );
+
+            const name = el(
+                "input",
+                INPUT_CSS + "flex:1;min-width:0;"
+            );
+
+            name.value = row.name;
+
+            name.placeholder = "@username или имя";
+
+            name.oninput = () => {
+                row.name = name.value;
+                row.id = null;
+            };
+
+            const count = el(
+                "input",
+                INPUT_CSS + "width:60px;text-align:center;"
+            );
+
+            count.type = "number";
+            count.min = "0";
+            count.max = "99";
+            count.value = row.count;
+
+            count.oninput = () => {
+                row.count = count.value;
+            };
+
+            const max = el(
+                "input",
+                INPUT_CSS + "width:60px;text-align:center;"
+            );
+
+            max.type = "number";
+            max.min = "0";
+            max.max = "99";
+            max.value = row.max;
+
+            max.oninput = () => {
+                row.max = max.value;
+            };
+
+            const remove = button(
+                "✕",
+                "#4a2a3d",
+                () => {
+
+                    const index = list.indexOf(row);
+
+                    if (index !== -1) {
+                        list.splice(index, 1);
+                    }
+
+                    line.remove();
+
+                }
+            );
+
+            remove.style.padding = "8px 11px";
+
+            line.appendChild(name);
+            line.appendChild(count);
+            line.appendChild(el("span", "color:#a9a3d6;", "из"));
+            line.appendChild(max);
+            line.appendChild(remove);
+
+            container.appendChild(line);
+
+        }
+
+        for (const key of Object.keys(TITLES)) {
+
+            const box = el(
+                "div",
+                "margin-top:16px;padding-top:12px;" +
+                "border-top:1px solid #2c2a55;"
+            );
+
+            box.appendChild(
+                el(
+                    "div",
+                    "font-size:16px;font-weight:700;" +
+                    "margin-bottom:8px;",
+                    TITLES[key]
+                )
+            );
+
+            const container = el("div", "");
+
+            box.appendChild(container);
+
+            for (const row of rows[key]) {
+                addRow(rows[key], row, container);
+            }
+
+            box.appendChild(
+                button(
+                    "+ Добавить",
+                    "#6d4aff",
+                    () => {
+
+                        const row = {
+                            id: null,
+                            name: "",
+                            count: 0,
+                            max: DEFAULT_MAX[key]
+                        };
+
+                        rows[key].push(row);
+
+                        addRow(rows[key], row, container);
+
+                    }
+                )
+            );
+
+            card.appendChild(box);
+
+        }
+
+        const status = el(
+            "div",
+            "margin-top:16px;font-size:14px;" +
+            "line-height:1.4;min-height:20px;"
+        );
+
+        card.appendChild(status);
+
+        const actions = el(
+            "div",
+            "display:flex;gap:10px;margin-top:10px;"
+        );
+
+        const save = button(
+            "Сохранить и обновить в Telegram",
+            "#6d4aff",
+            async () => {
+
+                const payload = {};
+
+                for (const key of Object.keys(TITLES)) {
+
+                    payload[key] = [];
+
+                    for (const row of rows[key]) {
+
+                        const label =
+                            String(row.name || "").trim();
+
+                        if (!label) continue;
+
+                        const count = Number(row.count);
+                        const max = Number(row.max);
+
+                        if (
+                            !Number.isInteger(count) ||
+                            !Number.isInteger(max) ||
+                            count < 0 ||
+                            max < 0
+                        ) {
+
+                            status.style.color = "#ff8a8a";
+
+                            status.textContent =
+                                "Проверьте числа у «" +
+                                label + "».";
+
+                            return;
+
+                        }
+
+                        const isUser = label.startsWith("@");
+
+                        payload[key].push({
+                            id: row.id || null,
+                            username:
+                                isUser
+                                    ? label.slice(1)
+                                    : "",
+                            name:
+                                isUser
+                                    ? ""
+                                    : label,
+                            count,
+                            max
+                        });
+
+                    }
+
+                }
+
+                save.disabled = true;
+
+                status.style.color = "#a9a3d6";
+
+                status.textContent = "Сохраняем...";
+
+                try {
+
+                    const result =
+                        await ipcRenderer.invoke(
+                            "warnings-save",
+                            payload
+                        );
+
+                    const results =
+                        result.results || [];
+
+                    const lines =
+                        results.map(
+                            item =>
+                                item.label + ": " +
+                                (
+                                    item.ok
+                                        ? (
+                                            item.created
+                                                ? "бот опубликовал сообщение"
+                                                : "сообщение обновлено"
+                                        )
+                                        : "ошибка — " + item.error
+                                )
+                        );
+
+                    const failed =
+                        results.some(
+                            item => !item.ok
+                        );
+
+                    status.style.color =
+                        failed
+                            ? "#ffcf8a"
+                            : "#8affb0";
+
+                    status.textContent =
+                        "Готово. " + lines.join(". ") + ".";
+
+                }
+
+                catch (error) {
+
+                    status.style.color = "#ff8a8a";
+
+                    status.textContent = cleanError(error);
+
+                }
+
+                save.disabled = false;
+
+            }
+        );
+
+        actions.appendChild(save);
+
+        actions.appendChild(
+            button(
+                "Закрыть",
+                "#3a3763",
+                closeEditor
+            )
+        );
+
+        card.appendChild(actions);
+
+    }
+
+    window.openWarningsEditor = openWarningsEditor;
+
+})();
+
+
+// ======================================================
+// LOGOUT
+// ======================================================
+
+async function logoutDiscord() {
+
+    try {
+
+        await ipcRenderer.invoke(
+            "discord-logout"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Discord: ошибка выхода:",
+            error
+        );
+
+        discordSession =
+            null;
+
+        localStorage.removeItem(
+            "skynix_discord_session"
+        );
+
+        showNotConnected();
+
+        renderInterface();
+
+    }
+
+}
+
+
+// ======================================================
+// MINECRAFT
+// ======================================================
+
+async function minecraft() {
+
+    try {
+
+        await ipcRenderer.invoke(
+            "minecraft-setup"
+        );
+
+        window.alert(
+            "IP Minecraft успешно настроен."
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Minecraft:",
+            error
+        );
+
+        window.alert(
+            error.message ||
+            "Не удалось настроить IP Minecraft."
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// RENDER INTERFACE
+// ======================================================
+
+function renderInterface() {
+
+    const actions =
+        document.getElementById(
+            "actions"
+        );
+
+    actions.innerHTML = "";
+
+    if (
+        !discordSession ||
+        discordSession.status ===
+            "not_member"
+    ) {
+
+        renderBasicButtons();
+
+        return;
+
+    }
+
+    if (
+        discordSession.status ===
+        "recruit"
+    ) {
+
+        renderMemberButtons();
+
+        return;
+
+    }
+
+    renderMemberButtons();
+
+    if (hasStaffRole()) {
+
+        const canWarn =
+            window.canEditWarnings &&
+            window.canEditWarnings();
+
+        if (canWarn) {
+
+            addButton(
+                "⚠️ Предупреждения",
+                () =>
+                    openWarningsEditor(),
+                "moderation-start"
+            );
+
+        }
+
+        addButton(
+            "🔇 Мут участника",
+            () =>
+                openModerationModal("mute"),
+            canWarn
+                ? ""
+                : "moderation-start"
+        );
+
+        addButton(
+            "🔊 Размут участника",
+            () =>
+                openModerationModal("unmute")
+        );
+
+    }
+
+    if (hasBanPermission()) {
+
+        addButton(
+            "🔨 Бан участника",
+            () =>
+                openModerationModal("ban")
+        );
+
+        addButton(
+            "🔓 Разбан участника",
+            () =>
+                openModerationModal("unban")
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// BASIC BUTTONS
+// ======================================================
+
+function renderBasicButtons() {
+
+    addButton(
+        "Wiki SkyNix",
+        () =>
+            openWiki()
+    );
+
+    addButton(
+        "Подать заявку в команду",
+        () =>
+            openExternal(APPLICATION_URL)
+    );
+
+    addButton(
+        "Бот для проверки заявки",
+        () =>
+            openExternal(APPLICATION_BOT_URL)
+    );
+
+    addButton(
+        "YouTube Senya Melnik",
+        () =>
+            openExternal(YOUTUBE_URL)
     );
 
 }
 
-function youtube() {
 
-    shell.openExternal(
-        "https://www.youtube.com/@SenyaMelnik_Games"
+// ======================================================
+// MEMBER BUTTONS
+// ======================================================
+
+function renderMemberButtons() {
+
+    addButton(
+        "Wiki SkyNix",
+        () =>
+            openWiki()
+    );
+
+    if (!window.SKYNIX_MOBILE) {
+
+        addButton(
+            "IP SkyNix Minecraft",
+            () =>
+                minecraft()
+        );
+
+    }
+
+    addButton(
+        "YouTube Senya Melnik",
+        () =>
+            openExternal(YOUTUBE_URL)
     );
 
 }
 
-function minecraft() {
 
-    const {
-        ipcRenderer
-    } = require("electron");
+// ======================================================
+// ADD BUTTON
+// ======================================================
 
-    ipcRenderer.send(
-        "setup-minecraft"
+function addButton(
+    text,
+    callback,
+    className = ""
+) {
+
+    const button =
+        document.createElement("button");
+
+    button.textContent =
+        text;
+
+    if (className) {
+
+        button.className =
+            className;
+
+    }
+
+    button.onclick =
+        callback;
+
+    document.getElementById(
+        "actions"
+    ).appendChild(button);
+
+}
+
+
+// ======================================================
+// STAFF ROLE
+// ======================================================
+
+function hasStaffRole() {
+
+    if (!discordSession) {
+        return false;
+    }
+
+    return [
+
+        ROLE_IS_MOD,
+        ROLE_ML_MOD,
+        ROLE_MOD,
+        ROLE_GL_MOD,
+        ROLE_DEPUTY,
+        ROLE_RIGHT_HAND,
+        ROLE_ARCHON
+
+    ].includes(
+        discordSession.role
     );
 
 }
+
+
+// ======================================================
+// BAN ROLE
+// ======================================================
+
+function hasBanPermission() {
+
+    if (!discordSession) {
+        return false;
+    }
+
+    return [
+
+        ROLE_MOD,
+        ROLE_GL_MOD,
+        ROLE_DEPUTY,
+        ROLE_RIGHT_HAND,
+        ROLE_ARCHON
+
+    ].includes(
+        discordSession.role
+    );
+
+}
+
+
+// ======================================================
+// OPEN MODERATION
+// ======================================================
+
+async function openModerationModal(action) {
+
+    moderationAction =
+        action;
+
+    updateModerationModal();
+
+    document.getElementById(
+        "moderationOverlay"
+    ).classList.add("visible");
+
+    /*
+     * Загружаем оба списка.
+     * Они независимы друг от друга.
+     */
+
+    await Promise.allSettled([
+        loadModerationUsers(),
+        loadTelegramUsers()
+    ]);
+
+}
+
+
+// ======================================================
+// UPDATE MODAL
+// ======================================================
+
+function updateModerationModal() {
+
+    const title =
+        document.getElementById(
+            "moderationTitle"
+        );
+
+    const subtitle =
+        document.getElementById(
+            "moderationSubtitle"
+        );
+
+    const muteFields =
+        document.getElementById(
+            "muteFields"
+        );
+
+    const reasonFields =
+        document.getElementById(
+            "reasonFields"
+        );
+
+    const confirmButton =
+        document.getElementById(
+            "moderationConfirm"
+        );
+
+    hideModerationError();
+
+    muteFields.style.display =
+        "none";
+
+    reasonFields.style.display =
+        "none";
+
+    if (
+        moderationAction === "mute"
+    ) {
+
+        title.textContent =
+            "Мут участника";
+
+        subtitle.textContent =
+            "Выберите Discord, Telegram или пользователя сразу в обеих системах.";
+
+        muteFields.style.display =
+            "block";
+
+        confirmButton.textContent =
+            "Замутить";
+
+    }
+
+    else if (
+        moderationAction === "unmute"
+    ) {
+
+        title.textContent =
+            "Размут участника";
+
+        subtitle.textContent =
+            "Выберите Discord, Telegram или пользователя сразу в обеих системах.";
+
+        reasonFields.style.display =
+            "block";
+
+        confirmButton.textContent =
+            "Размутить";
+
+    }
+
+    else if (
+        moderationAction === "ban"
+    ) {
+
+        title.textContent =
+            "Бан участника";
+
+        subtitle.textContent =
+            "Выберите Discord, Telegram или пользователя сразу в обеих системах.";
+
+        reasonFields.style.display =
+            "block";
+
+        confirmButton.textContent =
+            "Забанить";
+
+    }
+
+    else if (
+        moderationAction === "unban"
+    ) {
+
+        title.textContent =
+            "Разбан участника";
+
+        subtitle.textContent =
+            "Выберите Discord, Telegram или пользователя сразу в обеих системах.";
+
+        reasonFields.style.display =
+            "block";
+
+        confirmButton.textContent =
+            "Разбанить";
+
+    }
+
+}
+
+
+// ======================================================
+// CLOSE MODAL
+// ======================================================
+
+function closeModerationModal() {
+
+    moderationAction =
+        null;
+
+    document.getElementById(
+        "moderationOverlay"
+    ).classList.remove(
+        "visible"
+    );
+
+    document.getElementById(
+        "moderationUser"
+    ).innerHTML =
+        `
+        <option value="">
+            Нет
+        </option>
+        `;
+
+    document.getElementById(
+        "telegramUser"
+    ).innerHTML =
+        `
+        <option value="">
+            Нет
+        </option>
+        `;
+
+    document.getElementById(
+        "muteAmount"
+    ).value = "";
+
+    document.getElementById(
+        "muteReason"
+    ).value = "";
+
+    document.getElementById(
+        "actionReason"
+    ).value = "";
+
+    moderationUsers = [];
+
+    telegramUsers = [];
+
+    hideModerationError();
+
+}
+
+
+// ======================================================
+// LOAD DISCORD USERS
+// ======================================================
+
+async function loadModerationUsers() {
+
+    const select =
+        document.getElementById(
+            "moderationUser"
+        );
+
+    select.disabled =
+        true;
+
+    select.innerHTML =
+        `
+        <option value="">
+            Загрузка пользователей...
+        </option>
+        `;
+
+    try {
+
+        if (!discordSession) {
+
+            throw new Error(
+                "Discord не авторизован."
+            );
+
+        }
+
+        const encodedSession =
+            encodeBase64UTF8(
+                JSON.stringify(
+                    discordSession
+                )
+            );
+
+        let type =
+            "members";
+
+        if (
+            moderationAction === "unmute"
+        ) {
+
+            type =
+                "muted";
+
+        }
+
+        if (
+            moderationAction === "unban"
+        ) {
+
+            type =
+                "banned";
+
+        }
+
+        const response =
+            await fetch(
+                `${WORKER_URL}/api/discord/moderation/users?type=${type}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${encodedSession}`
+                    }
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.error ||
+                "Не удалось получить список пользователей."
+            );
+
+        }
+
+        moderationUsers =
+            Array.isArray(
+                data.users
+            )
+                ? data.users
+                : [];
+
+        select.innerHTML =
+            "";
+
+        const noneOption =
+            document.createElement(
+                "option"
+            );
+
+        noneOption.value =
+            "";
+
+        noneOption.textContent =
+            "Нет";
+
+        select.appendChild(
+            noneOption
+        );
+
+        moderationUsers
+            .sort(
+                (a, b) =>
+                    (
+                        a.displayName ||
+                        a.username ||
+                        ""
+                    ).localeCompare(
+                        b.displayName ||
+                        b.username ||
+                        "",
+                        "ru"
+                    )
+            )
+            .forEach(
+                user => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        String(
+                            user.id
+                        );
+
+                    option.textContent =
+                        user.displayName
+                            ? (
+                                user.username
+                                    ? `${user.displayName} (@${user.username})`
+                                    : user.displayName
+                              )
+                            : (
+                                user.username
+                                    ? `@${user.username}`
+                                    : String(user.id)
+                              );
+
+                    select.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Ошибка списка Discord:",
+            error
+        );
+
+        select.innerHTML =
+            `
+            <option value="">
+                Нет
+            </option>
+            `;
+
+        showModerationError(
+            error.message ||
+            "Не удалось получить пользователей Discord."
+        );
+
+    }
+
+    finally {
+
+        select.disabled =
+            false;
+
+    }
+
+}
+
+
+// ======================================================
+// LOAD TELEGRAM USERS
+// ======================================================
+
+async function loadTelegramUsers() {
+
+    const select =
+        document.getElementById(
+            "telegramUser"
+        );
+
+    if (!select) {
+
+        console.error(
+            "Telegram: элемент telegramUser не найден."
+        );
+
+        return;
+
+    }
+
+    select.disabled =
+        true;
+
+    select.innerHTML =
+        `
+        <option value="">
+            Загрузка пользователей...
+        </option>
+        `;
+
+    telegramUsers = [];
+
+    try {
+
+        /*
+         * ВАЖНО:
+         *
+         * Используем ipcRenderer напрямую.
+         *
+         * window.electronAPI у тебя НЕ существует,
+         * поэтому старый вызов давал ошибку.
+         */
+
+        const members =
+            await ipcRenderer.invoke(
+                "telegram-get-members"
+            );
+
+        console.log(
+            "Telegram /api/members:",
+            members
+        );
+
+        if (!Array.isArray(members)) {
+
+            throw new Error(
+                "Telegram: Worker вернул некорректный список пользователей."
+            );
+
+        }
+
+        telegramUsers =
+            members.filter(
+                user =>
+                    user &&
+                    user.id !== null &&
+                    user.id !== undefined
+            );
+
+        select.innerHTML =
+            "";
+
+        const noneOption =
+            document.createElement(
+                "option"
+            );
+
+        noneOption.value =
+            "";
+
+        noneOption.textContent =
+            "Нет";
+
+        select.appendChild(
+            noneOption
+        );
+
+        for (
+            const user of telegramUsers
+        ) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            /*
+             * Здесь должен быть НАСТОЯЩИЙ
+             * Telegram numeric ID.
+             */
+
+            option.value =
+                String(
+                    user.id
+                );
+
+            let displayName = "";
+
+            if (user.username) {
+
+                displayName =
+                    "@" +
+                    String(
+                        user.username
+                    );
+
+            }
+            else {
+
+                displayName =
+                    [
+                        user.first_name,
+                        user.last_name
+                    ]
+                        .filter(Boolean)
+                        .join(" ");
+
+            }
+
+            if (!displayName) {
+
+                displayName =
+                    String(
+                        user.id
+                    );
+
+            }
+
+            option.textContent =
+                displayName;
+
+            select.appendChild(
+                option
+            );
+
+        }
+
+        /*
+         * Даже если список пустой,
+         * это не ошибка.
+         */
+
+        console.log(
+            "Telegram пользователи загружены:",
+            telegramUsers.length
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Ошибка загрузки Telegram пользователей:",
+            error
+        );
+
+        telegramUsers = [];
+
+        select.innerHTML =
+            `
+            <option value="">
+                Нет
+            </option>
+            `;
+
+        showModerationError(
+            "Telegram: " +
+            (
+                error?.message ||
+                "не удалось загрузить пользователей."
+            )
+        );
+
+    }
+
+    finally {
+
+        select.disabled =
+            false;
+
+    }
+
+}
+
+
+// ======================================================
+// MUTE DURATION
+// ======================================================
+
+function getMuteDuration() {
+
+    const amountInput =
+        document.getElementById(
+            "muteAmount"
+        );
+
+    const unitInput =
+        document.getElementById(
+            "muteUnit"
+        );
+
+    if (!amountInput) {
+
+        throw new Error(
+            "Поле времени мута не найдено."
+        );
+
+    }
+
+    const amount =
+        Number(
+            amountInput.value
+        );
+
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
+
+        throw new Error(
+            "Укажите конкретное время мута."
+        );
+
+    }
+
+    const rawUnit =
+        unitInput
+            ? String(
+                unitInput.value || ""
+              )
+                .trim()
+                .toLowerCase()
+            : "";
+
+    const multipliers = {
+
+        s:
+            1000,
+
+        m:
+            60 *
+            1000,
+
+        h:
+            60 *
+            60 *
+            1000,
+
+        d:
+            24 *
+            60 *
+            60 *
+            1000
+
+    };
+
+    const multiplier =
+        multipliers[
+            rawUnit
+        ];
+
+    if (!multiplier) {
+
+        throw new Error(
+            "Неизвестная единица времени: " +
+            rawUnit
+        );
+
+    }
+
+    const duration =
+        amount *
+        multiplier;
+
+    const maxDuration =
+        28 *
+        24 *
+        60 *
+        60 *
+        1000;
+
+    if (
+        duration >
+        maxDuration
+    ) {
+
+        throw new Error(
+            "Максимальное время мута — 28 дней."
+        );
+
+    }
+
+    return duration;
+
+}
+
+
+// ======================================================
+// GET DISPLAY NAME
+// ======================================================
+
+function getDiscordDisplayName(id) {
+
+    const user =
+        moderationUsers.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+    if (!user) {
+
+        return "пользователя Discord";
+
+    }
+
+    return (
+        user.displayName ||
+        user.username ||
+        "пользователя Discord"
+    );
+
+}
+
+
+function getTelegramDisplayName(id) {
+
+    const user =
+        telegramUsers.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+    if (!user) {
+
+        return "пользователя Telegram";
+
+    }
+
+    if (user.username) {
+
+        return (
+            "@" +
+            String(
+                user.username
+            )
+        );
+
+    }
+
+    const fullName =
+        [
+            user.first_name,
+            user.last_name
+        ]
+            .filter(Boolean)
+            .join(" ");
+
+    return (
+        fullName ||
+        "пользователя Telegram"
+    );
+
+}
+
+
+// ======================================================
+// CONFIRM MODERATION
+// ======================================================
+
+async function confirmModeration() {
+
+    hideModerationError();
+
+    try {
+
+        const discordSelect =
+            document.getElementById(
+                "moderationUser"
+            );
+
+        const telegramSelect =
+            document.getElementById(
+                "telegramUser"
+            );
+
+        const discordId =
+            discordSelect &&
+            discordSelect.value &&
+            discordSelect.value !== "Нет"
+                ? String(
+                    discordSelect.value
+                  ).trim()
+                : "";
+
+        const telegramId =
+            telegramSelect &&
+            telegramSelect.value &&
+            telegramSelect.value !== "Нет"
+                ? String(
+                    telegramSelect.value
+                  ).trim()
+                : "";
+
+        if (
+            !discordId &&
+            !telegramId
+        ) {
+            throw new Error(
+                "Выберите пользователя Discord или Telegram."
+            );
+        }
+
+
+        // ==============================================
+        // ПРИЧИНА
+        // ==============================================
+
+        let reason = "";
+
+        if (
+            moderationAction ===
+            "mute"
+        ) {
+
+            const input =
+                document.getElementById(
+                    "muteReason"
+                );
+
+            reason =
+                input
+                    ? String(
+                        input.value || ""
+                      ).trim()
+                    : "";
+
+        } else {
+
+            const input =
+                document.getElementById(
+                    "actionReason"
+                );
+
+            reason =
+                input
+                    ? String(
+                        input.value || ""
+                      ).trim()
+                    : "";
+
+        }
+
+
+        if (!reason) {
+
+            throw new Error(
+                "Укажите причину."
+            );
+
+        }
+
+
+        // ==============================================
+        // ВРЕМЯ МУТА
+        // ==============================================
+
+        let duration = null;
+
+        if (
+            moderationAction ===
+            "mute"
+        ) {
+
+            duration =
+                getMuteDuration();
+
+            console.log(
+                "Время мута:",
+                duration,
+                "мс"
+            );
+
+        }
+
+
+        // ==============================================
+        // ПОЛНЫЕ ДАННЫЕ
+        // ==============================================
+
+        const actionData = {
+
+            action:
+                moderationAction,
+
+            discordUserId:
+                discordId || null,
+
+            telegramUserId:
+                telegramId || null,
+
+            duration:
+                duration,
+
+            reason:
+                reason
+
+        };
+
+
+        console.log(
+            "Модерация:",
+            actionData
+        );
+
+
+        const confirmButton =
+            document.getElementById(
+                "moderationConfirm"
+            );
+
+        confirmButton.disabled =
+            true;
+
+        confirmButton.textContent =
+            "Выполнение...";
+
+
+        await sendModerationAction(
+            actionData
+        );
+
+
+        window.alert(
+            "Действие успешно выполнено."
+        );
+
+
+        closeModerationModal();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Ошибка модерации:",
+            error
+        );
+
+        showModerationError(
+            error?.message ||
+            String(error)
+        );
+
+    }
+
+    finally {
+
+        const button =
+            document.getElementById(
+                "moderationConfirm"
+            );
+
+        if (button) {
+
+            button.disabled =
+                false;
+
+            updateModerationModal();
+
+        }
+
+    }
+
+}
+
+
+// ======================================================
+// SEND MODERATION ACTION
+// ======================================================
+
+async function sendModerationAction(
+    actionData
+) {
+
+    if (!actionData) {
+
+        throw new Error(
+            "Данные модерации отсутствуют."
+        );
+
+    }
+
+
+    const action =
+        String(
+            actionData.action || ""
+        ).trim();
+
+
+    const discordUserId =
+        actionData.discordUserId
+            ? String(
+                actionData.discordUserId
+              ).trim()
+            : "";
+
+
+    const telegramUserId =
+        actionData.telegramUserId
+            ? String(
+                actionData.telegramUserId
+              ).trim()
+            : "";
+
+
+    const duration =
+        actionData.duration;
+
+
+    const reason =
+        actionData.reason || "";
+
+
+    if (
+        !discordUserId &&
+        !telegramUserId
+    ) {
+
+        throw new Error(
+            "Не выбран пользователь."
+        );
+
+    }
+
+
+    // ==================================================
+    // DISCORD
+    // ==================================================
+
+    if (discordUserId) {
+
+        try {
+
+            await ipcRenderer.invoke(
+                "discord-moderation",
+                {
+                    action:
+                        action,
+
+                    userId:
+                        discordUserId,
+
+                    duration:
+                        duration,
+
+                    reason:
+                        reason
+                }
+            );
+
+        }
+
+        catch (error) {
+
+            throw new Error(
+                "Discord: " +
+                (
+                    error?.message ||
+                    String(error)
+                )
+            );
+
+        }
+
+    }
+
+
+    // ==================================================
+    // TELEGRAM
+    // ==================================================
+
+    if (telegramUserId) {
+
+        const numericTelegramId =
+            Number(
+                telegramUserId
+            );
+
+
+        if (
+            !Number.isFinite(
+                numericTelegramId
+            )
+        ) {
+
+            throw new Error(
+                "Некорректный Telegram ID."
+            );
+
+        }
+
+
+        const payload = {
+
+            action:
+                action,
+
+            telegram_user_id:
+                numericTelegramId,
+
+            reason:
+                reason,
+
+            moderator:
+                discordSession?.username ||
+                discordSession?.globalName ||
+                "SkyNix"
+
+        };
+
+
+        // ==============================================
+        // TELEGRAM MUTE
+        // ==============================================
+
+        if (
+            action ===
+            "mute"
+        ) {
+
+            const durationMs =
+                Number(
+                    duration
+                );
+
+
+            console.log(
+                "Telegram duration:",
+                durationMs
+            );
+
+
+            if (
+                !Number.isFinite(
+                    durationMs
+                ) ||
+                durationMs <= 0
+            ) {
+
+                throw new Error(
+                    "Некорректное время мута."
+                );
+
+            }
+
+
+            const maxDuration =
+                28 *
+                24 *
+                60 *
+                60 *
+                1000;
+
+
+            if (
+                durationMs >
+                maxDuration
+            ) {
+
+                throw new Error(
+                    "Максимальное время мута — 28 дней."
+                );
+
+            }
+
+
+            payload.duration_ms =
+                durationMs;
+
+        }
+
+
+        console.log(
+            "Telegram moderation:",
+            payload
+        );
+
+
+        try {
+
+            await ipcRenderer.invoke(
+                "telegram-moderation",
+                payload
+            );
+
+        }
+
+        catch (error) {
+
+            throw new Error(
+                "Telegram: " +
+                (
+                    error?.message ||
+                    String(error)
+                )
+            );
+
+        }
+
+    }
+
+
+    return {
+        ok: true
+    };
+
+}
+
+
+// ======================================================
+// MODAL ERROR
+// ======================================================
+
+function showModerationError(
+    message
+) {
+
+    const error =
+        document.getElementById(
+            "moderationError"
+        );
+
+    error.textContent =
+        message;
+
+    error.classList.add(
+        "visible"
+    );
+
+}
+
+
+function hideModerationError() {
+
+    const error =
+        document.getElementById(
+            "moderationError"
+        );
+
+    error.textContent =
+        "";
+
+    error.classList.remove(
+        "visible"
+    );
+
+}
+
+
+// ======================================================
+// CLOSE MODAL ON BACKGROUND CLICK
+// ======================================================
+
+document.getElementById(
+    "moderationOverlay"
+).addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            event.currentTarget
+        ) {
+
+            closeModerationModal();
+
+        }
+
+    }
+);
+
+
+// ======================================================
+// START
+// ======================================================
+
+loadDiscordSession();
+
+
+// ======================================================
+// CHECK ROLE EVERY 10 SECONDS
+// ======================================================
+
+setInterval(
+    refreshDiscordRole,
+    10000
+);
 
 </script>
 

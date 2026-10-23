@@ -1,0 +1,13 @@
+{
+  "appId": "work.skynix.app.mobile",
+  "appName": "SkyNix",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}
