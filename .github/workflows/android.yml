@@ -1,0 +1,102 @@
+name: Android APK
+
+# Запускается, когда вы публикуете релиз на GitHub (Publish release),
+# и собирает APK для телефона. APK добавляется в тот же релиз.
+# Можно запустить и вручную: Actions → Android APK → Run workflow.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Тег релиза, например v1.3.1"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || github.event.inputs.tag }}
+      KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+    steps:
+      - name: Проверка секретов подписи
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ] || [ -z "$KEYSTORE_PASSWORD" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASSWORD" ]; then
+            echo "::error::Не заданы секреты ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD (Settings → Secrets and variables → Actions)."
+            exit 1
+          fi
+          if [ -z "$TAG" ]; then
+            echo "::error::Не указан тег релиза."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Версия из тега
+        run: |
+          VERSION="${TAG#v}"
+          IFS=. read -r MA MI PA <<< "$VERSION"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "VERSION_CODE=$((MA*10000 + MI*100 + PA))" >> "$GITHUB_ENV"
+
+      - name: Установка зависимостей
+        working-directory: mobile
+        run: npm install
+
+      - name: Подготовка общего интерфейса (index.html)
+        working-directory: mobile
+        run: node build-www.js
+
+      - name: Создание проекта Android
+        working-directory: mobile
+        run: |
+          npx cap add android
+          node patch-android.js
+          npx cap sync android
+
+      - name: Сборка APK
+        working-directory: mobile/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+
+      - name: Подпись APK
+        working-directory: mobile
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/skynix.jks"
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          UNSIGNED=android/app/build/outputs/apk/release/app-release-unsigned.apk
+          "$BT/zipalign" -p -f 4 "$UNSIGNED" aligned.apk
+          "$BT/apksigner" sign \
+            --ks "$RUNNER_TEMP/skynix.jks" \
+            --ks-pass env:KEYSTORE_PASSWORD \
+            --ks-key-alias "$KEY_ALIAS" \
+            --key-pass env:KEY_PASSWORD \
+            --out "SkyNix-Android-$VERSION.apk" \
+            aligned.apk
+          "$BT/apksigner" verify "SkyNix-Android-$VERSION.apk"
+          rm -f "$RUNNER_TEMP/skynix.jks" aligned.apk
+
+      - name: Добавление APK в релиз
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG }}
+          files: mobile/SkyNix-Android-${{ env.VERSION }}.apk
