@@ -7,7 +7,8 @@ const {
     Tray,
     Menu,
     nativeImage,
-    Notification
+    Notification,
+    clipboard
 } = require("electron");
 
 const {
@@ -18,6 +19,7 @@ const log = require("electron-log");
 
 const fs = require("fs");
 const path = require("path");
+const net = require("net");
 
 const {
     spawn
@@ -26,11 +28,11 @@ const {
 // ============================================================
 // SKY NIX
 // main.js
-// Version 1.3.1
+// Version 2.0.0
 // ============================================================
 
 // CONFIG
-const APP_VERSION = "1.3.1";
+const APP_VERSION = "2.0.0";
 const WORKER_URL = "https://discord.skynix.workers.dev";
 const TELEGRAM_WORKER_URL = "https://skynix-moderation.skynix.workers.dev";
 const DISCORD_LOGIN_URL = "https://discord.skynix.workers.dev/api/discord/login";
@@ -40,6 +42,9 @@ const APPLICATION_URL = "https://forms.gle/gtYFhD5UeHycSRAb8";
 const APPLICATION_BOT_URL = "https://t.me/Applications_SkyNix_BOT";
 const MINECRAFT_IP = "26.87.154.25";
 const MINECRAFT_HOST = "play.skynix";
+
+// Адрес туннеля playit.gg — приложение узнаёт его IP при настройке
+const MINECRAFT_TUNNEL_HOST = "vivo-rewrite.tun.ply.gg";
 
 // HOSTS
 const HOSTS = path.join(
@@ -1092,8 +1097,8 @@ function createWindow() {
 
     mainWindow =
         new BrowserWindow({
-            width: 600,
-            height: 850,
+            width: 1180,
+            height: 780,
 
             icon: path.join(
                 __dirname,
@@ -1101,10 +1106,11 @@ function createWindow() {
                 "icon.ico"
             ),
 
-            minWidth: 600,
-            minHeight: 850,
+            minWidth: 900,
+            minHeight: 640,
             resizable: true,
             backgroundColor: "#090914",
+            autoHideMenuBar: true,
 
             webPreferences: {
                 nodeIntegration: true,
@@ -1614,32 +1620,43 @@ ipcMain.handle(
         const hostsPath =
             "C:\\Windows\\System32\\drivers\\etc\\hosts";
 
-        const minecraftLine =
-            "26.87.154.25 play.skynix";
+        let minecraftLine = "";
 
         try {
+            const plan = await planMinecraft();
+
+            clipboard.writeText(MINECRAFT_TUNNEL_HOST);
+
+            if (!plan.ip) {
+                return {
+                    success: true,
+                    hostsUpdated: false,
+                    address: MINECRAFT_TUNNEL_HOST,
+                    message: plan.note
+                };
+            }
+
+            minecraftLine = plan.ip + " play.skynix";
+
             await new Promise(
                 (
                     resolve,
                     reject
                 ) => {
-                    const psCommand =
-                        "$path = '" +
-                        hostsPath +
-                        "'; " +
-                        "$line = '" +
-                        minecraftLine +
-                        "'; " +
-                        "$content = Get-Content -LiteralPath $path -Raw; " +
-                        "if ($content -notmatch '(?m)^\\s*26\\.87\\.154\\.25\\s+play\\.skynix\\s*$') { " +
-                        "if (-not $content.EndsWith([Environment]::NewLine)) { " +
-                        "$content += [Environment]::NewLine; " +
-                        "} " +
-                        "$content += $line + [Environment]::NewLine; " +
-                        "[System.IO.File]::WriteAllText($path, $content); " +
-                        "}";
+                    const ipOnly = minecraftLine.split(" ")[0];
 
-                    const encodedCommand =
+                const psCommand =
+                    "$path = '" + hostsPath + "'; " +
+                    "$ip = '" + ipOnly + "'; " +
+                    "$lines = @(Get-Content -LiteralPath $path); " +
+                    "$has = @($lines | Where-Object { $_ -match ('^\\s*' + [regex]::Escape($ip) + '\\s+play\\.skynix\\s*$') }); " +
+                    "if ($has.Count -eq 0) { " +
+                    "$kept = @($lines | Where-Object { $_ -notmatch '^\\s*\\S+\\s+play\\.skynix\\s*$' }); " +
+                    "$kept += ($ip + ' play.skynix'); " +
+                    "[System.IO.File]::WriteAllLines($path, [string[]]$kept); " +
+                    "}";
+
+                const encodedCommand =
                         Buffer
                             .from(
                                 psCommand,
@@ -1707,10 +1724,26 @@ ipcMain.handle(
                 }
             );
 
+            // На случай, если play.skynix не откроется — адрес туннеля в буфере
+            clipboard.writeText(MINECRAFT_TUNNEL_HOST);
+
             return {
                 success:
                     true,
+                hostsUpdated:
+                    true,
+
+                proxy:
+                    Boolean(plan.proxy),
+
+                local:
+                    Boolean(plan.local),
+
+                address:
+                    MINECRAFT_TUNNEL_HOST,
+
                 message:
+                    plan.note ||
                     "IP play.skynix добавлен."
             };
         }
@@ -2581,6 +2614,510 @@ ipcMain.handle(
     }
 );
 
+// Профили участников и списки Telegram (Мл.Модератор и выше)
+async function discordApiGet(endpoint) {
+    requireDiscordSession();
+
+    const response = await fetch(
+        `${WORKER_URL}${endpoint}`,
+        {
+            headers: {
+                "Authorization":
+                    `Bearer ${getEncodedDiscordSession()}`
+            },
+            signal: AbortSignal.timeout(20000)
+        }
+    );
+
+    let data = null;
+
+    try {
+        data = await response.json();
+    }
+    catch {
+        data = null;
+    }
+
+    if (
+        !response.ok ||
+        !data ||
+        data.success === false
+    ) {
+        throw new Error(
+            (data && data.error) ||
+            "Ошибка запроса."
+        );
+    }
+
+    return data;
+}
+
+ipcMain.handle(
+    "members-list",
+    async () => (
+        await discordApiGet("/api/discord/members")
+    ).members
+);
+
+ipcMain.handle(
+    "member-history",
+    async (event, userId) => {
+        const id = String(userId || "");
+
+        if (!/^\d{5,25}$/.test(id)) {
+            throw new Error("Некорректный ID.");
+        }
+
+        return discordApiGet(
+            `/api/discord/user-history?userId=${id}`
+        );
+    }
+);
+
+ipcMain.handle(
+    "member-warnings",
+    (event, discordId) => {
+        const id = String(discordId || "");
+
+        if (!/^\d{5,25}$/.test(id)) {
+            throw new Error("Некорректный ID.");
+        }
+
+        return telegramProfileRequest(
+            `/api/profile/user-warnings?discordId=${id}`,
+            "GET"
+        );
+    }
+);
+
+ipcMain.handle(
+    "telegram-get-banned",
+    async () => {
+        const data = await telegramRequest(
+            "/api/banned",
+            { method: "GET" }
+        );
+
+        if (!Array.isArray(data.members)) {
+            throw new Error("Telegram Worker не вернул чёрный список.");
+        }
+
+        return data.members;
+    }
+);
+
+ipcMain.handle(
+    "telegram-resolve",
+    async (event, query) => (
+        await telegramRequest(
+            `/api/resolve?q=${encodeURIComponent(String(query || "").trim())}`,
+            { method: "GET" }
+        )
+    ).id
+);
+
+// ============================================================
+// APPLICATION WINDOW (форма заявки внутри приложения)
+// ============================================================
+
+let applicationWindow = null;
+
+const APPLICATION_HOSTS = [
+    "forms.gle",
+    "docs.google.com",
+    "accounts.google.com"
+];
+
+function isApplicationUrl(url) {
+    try {
+        const parsed = new URL(url);
+
+        return (
+            parsed.protocol === "https:" &&
+            APPLICATION_HOSTS.includes(parsed.hostname)
+        );
+    }
+    catch {
+        return false;
+    }
+}
+
+function openApplicationWindow(url) {
+    if (!isApplicationUrl(url)) {
+        throw new Error("Недопустимый адрес формы.");
+    }
+
+    if (
+        applicationWindow &&
+        !applicationWindow.isDestroyed()
+    ) {
+        if (applicationWindow.isMinimized()) {
+            applicationWindow.restore();
+        }
+
+        applicationWindow.show();
+        applicationWindow.focus();
+
+        return;
+    }
+
+    applicationWindow = new BrowserWindow({
+        width: 900,
+        height: 800,
+        minWidth: 600,
+        minHeight: 500,
+        title: "Заявка в команду SkyNix",
+        icon: path.join(
+            __dirname,
+            "assets",
+            "icon.ico"
+        ),
+        backgroundColor: "#ffffff",
+        autoHideMenuBar: true,
+        webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true,
+            sandbox: true
+        }
+    });
+
+    applicationWindow.setMenuBarVisibility(false);
+
+    // Ссылки вне формы открываем в браузере
+    applicationWindow.webContents.setWindowOpenHandler(
+        ({ url: target }) => {
+            if (isApplicationUrl(target)) {
+                applicationWindow.loadURL(target);
+            }
+            else if (/^https?:\/\//i.test(target)) {
+                shell.openExternal(target);
+            }
+
+            return {
+                action: "deny"
+            };
+        }
+    );
+
+    applicationWindow.webContents.on(
+        "will-navigate",
+        (event, target) => {
+            if (
+                !isApplicationUrl(target) &&
+                !target.startsWith("data:")
+            ) {
+                event.preventDefault();
+
+                if (/^https?:\/\//i.test(target)) {
+                    shell.openExternal(target);
+                }
+            }
+        }
+    );
+
+    applicationWindow.webContents.on(
+        "did-fail-load",
+        (
+            event,
+            errorCode,
+            errorDescription,
+            validatedURL,
+            isMainFrame
+        ) => {
+            if (!isMainFrame || errorCode === -3) return;
+
+            log.error(
+                "Форма заявки не загрузилась:",
+                errorDescription
+            );
+
+            const html =
+                "<body style='background:#090914;color:#fff;" +
+                "font-family:sans-serif;display:flex;" +
+                "align-items:center;justify-content:center;" +
+                "height:100vh;margin:0;text-align:center'>" +
+                "<div><h2>Не удалось загрузить форму</h2>" +
+                "<p>Проверьте подключение к интернету и " +
+                "откройте форму ещё раз.</p></div></body>";
+
+            applicationWindow.loadURL(
+                "data:text/html;charset=utf-8," +
+                encodeURIComponent(html)
+            );
+        }
+    );
+
+    applicationWindow.loadURL(url);
+
+    applicationWindow.on(
+        "closed",
+        () => {
+            applicationWindow = null;
+        }
+    );
+}
+
+ipcMain.handle(
+    "open-application",
+    (event, url) => {
+        openApplicationWindow(String(url || ""));
+
+        return true;
+    }
+);
+
+// ============================================================
+// MINECRAFT: IP туннеля и ник игрока
+// ============================================================
+
+// ------------------------------------------------------------
+// Короткий адрес play.skynix без платных функций playit:
+// приложение слушает 127.0.0.1:25565 и перенаправляет подключения
+// на туннель (порт берётся из SRV-записи), а в hosts
+// прописывается play.skynix -> 127.0.0.1.
+// ------------------------------------------------------------
+
+const MINECRAFT_LOCAL_PORT = 25565;
+
+let minecraftProxy = null;
+
+let tunnelTargetCache = { at: 0, value: null };
+
+async function getTunnelTarget() {
+    if (
+        tunnelTargetCache.value &&
+        Date.now() - tunnelTargetCache.at < 60 * 1000
+    ) {
+        return tunnelTargetCache.value;
+    }
+
+    let value = {
+        host: MINECRAFT_TUNNEL_HOST,
+        port: 25565
+    };
+
+    try {
+        const records =
+            await require("dns").promises.resolveSrv(
+                "_minecraft._tcp." + MINECRAFT_TUNNEL_HOST
+            );
+
+        if (records && records.length) {
+            value = {
+                host: records[0].name,
+                port: Number(records[0].port)
+            };
+        }
+    }
+    catch (error) {
+        // Нет SRV — используем обычный адрес и порт 25565
+    }
+
+    tunnelTargetCache = {
+        at: Date.now(),
+        value
+    };
+
+    return value;
+}
+
+function startMinecraftProxy() {
+    if (minecraftProxy) {
+        return Promise.resolve({ ok: true });
+    }
+
+    return new Promise(resolve => {
+        const server = net.createServer(client => {
+            getTunnelTarget()
+                .then(target => {
+                    const upstream =
+                        net.createConnection({
+                            host: target.host,
+                            port: target.port
+                        });
+
+                    const close = () => {
+                        client.destroy();
+                        upstream.destroy();
+                    };
+
+                    client.on("error", close);
+                    upstream.on("error", close);
+                    client.on("close", close);
+                    upstream.on("close", close);
+
+                    client.pipe(upstream);
+                    upstream.pipe(client);
+                })
+                .catch(() => client.destroy());
+        });
+
+        let started = false;
+
+        server.on("error", error => {
+            if (!started) {
+                resolve({
+                    ok: false,
+                    reason:
+                        (
+                            error.code === "EADDRINUSE" ||
+                            error.code === "EACCES"
+                        )
+                            ? "busy"
+                            : "error",
+                    code: error.code
+                });
+
+                return;
+            }
+
+            log.warn(
+                "Minecraft proxy error:",
+                error && error.message
+            );
+
+            minecraftProxy = null;
+        });
+
+        server.listen(
+            MINECRAFT_LOCAL_PORT,
+            "127.0.0.1",
+            () => {
+                started = true;
+                minecraftProxy = server;
+
+                resolve({ ok: true });
+            }
+        );
+    });
+}
+
+function minecraftProxyFlagPath() {
+    return path.join(
+        app.getPath("userData"),
+        "minecraft-proxy.json"
+    );
+}
+
+function saveMinecraftProxyFlag(enabled) {
+    try {
+        fs.writeFileSync(
+            minecraftProxyFlagPath(),
+            JSON.stringify({ enabled })
+        );
+    }
+    catch (error) {
+        log.warn("Minecraft flag:", error && error.message);
+    }
+}
+
+// После первой настройки переход запускается вместе с приложением
+function startMinecraftProxyIfEnabled() {
+    try {
+        const flag = JSON.parse(
+            fs.readFileSync(minecraftProxyFlagPath(), "utf8")
+        );
+
+        if (flag && flag.enabled) {
+            startMinecraftProxy();
+        }
+    }
+    catch (error) {
+        // Настройка ещё не выполнялась
+    }
+}
+
+async function planMinecraft() {
+    const started = await startMinecraftProxy();
+
+    if (started.ok) {
+        saveMinecraftProxyFlag(true);
+
+        return {
+            ip: "127.0.0.1",
+            proxy: true
+        };
+    }
+
+    // Порт 25565 уже занят: на компьютере с сервером это нормально —
+    // play.skynix -> 127.0.0.1 ведёт прямо на локальный сервер.
+    if (started.reason === "busy") {
+        return {
+            ip: "127.0.0.1",
+            proxy: false,
+            local: true,
+            note:
+                "На этом компьютере порт 25565 занят (скорее всего, здесь запущен сервер SkyNix). " +
+                "play.skynix теперь ведёт на локальный сервер."
+        };
+    }
+
+    return {
+        ip: null,
+        note:
+            "Не удалось запустить локальный переход (код ошибки: " +
+            (started.code || "неизвестно") +
+            "). Заходите по адресу туннеля."
+    };
+}
+
+async function discordApiPost(endpoint, body) {
+    requireDiscordSession();
+
+    const response = await fetch(
+        `${WORKER_URL}${endpoint}`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization":
+                    `Bearer ${getEncodedDiscordSession()}`
+            },
+            body: JSON.stringify(body),
+            signal: AbortSignal.timeout(20000)
+        }
+    );
+
+    let data = null;
+
+    try {
+        data = await response.json();
+    }
+    catch {
+        data = null;
+    }
+
+    if (
+        !response.ok ||
+        !data ||
+        data.success === false
+    ) {
+        throw new Error(
+            (data && data.error) ||
+            "Ошибка запроса."
+        );
+    }
+
+    return data;
+}
+
+ipcMain.handle(
+    "minecraft-nick-get",
+    async () => (
+        await discordApiGet("/api/discord/minecraft-nick")
+    ).nick
+);
+
+ipcMain.handle(
+    "minecraft-nick-set",
+    async (event, nick) => (
+        await discordApiPost(
+            "/api/discord/minecraft-nick",
+            { nick: String(nick || "") }
+        )
+    ).nick
+);
+
 // ============================================================
 // APP READY
 // ============================================================
@@ -2628,6 +3165,8 @@ app.whenReady()
             setupAutoUpdater();
 
             setupModerationNotices();
+
+            startMinecraftProxyIfEnabled();
 
             const initialProtocolUrl =
                 getProtocolUrlFromArgs(

@@ -748,6 +748,28 @@
 
         },
 
+        "minecraft-nick-get": async () =>
+            (await discordRequest("/api/discord/minecraft-nick", { method: "GET" })).nick,
+
+        "minecraft-nick-set": async nick =>
+            (
+                await discordRequest(
+                    "/api/discord/minecraft-nick",
+                    {
+                        method: "POST",
+                        body: JSON.stringify({ nick: String(nick || "") })
+                    }
+                )
+            ).nick,
+
+        "open-application": async url => {
+
+            await openUrl(String(url || ""));
+
+            return true;
+
+        },
+
         "discord-moderation": data => discordModeration(data),
 
         "telegram-get-members": async () => {
@@ -798,6 +820,55 @@
                     body: JSON.stringify({ sections })
                 }
             ),
+
+        "members-list": async () =>
+            (await discordRequest("/api/discord/members", { method: "GET" })).members,
+
+        "member-history": async userId => {
+
+            const id = String(userId || "");
+
+            if (!/^\d{5,25}$/.test(id)) throw new Error("Некорректный ID.");
+
+            return discordRequest(
+                "/api/discord/user-history?userId=" + id,
+                { method: "GET" }
+            );
+
+        },
+
+        "member-warnings": async discordId => {
+
+            const id = String(discordId || "");
+
+            if (!/^\d{5,25}$/.test(id)) throw new Error("Некорректный ID.");
+
+            return telegramRequest(
+                "/api/profile/user-warnings?discordId=" + id,
+                { method: "GET" }
+            );
+
+        },
+
+        "telegram-get-banned": async () => {
+
+            const data = await telegramRequest("/api/banned", { method: "GET" });
+
+            if (!Array.isArray(data.members)) {
+                throw new Error("Telegram Worker не вернул чёрный список.");
+            }
+
+            return data.members;
+
+        },
+
+        "telegram-resolve": async query =>
+            (
+                await telegramRequest(
+                    "/api/resolve?q=" + encodeURIComponent(String(query || "").trim()),
+                    { method: "GET" }
+                )
+            ).id,
 
         "moderation-notice-ack": async ids => {
 

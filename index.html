@@ -547,6 +547,148 @@ button:disabled {
 
 </style>
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap">
+<style id="skynix-theme">
+/* ====== SkyNix 2.0 · Glass ====== */
+:root{--violet:#6d4aff;--blue:#3b82f6;--glass:rgba(255,255,255,.06);--line:rgba(255,255,255,.12);--muted:#a9aee0;--text:#eef0ff}
+html,body{height:100%}
+body{background:#090a19;color:var(--text);font-family:Manrope,"Segoe UI",Arial,sans-serif;overflow:hidden}
+.g-orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.g-orbs i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:orbFloat 18s ease-in-out infinite alternate}
+.g-orbs i:nth-child(1){width:520px;height:520px;right:-120px;top:-160px;background:#41279c}
+.g-orbs i:nth-child(2){width:480px;height:480px;left:-140px;bottom:-180px;background:#0a5d7a;animation-duration:23s}
+.g-orbs i:nth-child(3){width:320px;height:320px;left:46%;top:38%;background:#5b2bb0;opacity:.28;animation-duration:29s}
+@keyframes orbFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(60px,-40px) scale(1.15)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes shimmer{to{background-position:200% center}}
+@keyframes barGrow{from{width:0}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(114,223,145,.55)}70%{box-shadow:0 0 0 9px rgba(114,223,145,0)}100%{box-shadow:0 0 0 0 rgba(114,223,145,0)}}
+#sidebar{position:fixed;inset:0 auto 0 0;width:250px;padding:26px 16px;display:flex;flex-direction:column;gap:2px;z-index:20;border-right:1px solid rgba(255,255,255,.08);background:rgba(10,11,28,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);animation:fadeIn .6s both}
+.g-brand{font-weight:800;font-size:26px;margin:0 10px 24px;background:linear-gradient(90deg,#fff,#9a8cff,#5fb4ff,#fff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 6s linear infinite}
+.g-nav{display:flex;align-items:center;gap:12px;width:100%;height:auto;margin:2px 0;padding:11px 14px;border:none;border-radius:12px;background:transparent;color:#b4b9e6;font:700 14px Manrope,"Segoe UI",Arial,sans-serif;text-align:left;cursor:pointer;transition:background .2s,transform .2s,color .2s,box-shadow .2s}
+.g-nav svg{flex:none;transition:transform .25s}
+.g-nav:hover{background:rgba(255,255,255,.08);color:#fff;transform:translateX(4px)}
+.g-nav:hover svg{transform:scale(1.15) rotate(-6deg)}
+.g-nav.active{background:linear-gradient(90deg,var(--violet),var(--blue));color:#fff;box-shadow:0 8px 24px rgba(91,76,255,.38)}
+.version{position:fixed;left:26px;right:auto;bottom:18px;color:#8e93c9;z-index:21}
+.container{position:relative;z-index:1;height:100vh;overflow-y:auto;margin-left:250px;width:calc(100% - 250px);overflow-x:hidden;padding:96px 36px 40px;text-align:left;scroll-behavior:smooth}
+.logo,.subtitle{display:none}
+.actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
+.g-hero{grid-column:1/-1;animation:cardIn .6s cubic-bezier(.2,.8,.2,1) backwards}
+.g-hero h1{margin:0;font-size:32px;font-weight:800;letter-spacing:-.3px}
+.g-hero p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.g-card{position:relative;padding:22px;border-radius:20px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 30px rgba(0,0,0,.25);animation:cardIn .65s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*70ms + 120ms);transition:transform .25s,border-color .25s,box-shadow .25s}
+.g-card:hover{transform:translateY(-4px);border-color:rgba(154,140,255,.55);box-shadow:0 18px 44px rgba(60,40,160,.38)}
+.g-full{grid-column:1/-1}
+.g-card-title{font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.g-text{color:#c4c8f0;font-size:14px;line-height:1.5;margin:0 0 16px}
+.g-muted{color:var(--muted);font-size:14px;line-height:1.45}
+.g-row{display:flex;justify-content:space-between;gap:12px;font-size:14px;margin:0 0 7px}
+.g-row b{font-weight:800}
+.g-bar{height:8px;border-radius:8px;background:rgba(255,255,255,.1);overflow:hidden;margin-bottom:16px}
+.g-bar i{display:block;height:100%;width:var(--w);border-radius:8px;background:#43e0a4;animation:barGrow 1.1s cubic-bezier(.2,.8,.2,1) backwards .35s}
+.g-bar i.warn{background:#ffc46b}.g-bar i.danger{background:linear-gradient(90deg,#ff7a7a,#ff4d6d)}
+.g-btn{position:relative;overflow:hidden;width:auto;height:auto;margin:0;padding:12px 18px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--text);font:800 14px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer;transition:transform .18s,box-shadow .18s,background .18s}
+.g-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);transform:translateX(-130%);transition:transform .65s}
+.g-btn:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+.g-btn:hover::after{transform:translateX(130%)}
+.g-btn:active{transform:translateY(0) scale(.97)}
+.g-btn.primary{background:linear-gradient(90deg,var(--violet),var(--blue));border-color:transparent;box-shadow:0 8px 22px rgba(91,76,255,.35)}
+.g-btn.danger{background:rgba(255,77,109,.16);border-color:rgba(255,77,109,.5)}
+.g-btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.g-event{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:14px}
+.g-event:last-child{border-bottom:none}.g-event small{color:#8e93c9;white-space:nowrap}
+.discord-area{position:fixed;left:auto;bottom:auto;top:22px;right:28px;z-index:30;animation:fadeIn .6s .2s both}
+.discord-status{padding:9px 16px;border-radius:40px;background:rgba(255,255,255,.07);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-weight:700;transition:background .2s,transform .2s}
+.discord-status:hover{background:rgba(255,255,255,.13);transform:translateY(-1px)}
+.discord-green .status-dot{animation:pulse 2s infinite}
+.discord-login{display:inline-block;margin-top:0;padding:9px 16px;border-radius:40px;border:none;background:linear-gradient(90deg,var(--violet),var(--blue));font-size:13px;font-weight:800}
+.discord-menu{bottom:auto;left:auto;right:0;top:50px;width:250px;border-radius:16px;background:rgba(20,18,52,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);animation:pop .22s both}
+.discord-logout{height:38px;border-radius:10px}
+.modal-overlay{background:rgba(5,5,20,.62);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.modal-overlay.visible{animation:fadeIn .2s both}
+.modal,.g-modal{border-radius:22px;border:1px solid rgba(255,255,255,.14);background:rgba(22,20,58,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 24px 70px rgba(0,0,0,.6)}
+.modal-overlay.visible .modal,.g-modal{animation:pop .32s cubic-bezier(.2,.9,.3,1.15) both}
+.g-overlay{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);animation:fadeIn .2s both}
+.modal input,.modal select{border-radius:12px;background:rgba(10,10,30,.7);border-color:rgba(255,255,255,.14);transition:border-color .2s,box-shadow .2s}
+.modal input:focus,.modal select:focus{border-color:#8b7bff;box-shadow:0 0 0 3px rgba(139,123,255,.25)}
+.modal-actions button:last-child{background:linear-gradient(90deg,var(--violet),var(--blue));border-color:transparent}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:10px;border:2px solid transparent;background-clip:content-box}
+@media (max-width:820px){
+body{overflow:hidden}
+#sidebar{inset:auto 0 0 0;width:100%;height:auto;flex-direction:row;gap:2px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));border-right:none;border-top:1px solid rgba(255,255,255,.1);overflow-x:auto;background:rgba(10,11,28,.82)}
+.g-brand,.version{display:none}
+.g-nav{flex-direction:column;gap:4px;min-width:72px;width:auto;padding:8px 10px;font-size:11px;text-align:center;margin:0}
+.g-nav:hover{transform:none}
+.container{margin-left:0;width:100%;padding:84px 16px 110px}
+.g-hero h1{font-size:25px}
+.discord-area{top:calc(14px + env(safe-area-inset-top));right:12px}
+.discord-status{padding:8px 12px;font-size:12px}
+.modal{width:100%}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+.g-overlay>.g-modal{background:rgba(22,20,58,.84)!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:22px!important;box-shadow:0 24px 70px rgba(0,0,0,.6)!important}
+.g-wo{position:fixed;inset:0;z-index:2147483645;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(5,5,20,.62);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);animation:fadeIn .2s both}
+.g-wo.closing{animation:fadeOut .18s both}
+@keyframes fadeOut{to{opacity:0}}
+.g-win{width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;border-radius:24px;background:rgba(22,20,58,.88);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 28px 80px rgba(0,0,0,.6);animation:pop .34s cubic-bezier(.2,.9,.3,1.12) both;overflow:hidden}
+.g-win.wide{max-width:680px}
+.g-wo.closing .g-win{opacity:0;transform:scale(.96);transition:all .18s}
+.g-win-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 14px}
+.g-win-head h2{margin:0;font-size:22px;font-weight:800}
+.g-x{width:36px;height:36px;margin:0;padding:0;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.07);color:#fff;font-size:22px;line-height:1;cursor:pointer;transition:transform .2s,background .2s}
+.g-x:hover{background:rgba(255,77,109,.3);transform:rotate(90deg)}
+.g-win-body{padding:4px 24px 24px;overflow-y:auto}
+.g-hero-w{display:flex;align-items:center;gap:18px;padding:18px;margin:6px 0 4px;border-radius:20px;background:linear-gradient(135deg,rgba(109,74,255,.28),rgba(59,130,246,.14));border:1px solid rgba(255,255,255,.12);animation:cardIn .5s backwards}
+.g-hero-name{font-size:24px;font-weight:800;word-break:break-word;margin-bottom:8px}
+.g-av{position:relative;flex:none;width:var(--s);height:var(--s);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:calc(var(--s)*.4);background:linear-gradient(135deg,#9a8cff,#3b82f6);box-shadow:0 0 0 3px rgba(255,255,255,.14),0 8px 26px rgba(91,76,255,.45);overflow:hidden}
+.g-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.g-pill{display:inline-block;padding:5px 13px;border-radius:30px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);font-size:13px;font-weight:700;color:#e3deff}
+.g-sec{margin-top:22px}
+.g-sec h3{margin:0 0 12px;font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.g-tl{position:relative;display:flex;flex-direction:column;gap:14px;padding-left:22px}
+.g-tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:linear-gradient(#6d4aff,rgba(255,255,255,.05))}
+.g-tl-item{position:relative;animation:cardIn .45s backwards}
+.g-tl-item i{position:absolute;left:-22px;top:5px;width:12px;height:12px;border-radius:50%;background:#43e0a4;box-shadow:0 0 0 4px rgba(67,224,164,.18)}
+.g-tl-item.warn i{background:#ffc46b;box-shadow:0 0 0 4px rgba(255,196,107,.18)}
+.g-tl-item.danger i{background:#ff5d7a;box-shadow:0 0 0 4px rgba(255,93,122,.2)}
+.g-tl-title{font-weight:800;font-size:15px}
+.g-tl-meta{color:#8e93c9;font-size:12px;margin:2px 0}
+.g-tl-reason{color:#c4c8f0;font-size:14px;word-break:break-word}
+.g-chip{display:inline-block;padding:6px 12px;border-radius:30px;font-size:13px;font-weight:700;margin-bottom:14px;background:rgba(255,255,255,.1)}
+.g-chip.ok{background:rgba(67,224,164,.16);color:#8ef0c4}
+.g-code{margin:6px 0 14px;font-size:30px;font-weight:800;letter-spacing:6px;user-select:all;text-align:center;padding:14px;border-radius:16px;background:rgba(0,0,0,.28);border:1px dashed rgba(255,255,255,.25)}
+.g-muted.small{font-size:12px;margin-top:10px}
+.g-code.small-code{font-size:19px;letter-spacing:1px;margin:2px 0 12px;word-break:break-all}
+.waiting{animation:pulseText 1.6s infinite}
+@keyframes pulseText{50%{opacity:.4}}
+.g-error{color:#ff8a8a;font-size:14px;margin-bottom:12px;line-height:1.4}
+.g-bars{margin:6px 0 14px}
+.g-search{width:100%;height:46px;margin:2px 0 12px;padding:0 16px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:#fff;font:600 14px Manrope,"Segoe UI",Arial,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+.g-search:focus{border-color:#8b7bff;box-shadow:0 0 0 3px rgba(139,123,255,.25)}
+.g-tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(0,0,0,.25);margin-bottom:14px}
+.g-tab{flex:1;height:auto;margin:0;padding:10px;border:none;border-radius:10px;background:transparent;color:#b4b9e6;font:700 13px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer;transition:background .25s,color .25s}
+.g-tab.active{background:linear-gradient(90deg,var(--violet),var(--blue));color:#fff;box-shadow:0 6px 18px rgba(91,76,255,.35)}
+.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.g-member{display:flex;align-items:center;gap:12px;width:100%;height:auto;margin:0;padding:12px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:#fff;text-align:left;cursor:pointer;animation:cardIn .4s backwards;animation-delay:calc(var(--i,0)*35ms);transition:transform .2s,background .2s,border-color .2s}
+.g-member:hover{background:rgba(255,255,255,.1);border-color:rgba(154,140,255,.5);transform:translateY(-2px)}
+.g-member-name{font-weight:800;font-size:14px;word-break:break-word}
+.g-member-role{color:#a9aee0;font-size:12px;margin-top:2px}
+.g-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.g-tile{display:flex;flex-direction:column;gap:6px;align-items:flex-start;width:100%;height:auto;margin:0;padding:18px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;text-align:left;cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s}
+.g-tile b{font-size:18px;font-weight:800}
+.g-tile span{font-size:12px;color:#a9aee0}
+.g-tile.wide{grid-column:1/-1}
+.g-tile:hover{transform:translateY(-3px)}
+.g-tile.warn:hover{border-color:#ffc46b;box-shadow:0 14px 34px rgba(255,196,107,.2)}
+.g-tile.ok:hover{border-color:#43e0a4;box-shadow:0 14px 34px rgba(67,224,164,.2)}
+.g-tile.danger{background:rgba(255,77,109,.1)}
+.g-tile.danger:hover{border-color:#ff5d7a;box-shadow:0 14px 34px rgba(255,93,122,.28)}
+.g-tile.violet:hover{border-color:#8b7bff;box-shadow:0 14px 34px rgba(139,123,255,.3)}
+@media (max-width:820px){.g-tiles{grid-template-columns:1fr}.g-grid{grid-template-columns:1fr}.g-win-head{padding:16px 18px 10px}.g-win-body{padding:4px 18px 20px}.g-hero-w{flex-direction:column;text-align:center}}
+</style>
 </head>
 
 <body>
@@ -638,7 +780,7 @@ button:disabled {
 
 
 <div class="version">
-    Версия 1.3.1
+    Версия 2.0.0
 </div>
 
 
@@ -1643,846 +1785,6 @@ function toggleDiscordMenu() {
 
 
 // ======================================================
-// ПРОФИЛЬ
-// ======================================================
-
-(function () {
-
-    let overlay = null;
-    let pollTimer = null;
-
-    function el(tag, css, text) {
-
-        const node =
-            document.createElement(tag);
-
-        if (css) node.style.cssText = css;
-
-        if (text !== undefined) {
-            node.textContent = text;
-        }
-
-        return node;
-
-    }
-
-    function cleanError(error) {
-
-        const message =
-            String(
-                (error && error.message) ||
-                error ||
-                ""
-            );
-
-        return (
-            message.replace(
-                /^Error invoking remote method '[^']*':\s*(Error:\s*)?/,
-                ""
-            ) ||
-            "Не удалось выполнить запрос."
-        );
-
-    }
-
-    function two(value) {
-        return String(value).padStart(2, "0");
-    }
-
-    function formatDate(timestamp) {
-
-        const date =
-            new Date(Number(timestamp));
-
-        return (
-            two(date.getDate()) +
-            "." +
-            two(date.getMonth() + 1) +
-            " " +
-            date.getHours() +
-            ":" +
-            two(date.getMinutes())
-        );
-
-    }
-
-    function formatDateTime(timestamp) {
-
-        const date =
-            new Date(Number(timestamp));
-
-        return (
-            formatDate(timestamp) +
-            " (" +
-            date.getFullYear() +
-            ")"
-        );
-
-    }
-
-    function pluralRu(n, forms) {
-
-        const n10 = n % 10;
-        const n100 = n % 100;
-
-        if (n10 === 1 && n100 !== 11) {
-            return forms[0];
-        }
-
-        if (
-            n10 >= 2 &&
-            n10 <= 4 &&
-            (n100 < 12 || n100 > 14)
-        ) {
-            return forms[1];
-        }
-
-        return forms[2];
-
-    }
-
-    function formatDuration(raw) {
-
-        const match =
-            String(raw || "").match(
-                /^(\d+)(s|m|h|d)$/i
-            );
-
-        if (!match) return null;
-
-        const value = Number(match[1]);
-
-        const words = {
-            s: ["секунда", "секунды", "секунд"],
-            m: ["минута", "минуты", "минут"],
-            h: ["час", "часа", "часов"],
-            d: ["день", "дня", "дней"]
-        };
-
-        return (
-            value +
-            " " +
-            pluralRu(
-                value,
-                words[match[2].toLowerCase()]
-            )
-        );
-
-    }
-
-    function stopPolling() {
-
-        if (pollTimer) {
-            clearInterval(pollTimer);
-            pollTimer = null;
-        }
-
-    }
-
-    function closeProfile() {
-
-        stopPolling();
-
-        if (overlay) {
-            overlay.remove();
-            overlay = null;
-        }
-
-    }
-
-    function section(title) {
-
-        const box = el(
-            "div",
-            "margin-top:18px;padding-top:14px;" +
-            "border-top:1px solid #2c2a55;"
-        );
-
-        box.appendChild(
-            el(
-                "div",
-                "font-size:16px;font-weight:700;" +
-                "margin-bottom:10px;",
-                title
-            )
-        );
-
-        return box;
-
-    }
-
-    function muted(text) {
-
-        return el(
-            "div",
-            "color:#a9a3d6;font-size:14px;" +
-            "line-height:1.4;",
-            text
-        );
-
-    }
-
-    function smallButton(text, onClick) {
-
-        const button = el(
-            "button",
-            "margin:8px 8px 0 0;padding:9px 14px;" +
-            "border:none;border-radius:10px;" +
-            "cursor:pointer;font-size:14px;" +
-            "font-weight:600;color:#fff;" +
-            "background:#6d4aff;width:auto;height:auto;",
-            text
-        );
-
-        button.onclick = onClick;
-
-        return button;
-
-    }
-
-    // ---------------- ШАПКА ----------------
-
-    function renderHeader(profile) {
-
-        const header = el(
-            "div",
-            "display:flex;align-items:center;gap:14px;"
-        );
-
-        const letter =
-            String(profile.name || "?")
-                .trim()
-                .charAt(0)
-                .toUpperCase() || "?";
-
-        function fallbackAvatar() {
-
-            return el(
-                "div",
-                "width:64px;height:64px;" +
-                "border-radius:50%;flex:none;" +
-                "background:#2c2a55;display:flex;" +
-                "align-items:center;" +
-                "justify-content:center;" +
-                "font-size:26px;font-weight:700;",
-                letter
-            );
-
-        }
-
-        if (profile.avatar) {
-
-            const img =
-                document.createElement("img");
-
-            img.src =
-                "https://cdn.discordapp.com/avatars/" +
-                profile.id +
-                "/" +
-                profile.avatar +
-                ".png?size=128";
-
-            img.style.cssText =
-                "width:64px;height:64px;" +
-                "border-radius:50%;flex:none;";
-
-            img.onerror = () => {
-                img.replaceWith(fallbackAvatar());
-            };
-
-            header.appendChild(img);
-
-        }
-        else {
-
-            header.appendChild(fallbackAvatar());
-
-        }
-
-        const info = el("div", "min-width:0;");
-
-        info.appendChild(
-            el(
-                "div",
-                "font-size:20px;font-weight:700;" +
-                "word-break:break-word;",
-                profile.name || "Пользователь"
-            )
-        );
-
-        info.appendChild(
-            el(
-                "div",
-                "margin-top:4px;color:#a9a3d6;" +
-                "font-size:14px;",
-                profile.status === "not_member"
-                    ? "Не в команде"
-                    : (profile.role || "Участник")
-            )
-        );
-
-        header.appendChild(info);
-
-        return header;
-
-    }
-
-    // ---------------- ИСТОРИЯ ----------------
-
-    const HISTORY_TEXT = {
-        mute: ["вы были замучены", "вас замутил"],
-        unmute: ["вы были размучены", "вас размутил"],
-        ban: ["вы были забанены", "вас забанил"],
-        unban: ["вы были разбанены", "вас разбанил"]
-    };
-
-    function renderHistory(profile) {
-
-        const box = section("История наказаний");
-
-        const history =
-            Array.isArray(profile.history)
-                ? profile.history
-                : [];
-
-        if (!history.length) {
-
-            box.appendChild(
-                muted("Наказаний пока нет.")
-            );
-
-            return box;
-
-        }
-
-        for (const item of history) {
-
-            const texts =
-                HISTORY_TEXT[item.action] ||
-                [String(item.action || ""), "от"];
-
-            const entry = el(
-                "div",
-                "margin:0 0 14px 0;font-size:14px;" +
-                "line-height:1.45;"
-            );
-
-            entry.appendChild(
-                el(
-                    "div",
-                    "color:#a9a3d6;font-size:13px;",
-                    formatDate(item.createdAt)
-                )
-            );
-
-            entry.appendChild(
-                el("div", "", texts[0])
-            );
-
-            entry.appendChild(
-                el(
-                    "div",
-                    "",
-                    texts[1] + " " +
-                    (item.moderator || "Модератор")
-                )
-            );
-
-            if (item.action === "mute") {
-
-                const duration =
-                    formatDuration(item.duration);
-
-                if (duration) {
-
-                    entry.appendChild(
-                        el(
-                            "div",
-                            "",
-                            "на срок " + duration
-                        )
-                    );
-
-                }
-
-            }
-
-            entry.appendChild(
-                el(
-                    "div",
-                    "word-break:break-word;",
-                    item.reason
-                        ? "по причине " + item.reason
-                        : "причина не указана"
-                )
-            );
-
-            box.appendChild(entry);
-
-        }
-
-        return box;
-
-    }
-
-    // ---------------- TELEGRAM ----------------
-
-    function renderTelegram(container) {
-
-        const box = section("Telegram");
-
-        container.appendChild(box);
-
-        const body = el("div", "");
-
-        box.appendChild(body);
-
-        function showLoading() {
-
-            body.textContent = "";
-
-            body.appendChild(muted("Загрузка..."));
-
-        }
-
-        function showError(error) {
-
-            body.textContent = "";
-
-            body.appendChild(
-                el(
-                    "div",
-                    "color:#ff8a8a;font-size:14px;",
-                    cleanError(error)
-                )
-            );
-
-            body.appendChild(
-                smallButton(
-                    "Повторить",
-                    refresh
-                )
-            );
-
-        }
-
-        function showLinked(data) {
-
-            stopPolling();
-
-            body.textContent = "";
-
-            const telegram =
-                data.telegram || {};
-
-            body.appendChild(
-                el(
-                    "div",
-                    "font-size:14px;margin-bottom:12px;",
-                    "Привязан: " +
-                    (
-                        telegram.username
-                            ? "@" + telegram.username
-                            : (telegram.name || "аккаунт Telegram")
-                    )
-                )
-            );
-
-            const warnings = data.warnings;
-
-            if (!warnings) {
-
-                body.appendChild(
-                    muted(
-                        "Данные о предупреждениях пока не загружены."
-                    )
-                );
-
-            }
-            else if (
-                !warnings.items ||
-                !warnings.items.length
-            ) {
-
-                body.appendChild(
-                    muted(
-                        "Вас нет в списках предупреждений."
-                    )
-                );
-
-            }
-            else {
-
-                for (const item of warnings.items) {
-
-                    const line = el(
-                        "div",
-                        "display:flex;" +
-                        "justify-content:space-between;" +
-                        "gap:12px;margin:6px 0;" +
-                        "font-size:14px;"
-                    );
-
-                    line.appendChild(
-                        el("span", "", item.title)
-                    );
-
-                    line.appendChild(
-                        el(
-                            "span",
-                            "font-weight:700;" +
-                            (
-                                item.count >= item.max
-                                    ? "color:#ff8a8a;"
-                                    : ""
-                            ),
-                            item.count + " из " + item.max
-                        )
-                    );
-
-                    body.appendChild(line);
-
-                }
-
-                if (warnings.updatedAt) {
-
-                    body.appendChild(
-                        el(
-                            "div",
-                            "margin-top:8px;color:#7d78b0;" +
-                            "font-size:12px;",
-                            "Обновлено: " +
-                            formatDateTime(
-                                warnings.updatedAt
-                            )
-                        )
-                    );
-
-                }
-
-            }
-
-            let confirming = false;
-
-            const unlink = smallButton(
-                "Отвязать Telegram",
-                async () => {
-
-                    if (!confirming) {
-
-                        confirming = true;
-
-                        unlink.textContent =
-                            "Точно отвязать?";
-
-                        return;
-
-                    }
-
-                    try {
-
-                        await ipcRenderer.invoke(
-                            "profile-telegram-unlink"
-                        );
-
-                    }
-
-                    catch (error) {
-
-                        window.alert(cleanError(error));
-
-                    }
-
-                    refresh();
-
-                }
-            );
-
-            unlink.style.background = "#3a3763";
-
-            body.appendChild(unlink);
-
-        }
-
-        function showNotLinked() {
-
-            stopPolling();
-
-            body.textContent = "";
-
-            body.appendChild(
-                muted(
-                    "Привяжите Telegram, чтобы видеть свои " +
-                    "предупреждения в профиле."
-                )
-            );
-
-            body.appendChild(
-                smallButton(
-                    "Привязать Telegram",
-                    startLinking
-                )
-            );
-
-        }
-
-        async function startLinking() {
-
-            showLoading();
-
-            try {
-
-                const data =
-                    await ipcRenderer.invoke(
-                        "profile-telegram-link-code"
-                    );
-
-                body.textContent = "";
-
-                body.appendChild(
-                    muted(
-                        "Откройте бота и нажмите Start. " +
-                        "Код действует 10 минут."
-                    )
-                );
-
-                body.appendChild(
-                    el(
-                        "div",
-                        "margin:12px 0 4px;font-size:22px;" +
-                        "font-weight:700;letter-spacing:3px;" +
-                        "user-select:all;",
-                        data.code
-                    )
-                );
-
-                if (data.deep_link) {
-
-                    body.appendChild(
-                        smallButton(
-                            "Открыть Telegram",
-                            () => openExternal(
-                                data.deep_link
-                            )
-                        )
-                    );
-
-                }
-
-                body.appendChild(
-                    el(
-                        "div",
-                        "margin-top:10px;color:#7d78b0;" +
-                        "font-size:12px;",
-                        data.bot_username
-                            ? "Или отправьте боту @" +
-                              data.bot_username +
-                              " сообщение: /link " +
-                              data.code
-                            : "Или отправьте боту сообщение: /link " +
-                              data.code
-                    )
-                );
-
-                body.appendChild(
-                    el(
-                        "div",
-                        "margin-top:10px;color:#a9a3d6;" +
-                        "font-size:13px;",
-                        "Ожидаем привязку..."
-                    )
-                );
-
-                stopPolling();
-
-                const startedAt = Date.now();
-
-                pollTimer = setInterval(
-                    async () => {
-
-                        if (
-                            Date.now() - startedAt >
-                            10 * 60 * 1000
-                        ) {
-
-                            showNotLinked();
-
-                            return;
-
-                        }
-
-                        try {
-
-                            const status =
-                                await ipcRenderer.invoke(
-                                    "profile-telegram-status"
-                                );
-
-                            if (status.linked) {
-                                showLinked(status);
-                            }
-
-                        }
-
-                        catch {
-                            // Следующая проверка через 4 секунды
-                        }
-
-                    },
-                    4000
-                );
-
-            }
-
-            catch (error) {
-
-                showError(error);
-
-            }
-
-        }
-
-        async function refresh() {
-
-            showLoading();
-
-            try {
-
-                const data =
-                    await ipcRenderer.invoke(
-                        "profile-telegram-status"
-                    );
-
-                if (data.linked) {
-                    showLinked(data);
-                }
-                else {
-                    showNotLinked();
-                }
-
-            }
-
-            catch (error) {
-
-                showError(error);
-
-            }
-
-        }
-
-        refresh();
-
-    }
-
-    // ---------------- ОКНО ----------------
-
-    async function openProfile() {
-
-        closeProfile();
-
-        const menu =
-            document.getElementById(
-                "discordMenu"
-            );
-
-        if (menu) {
-            menu.style.display = "none";
-        }
-
-        overlay = el(
-            "div",
-            "position:fixed;inset:0;" +
-            "background:rgba(0,0,0,.7);" +
-            "display:flex;align-items:center;" +
-            "justify-content:center;" +
-            "z-index:2147483645;padding:16px;"
-        );
-
-        overlay.addEventListener(
-            "mousedown",
-            event => {
-                if (event.target === overlay) {
-                    closeProfile();
-                }
-            }
-        );
-
-        const card = el(
-            "div",
-            "width:100%;max-width:460px;" +
-            "max-height:85vh;overflow-y:auto;" +
-            "background:#12102b;color:#fff;" +
-            "border:1px solid #7c5cff;" +
-            "border-radius:16px;padding:22px;" +
-            "box-shadow:0 12px 40px rgba(0,0,0,.6);"
-        );
-
-        overlay.appendChild(card);
-
-        card.appendChild(muted("Загрузка профиля..."));
-
-        document.body.appendChild(overlay);
-
-        try {
-
-            const profile =
-                await ipcRenderer.invoke(
-                    "profile-get"
-                );
-
-            if (!overlay) return;
-
-            card.textContent = "";
-
-            card.appendChild(renderHeader(profile));
-
-            if (profile.status !== "not_member") {
-
-                card.appendChild(
-                    renderHistory(profile)
-                );
-
-                renderTelegram(card);
-
-            }
-
-        }
-
-        catch (error) {
-
-            if (!overlay) return;
-
-            card.textContent = "";
-
-            card.appendChild(
-                el(
-                    "div",
-                    "color:#ff8a8a;font-size:14px;",
-                    cleanError(error)
-                )
-            );
-
-        }
-
-        const close = smallButton(
-            "Закрыть",
-            closeProfile
-        );
-
-        close.style.width = "100%";
-        close.style.margin = "18px 0 0 0";
-        close.style.background = "#3a3763";
-
-        card.appendChild(close);
-
-    }
-
-    window.openProfile = openProfile;
-
-})();
-
-
-// ======================================================
 // РЕДАКТОР ПРЕДУПРЕЖДЕНИЙ
 // ======================================================
 
@@ -2989,6 +2291,1076 @@ function toggleDiscordMenu() {
 
 
 // ======================================================
+// ОКНА 2.0: профиль, участники, модерация
+// ======================================================
+
+(function () {
+
+    const RECRUIT_ID = "1522312068303425653";
+    const MEMBER_ID = "1371523402283745300";
+
+    let overlay = null;
+    let pollTimer = null;
+    let cachedMembers = [];
+
+    function cleanError(error) {
+
+        return (
+            String((error && error.message) || error || "")
+                .replace(/^Error invoking remote method '[^']*':\s*(Error:\s*)?/, "") ||
+            "Не удалось выполнить запрос."
+        );
+
+    }
+
+    function stopPolling() {
+
+        if (pollTimer) {
+            clearInterval(pollTimer);
+            pollTimer = null;
+        }
+
+    }
+
+    function closeNow() {
+
+        stopPolling();
+
+        if (overlay) {
+            overlay.remove();
+            overlay = null;
+        }
+
+    }
+
+    function closeWindow() {
+
+        stopPolling();
+
+        if (!overlay) return;
+
+        const node = overlay;
+
+        overlay = null;
+
+        node.classList.add("closing");
+
+        setTimeout(() => node.remove(), 180);
+
+    }
+
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape" && overlay) closeWindow();
+
+    });
+
+    function openWindow(title, wide) {
+
+        closeNow();
+
+        const menu = document.getElementById("discordMenu");
+
+        if (menu) menu.style.display = "none";
+
+        overlay = gEl("div", "g-wo");
+
+        overlay.addEventListener("mousedown", event => {
+            if (event.target === overlay) closeWindow();
+        });
+
+        const win = gEl("div", "g-win" + (wide ? " wide" : ""));
+
+        const head = gEl("div", "g-win-head");
+
+        head.appendChild(gEl("h2", "", title));
+
+        const close = gEl("button", "g-x", "×");
+
+        close.setAttribute("aria-label", "Закрыть");
+
+        close.onclick = closeWindow;
+
+        head.appendChild(close);
+
+        const body = gEl("div", "g-win-body");
+
+        win.appendChild(head);
+        win.appendChild(body);
+        overlay.appendChild(win);
+
+        document.body.appendChild(overlay);
+
+        return body;
+
+    }
+
+    // ---------------- общие детали ----------------
+
+    function avatar(name, id, hash, size) {
+
+        const wrap = gEl("div", "g-av");
+
+        wrap.style.setProperty("--s", size + "px");
+
+        const letter = gEl(
+            "span",
+            "",
+            String(name || "?").trim().charAt(0).toUpperCase() || "?"
+        );
+
+        wrap.appendChild(letter);
+
+        if (id && hash) {
+
+            const img = document.createElement("img");
+
+            img.alt = "";
+
+            img.onload = () => {
+                letter.remove();
+                wrap.appendChild(img);
+            };
+
+            img.src =
+                "https://cdn.discordapp.com/avatars/" + id + "/" + hash + ".png?size=128";
+
+        }
+
+        return wrap;
+
+    }
+
+    function heroBlock(name, id, hash, roleText) {
+
+        const hero = gEl("div", "g-hero-w");
+
+        hero.appendChild(avatar(name, id, hash, 84));
+
+        const info = gEl("div", "");
+
+        info.appendChild(gEl("div", "g-hero-name", name || "Пользователь"));
+
+        info.appendChild(gEl("span", "g-pill", roleText));
+
+        hero.appendChild(info);
+
+        return hero;
+
+    }
+
+    function section(title) {
+
+        const box = gEl("div", "g-sec");
+
+        box.appendChild(gEl("h3", "", title));
+
+        return box;
+
+    }
+
+    const TITLES = { mute: "Мут", unmute: "Размут", ban: "Бан", unban: "Разбан" };
+
+    const TONES = { mute: "warn", unmute: "ok", ban: "danger", unban: "ok" };
+
+    function timeline(history) {
+
+        const list = gEl("div", "g-tl");
+
+        for (const item of history) {
+
+            const row = gEl("div", "g-tl-item " + (TONES[item.action] || ""));
+
+            row.appendChild(gEl("i", ""));
+
+            const text = gEl("div", "");
+
+            text.appendChild(
+                gEl(
+                    "div",
+                    "g-tl-title",
+                    (TITLES[item.action] || item.action) +
+                    (item.action === "mute" ? gDuration(item.duration) : "")
+                )
+            );
+
+            text.appendChild(
+                gEl(
+                    "div",
+                    "g-tl-meta",
+                    "от " + (item.moderator || "Модератор") + " · " + gDate(item.createdAt)
+                )
+            );
+
+            text.appendChild(
+                gEl(
+                    "div",
+                    "g-tl-reason",
+                    item.reason ? "Причина: " + item.reason : "Причина не указана"
+                )
+            );
+
+            row.appendChild(text);
+
+            list.appendChild(row);
+
+        }
+
+        return list;
+
+    }
+
+    function historySection(history) {
+
+        const box = section("История наказаний");
+
+        if (!history.length) {
+
+            box.appendChild(gEl("div", "g-muted", "Наказаний нет."));
+
+            return box;
+
+        }
+
+        box.appendChild(timeline(history));
+
+        return box;
+
+    }
+
+    function warningBars(container, items) {
+
+        for (const item of items) {
+
+            const row = gEl("div", "g-row");
+
+            row.appendChild(gEl("span", "", item.title));
+
+            const value = gEl("b", "", "0 из " + item.max);
+
+            row.appendChild(value);
+
+            animateNumber(value, item.count, " из " + item.max);
+
+            const percent =
+                item.max > 0
+                    ? Math.min(100, Math.round(item.count / item.max * 100))
+                    : 0;
+
+            const bar = gEl("div", "g-bar");
+
+            const fill = document.createElement("i");
+
+            fill.style.setProperty("--w", Math.max(percent, 4) + "%");
+
+            if (percent >= 100) fill.className = "danger";
+            else if (percent >= 60) fill.className = "warn";
+
+            bar.appendChild(fill);
+
+            container.appendChild(row);
+            container.appendChild(bar);
+
+        }
+
+    }
+
+    function errorBox(container, error) {
+
+        container.appendChild(gEl("div", "g-error", cleanError(error)));
+
+    }
+
+    // ---------------- профиль ----------------
+
+    function telegramSection(container) {
+
+        const box = section("Telegram");
+
+        const body = gEl("div", "");
+
+        box.appendChild(body);
+
+        container.appendChild(box);
+
+        function loading() {
+
+            body.textContent = "";
+
+            body.appendChild(gEl("div", "g-muted", "Загрузка..."));
+
+        }
+
+        function showError(error) {
+
+            body.textContent = "";
+
+            errorBox(body, error);
+
+            body.appendChild(gButton("Повторить", refresh));
+
+        }
+
+        function showLinked(data) {
+
+            stopPolling();
+
+            body.textContent = "";
+
+            const telegram = data.telegram || {};
+
+            body.appendChild(
+                gEl(
+                    "div",
+                    "g-chip ok",
+                    "Привязан: " +
+                    (telegram.username ? "@" + telegram.username : (telegram.name || "аккаунт"))
+                )
+            );
+
+            const warnings = data.warnings;
+
+            if (!warnings) {
+
+                body.appendChild(gEl("div", "g-muted", "Данные о предупреждениях пока не загружены."));
+
+            }
+            else if (!warnings.items || !warnings.items.length) {
+
+                body.appendChild(gEl("div", "g-muted", "Вас нет в списках предупреждений."));
+
+            }
+            else {
+
+                const bars = gEl("div", "g-bars");
+
+                warningBars(bars, warnings.items);
+
+                body.appendChild(bars);
+
+            }
+
+            let confirming = false;
+
+            const unlink = gButton("Отвязать Telegram", async () => {
+
+                if (!confirming) {
+
+                    confirming = true;
+
+                    unlink.textContent = "Точно отвязать?";
+
+                    return;
+
+                }
+
+                try {
+
+                    await ipcRenderer.invoke("profile-telegram-unlink");
+
+                    window.refreshDashboard();
+
+                }
+                catch (error) {
+
+                    window.alert(cleanError(error));
+
+                }
+
+                refresh();
+
+            });
+
+            body.appendChild(unlink);
+
+        }
+
+        function showNotLinked() {
+
+            stopPolling();
+
+            body.textContent = "";
+
+            body.appendChild(
+                gEl(
+                    "p",
+                    "g-text",
+                    "Привяжите Telegram, чтобы видеть свои предупреждения в профиле и на главной."
+                )
+            );
+
+            body.appendChild(gButton("Привязать Telegram", startLinking, "primary"));
+
+        }
+
+        async function startLinking() {
+
+            loading();
+
+            try {
+
+                const data = await ipcRenderer.invoke("profile-telegram-link-code");
+
+                body.textContent = "";
+
+                body.appendChild(
+                    gEl("p", "g-text", "Откройте бота и нажмите Start. Код действует 10 минут.")
+                );
+
+                body.appendChild(gEl("div", "g-code", data.code));
+
+                if (data.deep_link) {
+
+                    body.appendChild(
+                        gButton("Открыть Telegram", () => openExternal(data.deep_link), "primary")
+                    );
+
+                }
+
+                body.appendChild(
+                    gEl(
+                        "div",
+                        "g-muted small",
+                        data.bot_username
+                            ? "Или отправьте боту @" + data.bot_username + ": /link " + data.code
+                            : "Или отправьте боту: /link " + data.code
+                    )
+                );
+
+                body.appendChild(gEl("div", "g-muted small waiting", "Ожидаем привязку..."));
+
+                stopPolling();
+
+                const startedAt = Date.now();
+
+                pollTimer = setInterval(async () => {
+
+                    if (Date.now() - startedAt > 10 * 60 * 1000) {
+
+                        showNotLinked();
+
+                        return;
+
+                    }
+
+                    try {
+
+                        const status = await ipcRenderer.invoke("profile-telegram-status");
+
+                        if (status.linked) {
+
+                            showLinked(status);
+
+                            window.refreshDashboard();
+
+                        }
+
+                    }
+                    catch {
+                        // Повторим через 4 секунды
+                    }
+
+                }, 4000);
+
+            }
+            catch (error) {
+
+                showError(error);
+
+            }
+
+        }
+
+        async function refresh() {
+
+            loading();
+
+            try {
+
+                const data = await ipcRenderer.invoke("profile-telegram-status");
+
+                if (data.linked) showLinked(data);
+                else showNotLinked();
+
+            }
+            catch (error) {
+
+                showError(error);
+
+            }
+
+        }
+
+        refresh();
+
+    }
+
+    function minecraftSection(container) {
+
+        const box = section("Minecraft");
+
+        const body = gEl("div", "");
+
+        box.appendChild(body);
+
+        container.appendChild(box);
+
+        body.appendChild(gEl("div", "g-muted", "Загрузка..."));
+
+        (async () => {
+
+            try {
+
+                const nick = await ipcRenderer.invoke("minecraft-nick-get");
+
+                if (!overlay) return;
+
+                body.textContent = "";
+
+                body.appendChild(
+                    gEl(
+                        "p",
+                        "g-text",
+                        "Укажите ник, с которым вы заходите на сервер. По нему вам открывается доступ."
+                    )
+                );
+
+                const input = gEl("input", "g-search");
+
+                input.placeholder = "Ник в Minecraft";
+
+                input.maxLength = 16;
+
+                input.value = nick || "";
+
+                body.appendChild(input);
+
+                const status = gEl(
+                    "div",
+                    "g-muted small",
+                    nick ? "Ник привязан: " + nick : "Ник пока не указан."
+                );
+
+                const save = gButton("Сохранить", async () => {
+
+                    save.disabled = true;
+
+                    try {
+
+                        const saved = await ipcRenderer.invoke(
+                            "minecraft-nick-set",
+                            input.value.trim()
+                        );
+
+                        status.className = "g-muted small";
+
+                        status.textContent = saved
+                            ? "Сохранено: " + saved + ". Доступ на сервер откроется в течение минуты."
+                            : "Ник удалён.";
+
+                    }
+                    catch (error) {
+
+                        status.className = "g-error";
+
+                        status.textContent = cleanError(error);
+
+                    }
+
+                    save.disabled = false;
+
+                }, "primary");
+
+                body.appendChild(save);
+
+                body.appendChild(status);
+
+            }
+            catch (error) {
+
+                if (!overlay) return;
+
+                body.textContent = "";
+
+                errorBox(body, error);
+
+            }
+
+        })();
+
+    }
+
+    async function openProfile() {
+
+        const body = openWindow("Профиль");
+
+        body.appendChild(gEl("div", "g-muted", "Загрузка профиля..."));
+
+        try {
+
+            const profile = await ipcRenderer.invoke("profile-get");
+
+            if (!overlay) return;
+
+            body.textContent = "";
+
+            body.appendChild(
+                heroBlock(
+                    profile.name,
+                    profile.id,
+                    profile.avatar,
+                    profile.status === "not_member" ? "Не в команде" : (profile.role || "Участник")
+                )
+            );
+
+            if (profile.status !== "not_member") {
+
+                body.appendChild(historySection(profile.history || []));
+
+                telegramSection(body);
+
+                minecraftSection(body);
+
+            }
+
+        }
+        catch (error) {
+
+            if (!overlay) return;
+
+            body.textContent = "";
+
+            errorBox(body, error);
+
+        }
+
+    }
+
+    // ---------------- участники ----------------
+
+    function canView() {
+
+        return Boolean(
+            discordSession &&
+            [
+                ROLE_ML_MOD,
+                ROLE_MOD,
+                ROLE_GL_MOD,
+                ROLE_DEPUTY,
+                ROLE_RIGHT_HAND,
+                ROLE_ARCHON
+            ].includes(discordSession.role)
+        );
+
+    }
+
+    window.telegramGroupSuffix = function (user, always) {
+
+        const groups = Array.isArray(user && user.groups) ? user.groups : [];
+
+        const main = groups.includes("main");
+        const recruits = groups.includes("recruits");
+
+        if (main && recruits) return " · обе группы";
+        if (recruits) return " · новобранцы";
+        if (main && always) return " · SkyNix";
+
+        return "";
+
+    };
+
+    function memberName(member) {
+
+        return member.displayName || member.globalName || member.username || member.id;
+
+    }
+
+    function renderMembers(body) {
+
+        body.textContent = "";
+
+        let tab = "members";
+
+        const search = gEl("input", "g-search");
+
+        search.placeholder = "Поиск по имени";
+
+        body.appendChild(search);
+
+        const tabs = gEl("div", "g-tabs");
+
+        const tabMembers = gEl("button", "g-tab active");
+        const tabRecruits = gEl("button", "g-tab");
+
+        tabs.appendChild(tabMembers);
+        tabs.appendChild(tabRecruits);
+
+        body.appendChild(tabs);
+
+        const grid = gEl("div", "g-grid");
+
+        body.appendChild(grid);
+
+        function fill() {
+
+            const query = search.value.trim().toLowerCase();
+
+            const matches = member =>
+                !query ||
+                [memberName(member), member.username, member.globalName]
+                    .filter(Boolean)
+                    .some(value => String(value).toLowerCase().includes(query));
+
+            const members = [];
+            const recruits = [];
+
+            for (const member of cachedMembers) {
+
+                if (!matches(member)) continue;
+
+                const roles = member.roles || [];
+
+                if (roles.includes(MEMBER_ID) || member.staffRole) members.push(member);
+                else if (roles.includes(RECRUIT_ID)) recruits.push(member);
+
+            }
+
+            tabMembers.textContent = "Участники · " + members.length;
+            tabRecruits.textContent = "Новобранцы · " + recruits.length;
+
+            tabMembers.classList.toggle("active", tab === "members");
+            tabRecruits.classList.toggle("active", tab === "recruits");
+
+            grid.textContent = "";
+
+            const list = tab === "members" ? members : recruits;
+
+            if (!list.length) {
+
+                grid.appendChild(gEl("div", "g-muted", "Никого нет."));
+
+                return;
+
+            }
+
+            list.forEach((member, index) => {
+
+                const tile = gEl("button", "g-member");
+
+                tile.style.setProperty("--i", Math.min(index, 12));
+
+                tile.appendChild(avatar(memberName(member), member.id, member.avatar, 40));
+
+                const text = gEl("div", "");
+
+                text.appendChild(gEl("div", "g-member-name", memberName(member)));
+
+                text.appendChild(
+                    gEl(
+                        "div",
+                        "g-member-role",
+                        member.staffRole || (tab === "members" ? "Участник" : "Новобранец")
+                    )
+                );
+
+                tile.appendChild(text);
+
+                tile.onclick = () => showMember(body, member);
+
+                grid.appendChild(tile);
+
+            });
+
+        }
+
+        tabMembers.onclick = () => { tab = "members"; fill(); };
+        tabRecruits.onclick = () => { tab = "recruits"; fill(); };
+
+        search.oninput = fill;
+
+        fill();
+
+    }
+
+    async function showMember(body, member) {
+
+        body.textContent = "";
+
+        body.appendChild(gButton("← Назад", () => renderMembers(body)));
+
+        const roles = member.roles || [];
+
+        body.appendChild(
+            heroBlock(
+                memberName(member),
+                member.id,
+                member.avatar,
+                member.staffRole || (roles.includes(MEMBER_ID) ? "Участник" : "Новобранец")
+            )
+        );
+
+        const box = gEl("div", "");
+
+        body.appendChild(box);
+
+        box.appendChild(gEl("div", "g-muted", "Загрузка..."));
+
+        const [history, warnings] = await Promise.allSettled([
+            ipcRenderer.invoke("member-history", member.id),
+            ipcRenderer.invoke("member-warnings", member.id)
+        ]);
+
+        if (!overlay) return;
+
+        box.textContent = "";
+
+        if (history.status === "fulfilled") {
+
+            box.appendChild(historySection(history.value.history || []));
+
+        }
+        else {
+
+            const failed = section("История наказаний");
+
+            errorBox(failed, history.reason);
+
+            box.appendChild(failed);
+
+        }
+
+        const warn = section("Предупреждения");
+
+        if (warnings.status !== "fulfilled") {
+
+            errorBox(warn, warnings.reason);
+
+        }
+        else if (!warnings.value.linked) {
+
+            warn.appendChild(
+                gEl(
+                    "div",
+                    "g-muted",
+                    "У этого человека не привязан Telegram к профилю, просмотреть предупреждения невозможно."
+                )
+            );
+
+        }
+        else {
+
+            const telegram = warnings.value.telegram || {};
+
+            warn.appendChild(
+                gEl(
+                    "div",
+                    "g-chip ok",
+                    "Telegram: " + (telegram.username ? "@" + telegram.username : (telegram.name || "привязан"))
+                )
+            );
+
+            const data = warnings.value.warnings;
+
+            if (!data) {
+
+                warn.appendChild(gEl("div", "g-muted", "Данные о предупреждениях пока не загружены."));
+
+            }
+            else if (!data.items || !data.items.length) {
+
+                warn.appendChild(gEl("div", "g-muted", "В списках предупреждений нет."));
+
+            }
+            else {
+
+                const bars = gEl("div", "g-bars");
+
+                warningBars(bars, data.items);
+
+                warn.appendChild(bars);
+
+            }
+
+        }
+
+        box.appendChild(warn);
+
+    }
+
+    async function openMembers() {
+
+        if (!canView()) return;
+
+        const body = openWindow("Участники", true);
+
+        body.appendChild(gEl("div", "g-muted", "Загрузка списка..."));
+
+        try {
+
+            cachedMembers = await ipcRenderer.invoke("members-list");
+
+            if (!overlay) return;
+
+            renderMembers(body);
+
+        }
+        catch (error) {
+
+            if (!overlay) return;
+
+            body.textContent = "";
+
+            errorBox(body, error);
+
+        }
+
+    }
+
+    // ---------------- модерация ----------------
+
+    function openModerationHub() {
+
+        if (!(discordSession && discordSession.status === "member" && hasStaffRole())) return;
+
+        const body = openWindow("Модерация");
+
+        body.appendChild(gEl("p", "g-muted", "Выберите действие."));
+
+        const grid = gEl("div", "g-tiles");
+
+        function tile(title, text, tone, action, wide) {
+
+            const node = gEl("button", "g-tile " + tone + (wide ? " wide" : ""));
+
+            node.appendChild(gEl("b", "", title));
+
+            node.appendChild(gEl("span", "", text));
+
+            node.onclick = () => {
+
+                closeNow();
+
+                action();
+
+            };
+
+            grid.appendChild(node);
+
+        }
+
+        tile("Мут", "Ограничить сообщения", "warn", () => openModerationModal("mute"));
+
+        tile("Размут", "Снять ограничение", "ok", () => openModerationModal("unmute"));
+
+        if (hasBanPermission()) {
+
+            tile("Бан", "Заблокировать участника", "danger", () => openModerationModal("ban"));
+
+            tile("Разбан", "Вернуть доступ", "ok", () => openModerationModal("unban"));
+
+        }
+
+        if (window.canEditWarnings && window.canEditWarnings()) {
+
+            tile(
+                "Предупреждения",
+                "Редактор списков в Telegram",
+                "violet",
+                () => openWarningsEditor(),
+                true
+            );
+
+        }
+
+        body.appendChild(grid);
+
+    }
+
+    // ---------------- Minecraft: результат кнопки «IP SkyNix Minecraft» ----------------
+
+    window.showMinecraftResult = function (result) {
+
+        const body = openWindow("Minecraft");
+
+        if (result.error) {
+
+            errorBox(body, result.error);
+
+            return;
+
+        }
+
+        const address = result.address || "";
+
+        body.appendChild(gEl("p", "g-text", "Адрес сервера SkyNix:"));
+
+        body.appendChild(gEl("div", "g-code small-code", address));
+
+        body.appendChild(
+            gEl("div", "g-chip ok", "Адрес скопирован в буфер обмена")
+        );
+
+        body.appendChild(
+            gEl(
+                "p",
+                "g-text",
+                "Откройте Minecraft → Сетевая игра → Прямое подключение и вставьте адрес (Ctrl+V)."
+            )
+        );
+
+        if (result.hostsUpdated) {
+
+            body.appendChild(
+                gEl("div", "g-chip ok", "Короткий адрес готов: play.skynix")
+            );
+
+            body.appendChild(
+                gEl(
+                    "p",
+                    "g-muted",
+                    result.local
+                        ? result.message
+                        : "Введите play.skynix в Minecraft. Приложение SkyNix должно оставаться запущенным (оно работает в трее)."
+                )
+            );
+
+        }
+        else if (result.message) {
+
+            body.appendChild(gEl("p", "g-muted", result.message));
+
+        }
+
+        body.appendChild(
+            gEl(
+                "p",
+                "g-muted small",
+                "Чтобы сервер пустил вас, в профиле должен быть сохранён ник Minecraft."
+            )
+        );
+
+        body.appendChild(
+            gButton(
+                "Открыть профиль",
+                () => {
+                    closeNow();
+                    openProfile();
+                },
+                "primary"
+            )
+        );
+
+    };
+
+    window.openProfile = openProfile;
+    window.openMembersProfiles = openMembers;
+    window.openModerationHub = openModerationHub;
+    window.canViewMembers = canView;
+
+})();
+
+
+// ======================================================
 // LOGOUT
 // ======================================================
 
@@ -3033,27 +3405,21 @@ async function minecraft() {
 
     try {
 
-        await ipcRenderer.invoke(
-            "minecraft-setup"
-        );
+        const result = await ipcRenderer.invoke("minecraft-setup");
 
-        window.alert(
-            "IP Minecraft успешно настроен."
-        );
+        window.showMinecraftResult(result || {});
 
     }
 
     catch (error) {
 
-        console.error(
-            "Minecraft:",
-            error
-        );
+        console.error("Minecraft:", error);
 
-        window.alert(
-            error.message ||
-            "Не удалось настроить IP Minecraft."
-        );
+        window.showMinecraftResult({
+            error: String((error && error.message) || error || "")
+                .replace(/^Error invoking remote method '[^']*':\s*(Error:\s*)?/, "") ||
+                "Не удалось настроить IP Minecraft."
+        });
 
     }
 
@@ -3061,94 +3427,617 @@ async function minecraft() {
 
 
 // ======================================================
-// RENDER INTERFACE
+// RENDER INTERFACE · дизайн 2.0 (Glass)
 // ======================================================
 
-function renderInterface() {
+let dashboardToken = 0;
 
-    const actions =
-        document.getElementById(
-            "actions"
-        );
+let lastRenderKey = "";
 
-    actions.innerHTML = "";
+const G_ICONS = {
+    home: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+    users: '<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7"/><path d="M18 14.5c2.5.6 4 2.2 4 5"/>',
+    shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+    alert: '<path d="M12 3l10 18H2z"/><path d="M12 10v5"/><path d="M12 18v.5"/>',
+    book: '<path d="M4 4h10a4 4 0 014 4v13H8a4 4 0 01-4-4z"/><path d="M4 17a4 4 0 014-4h10"/>',
+    login: '<path d="M10 4H5v16h5"/><path d="M14 8l4 4-4 4M18 12H9"/>'
+};
 
-    if (
-        !discordSession ||
-        discordSession.status ===
-            "not_member"
-    ) {
+function gIcon(name) {
 
-        renderBasicButtons();
+    return (
+        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" ' +
+        'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" ' +
+        'stroke-linejoin="round" aria-hidden="true">' +
+        (G_ICONS[name] || "") +
+        "</svg>"
+    );
 
-        return;
+}
+
+function gEl(tag, className, text) {
+
+    const node = document.createElement(tag);
+
+    if (className) node.className = className;
+
+    if (text !== undefined) node.textContent = text;
+
+    return node;
+
+}
+
+function gButton(text, onClick, className) {
+
+    const node = gEl("button", "g-btn " + (className || ""), text);
+
+    node.onclick = onClick;
+
+    return node;
+
+}
+
+function gCard(title, index, className) {
+
+    const node = gEl("section", "g-card " + (className || ""));
+
+    node.style.setProperty("--i", index);
+
+    if (title) node.appendChild(gEl("div", "g-card-title", title));
+
+    return node;
+
+}
+
+function gGreeting() {
+
+    const hour = new Date().getHours();
+
+    if (hour < 5) return "Доброй ночи";
+    if (hour < 12) return "Доброе утро";
+    if (hour < 18) return "Добрый день";
+
+    return "Добрый вечер";
+
+}
+
+function animateNumber(node, to, suffix) {
+
+    const start = performance.now();
+
+    function tick(now) {
+
+        const p = Math.min(1, (now - start) / 700);
+
+        node.textContent =
+            Math.round(to * (1 - Math.pow(1 - p, 3))) + suffix;
+
+        if (p < 1) requestAnimationFrame(tick);
 
     }
 
-    if (
-        discordSession.status ===
-        "recruit"
-    ) {
+    requestAnimationFrame(tick);
 
-        renderMemberButtons();
+}
 
-        return;
+function gDuration(raw) {
+
+    const match = String(raw || "").match(/^(\d+)(s|m|h|d)$/i);
+
+    if (!match) return "";
+
+    const n = Number(match[1]);
+
+    const forms = {
+        s: ["секунда", "секунды", "секунд"],
+        m: ["минута", "минуты", "минут"],
+        h: ["час", "часа", "часов"],
+        d: ["день", "дня", "дней"]
+    }[match[2].toLowerCase()];
+
+    const n10 = n % 10;
+    const n100 = n % 100;
+
+    const word =
+        n10 === 1 && n100 !== 11
+            ? forms[0]
+            : (n10 >= 2 && n10 <= 4 && (n100 < 12 || n100 > 14))
+                ? forms[1]
+                : forms[2];
+
+    return " на " + n + " " + word;
+
+}
+
+function gDate(timestamp) {
+
+    const d = new Date(Number(timestamp));
+
+    const two = v => String(v).padStart(2, "0");
+
+    return two(d.getDate()) + "." + two(d.getMonth() + 1) + " " + d.getHours() + ":" + two(d.getMinutes());
+
+}
+
+function ensureShell() {
+
+    if (document.getElementById("sidebar")) return;
+
+    const orbs = gEl("div", "g-orbs");
+
+    orbs.innerHTML = "<i></i><i></i><i></i>";
+
+    document.body.insertBefore(orbs, document.body.firstChild);
+
+    const aside = gEl("aside");
+
+    aside.id = "sidebar";
+
+    aside.appendChild(gEl("div", "g-brand", "SkyNix"));
+
+    const nav = gEl("nav");
+
+    nav.id = "nav";
+
+    nav.style.display = "contents";
+
+    aside.appendChild(nav);
+
+    document.body.insertBefore(aside, orbs.nextSibling);
+
+    // Окна, созданные скриптами (профиль, предупреждения и т.д.), получают стекло и анимацию
+    new MutationObserver(list => {
+
+        for (const record of list) {
+
+            for (const node of record.addedNodes) {
+
+                if (
+                    node.nodeType === 1 &&
+                    node.style &&
+                    node.style.position === "fixed" &&
+                    node.style.pointerEvents !== "none" &&
+                    parseInt(node.style.zIndex, 10) >= 2147483640 &&
+                    !node.classList.contains("g-overlay")
+                ) {
+
+                    node.classList.add("g-overlay");
+
+                    if (node.firstElementChild) {
+                        node.firstElementChild.classList.add("g-modal");
+                    }
+
+                }
+
+            }
+
+        }
+
+    }).observe(document.body, { childList: true });
+
+}
+
+function buildNav(items) {
+
+    const nav = document.getElementById("nav");
+
+    nav.textContent = "";
+
+    for (const item of items) {
+
+        const button = gEl("button", "g-nav" + (item.active ? " active" : ""));
+
+        button.innerHTML = gIcon(item.icon);
+
+        button.appendChild(gEl("span", "", item.label));
+
+        button.onclick = item.action;
+
+        nav.appendChild(button);
 
     }
 
-    renderMemberButtons();
+}
 
-    if (hasStaffRole()) {
+function scrollToTop() {
 
-        const canWarn =
-            window.canEditWarnings &&
-            window.canEditWarnings();
+    const container = document.querySelector(".container");
 
-        if (canWarn) {
+    if (container) container.scrollTo({ top: 0, behavior: "smooth" });
 
-            addButton(
-                "⚠️ Предупреждения",
-                () =>
-                    openWarningsEditor(),
-                "moderation-start"
+}
+
+async function loadWarningsCard(card, token) {
+
+    const body = gEl("div", "");
+
+    card.appendChild(body);
+
+    body.appendChild(gEl("div", "g-muted", "Загрузка..."));
+
+    try {
+
+        const data = await ipcRenderer.invoke("profile-telegram-status");
+
+        if (token !== dashboardToken) return;
+
+        body.textContent = "";
+
+        if (!data.linked) {
+
+            body.appendChild(
+                gEl(
+                    "p",
+                    "g-text",
+                    "Привяжите Telegram в профиле, чтобы видеть свои предупреждения здесь."
+                )
+            );
+
+            body.appendChild(gButton("Привязать Telegram", () => openProfile(), "primary"));
+
+            return;
+
+        }
+
+        const warnings = data.warnings;
+
+        if (!warnings) {
+
+            body.appendChild(gEl("div", "g-muted", "Данные о предупреждениях пока не загружены."));
+
+            return;
+
+        }
+
+        if (!warnings.items || !warnings.items.length) {
+
+            body.appendChild(gEl("div", "g-muted", "Вас нет в списках предупреждений."));
+
+            return;
+
+        }
+
+        for (const item of warnings.items) {
+
+            const row = gEl("div", "g-row");
+
+            row.appendChild(gEl("span", "", item.title));
+
+            const value = gEl("b", "", "0 из " + item.max);
+
+            row.appendChild(value);
+
+            animateNumber(value, item.count, " из " + item.max);
+
+            const percent = item.max > 0
+                ? Math.min(100, Math.round(item.count / item.max * 100))
+                : 0;
+
+            const bar = gEl("div", "g-bar");
+
+            const fill = document.createElement("i");
+
+            fill.style.setProperty("--w", Math.max(percent, 4) + "%");
+
+            if (percent >= 100) fill.className = "danger";
+            else if (percent >= 60) fill.className = "warn";
+
+            bar.appendChild(fill);
+
+            body.appendChild(row);
+            body.appendChild(bar);
+
+        }
+
+    }
+
+    catch (error) {
+
+        if (token !== dashboardToken) return;
+
+        body.textContent = "";
+
+        body.appendChild(gEl("div", "g-muted", "Не удалось загрузить предупреждения."));
+
+    }
+
+}
+
+const G_ACTIONS = { mute: "Мут", unmute: "Размут", ban: "Бан", unban: "Разбан" };
+
+async function loadHistoryCard(card, token) {
+
+    const body = gEl("div", "");
+
+    card.appendChild(body);
+
+    body.appendChild(gEl("div", "g-muted", "Загрузка..."));
+
+    try {
+
+        const profile = await ipcRenderer.invoke("profile-get");
+
+        if (token !== dashboardToken) return;
+
+        body.textContent = "";
+
+        const history = (profile.history || []).slice(0, 4);
+
+        if (!history.length) {
+
+            body.appendChild(gEl("div", "g-muted", "Наказаний нет — так держать!"));
+
+            return;
+
+        }
+
+        for (const item of history) {
+
+            const line = gEl("div", "g-event");
+
+            const text = gEl(
+                "span",
+                "",
+                (G_ACTIONS[item.action] || item.action) +
+                (item.action === "mute" ? gDuration(item.duration) : "") +
+                " · " + (item.moderator || "Модератор") +
+                (item.reason ? " · " + item.reason : "")
+            );
+
+            line.appendChild(text);
+
+            line.appendChild(gEl("small", "", gDate(item.createdAt)));
+
+            body.appendChild(line);
+
+        }
+
+    }
+
+    catch (error) {
+
+        if (token !== dashboardToken) return;
+
+        body.textContent = "";
+
+        body.appendChild(gEl("div", "g-muted", "Не удалось загрузить историю."));
+
+    }
+
+}
+
+function linkCard(title, text, label, index, action, primary) {
+
+    const card = gCard(title, index);
+
+    card.appendChild(gEl("p", "g-text", text));
+
+    card.appendChild(gButton(label, action, primary ? "primary" : ""));
+
+    return card;
+
+}
+
+function renderInterface(force) {
+
+    ensureShell();
+
+    // Перерисовываем только при смене аккаунта или роли —
+    // иначе значки и карточки «моргали» при каждом обновлении
+    const stateKey = JSON.stringify(
+        discordSession
+            ? [
+                discordSession.userId,
+                discordSession.status,
+                discordSession.role,
+                discordSession.globalName,
+                discordSession.username
+            ]
+            : null
+    );
+
+    const navNode = document.getElementById("nav");
+
+    if (
+        !force &&
+        stateKey === lastRenderKey &&
+        navNode &&
+        navNode.children.length
+    ) {
+        return;
+    }
+
+    lastRenderKey = stateKey;
+
+    const token = ++dashboardToken;
+
+    const root = document.getElementById("actions");
+
+    root.textContent = "";
+
+    const status = discordSession ? discordSession.status : null;
+
+    const team = status === "member" || status === "recruit";
+
+    const staff = status === "member" && hasStaffRole();
+
+    const ban = staff && hasBanPermission();
+
+    const canWarn = staff && Boolean(window.canEditWarnings && window.canEditWarnings());
+
+    const canMembers = staff && Boolean(window.canViewMembers && window.canViewMembers());
+
+    const name =
+        discordSession
+            ? (discordSession.globalName || discordSession.username || "")
+            : "";
+
+    // ---- меню слева ----
+    const nav = [
+        { label: "Главная", icon: "home", active: true, action: scrollToTop }
+    ];
+
+    if (discordSession) {
+        nav.push({ label: "Профиль", icon: "user", action: () => openProfile() });
+    }
+
+    if (canMembers) {
+        nav.push({ label: "Участники", icon: "users", action: () => openMembersProfiles() });
+    }
+
+    if (staff) {
+        nav.push({ label: "Модерация", icon: "shield", action: () => openModerationHub() });
+    }
+
+    nav.push({ label: "Wiki", icon: "book", action: () => openWiki() });
+
+    if (!discordSession) {
+        nav.push({ label: "Войти", icon: "login", action: () => loginDiscord() });
+    }
+
+    buildNav(nav);
+
+    // ---- заголовок ----
+    const hero = gEl("div", "g-hero");
+
+    hero.appendChild(
+        gEl(
+            "h1",
+            "",
+            discordSession
+                ? gGreeting() + (name ? ", " + name : "")
+                : "Добро пожаловать в SkyNix"
+        )
+    );
+
+    hero.appendChild(
+        gEl(
+            "p",
+            "",
+            team
+                ? "Всё самое важное — на одном экране."
+                : "Войдите через Discord, чтобы открыть все возможности приложения."
+        )
+    );
+
+    root.appendChild(hero);
+
+    let index = 0;
+
+    if (team) {
+
+        const warningsCard = gCard("Мои предупреждения", index++);
+
+        root.appendChild(warningsCard);
+
+        loadWarningsCard(warningsCard, token);
+
+        const historyCard = gCard("Последние события", index++);
+
+        root.appendChild(historyCard);
+
+        loadHistoryCard(historyCard, token);
+
+        if (!window.SKYNIX_MOBILE) {
+
+            root.appendChild(
+                linkCard(
+                    "Minecraft",
+                    "Укажите ник в профиле, затем настройте IP в один клик и заходите играть.",
+                    "IP SkyNix Minecraft",
+                    index++,
+                    () => minecraft(),
+                    true
+                )
             );
 
         }
 
-        addButton(
-            "🔇 Мут участника",
-            () =>
-                openModerationModal("mute"),
-            canWarn
-                ? ""
-                : "moderation-start"
+        root.appendChild(
+            linkCard("Wiki SkyNix", "Правила, история создания SkyNix и участники SkyNix.", "Открыть Wiki", index++, () => openWiki())
         );
 
-        addButton(
-            "🔊 Размут участника",
-            () =>
-                openModerationModal("unmute")
+        root.appendChild(
+            linkCard("YouTube", "Канал Senya Melnik.", "Открыть YouTube", index++, () => openExternal(YOUTUBE_URL))
+        );
+
+        return;
+
+    }
+
+    // ---- гость или не в команде ----
+    if (!discordSession) {
+
+        root.appendChild(
+            linkCard(
+                "Вход",
+                "Привяжите аккаунт Discord: приложение покажет вашу роль и доступные функции.",
+                "Войти через Discord",
+                index++,
+                () => loginDiscord(),
+                true
+            )
         );
 
     }
 
-    if (hasBanPermission()) {
+    root.appendChild(
+        linkCard("Wiki SkyNix", "Правила, история создания SkyNix и участники SkyNix.", "Открыть Wiki", index++, () => openWiki())
+    );
 
-        addButton(
-            "🔨 Бан участника",
-            () =>
-                openModerationModal("ban")
-        );
+    root.appendChild(
+        linkCard(
+            "Вступить в команду",
+            "Подайте заявку и дождитесь решения модерации.",
+            "Подать заявку в команду",
+            index++,
+            () => openApplication(),
+            true
+        )
+    );
 
-        addButton(
-            "🔓 Разбан участника",
-            () =>
-                openModerationModal("unban")
-        );
+    root.appendChild(
+        linkCard(
+            "Проверка заявки",
+            "Бот проверит вашу заявку и напишет результат.",
+            "Бот для проверки заявки",
+            index++,
+            () => openExternal(APPLICATION_BOT_URL)
+        )
+    );
+
+    root.appendChild(
+        linkCard("YouTube", "Канал Senya Melnik.", "Открыть YouTube", index++, () => openExternal(YOUTUBE_URL))
+    );
+
+}
+
+
+// Форма заявки открывается в отдельном окне приложения
+async function openApplication() {
+
+    try {
+
+        await ipcRenderer.invoke("open-application", APPLICATION_URL);
+
+    }
+
+    catch (error) {
+
+        console.error("Форма заявки:", error);
+
+        openExternal(APPLICATION_URL);
 
     }
 
 }
+
+window.refreshDashboard = function () {
+
+    renderInterface(true);
+
+};
 
 
 // ======================================================
@@ -3734,7 +4623,7 @@ async function loadTelegramUsers() {
 
         const members =
             await ipcRenderer.invoke(
-                "telegram-get-members"
+                (moderationAction === "unban" ? "telegram-get-banned" : "telegram-get-members")
             );
 
         console.log(
@@ -3828,7 +4717,12 @@ async function loadTelegramUsers() {
             }
 
             option.textContent =
-                displayName;
+                displayName +
+                (
+                    window.telegramGroupSuffix
+                        ? window.telegramGroupSuffix(user, moderationAction === "unban")
+                        : ""
+                );
 
             select.appendChild(
                 option
@@ -3840,6 +4734,24 @@ async function loadTelegramUsers() {
          * Даже если список пустой,
          * это не ошибка.
          */
+
+        // Ручной ввод для разбана: @username или числовой ID
+        const oldManual = document.getElementById("telegramManual");
+
+        if (oldManual) oldManual.remove();
+
+        if (moderationAction === "unban") {
+
+            const manual = document.createElement("input");
+
+            manual.id = "telegramManual";
+            manual.type = "text";
+            manual.placeholder = "Нет в списке? Введите @username или ID";
+            manual.style.marginTop = "8px";
+
+            select.parentNode.insertBefore(manual, select.nextSibling);
+
+        }
 
         console.log(
             "Telegram пользователи загружены:",
@@ -4095,14 +5007,46 @@ async function confirmModeration() {
                   ).trim()
                 : "";
 
-        const telegramId =
+        let telegramId =
             telegramSelect &&
             telegramSelect.value &&
             telegramSelect.value !== "Нет"
-                ? String(
-                    telegramSelect.value
-                  ).trim()
+                ? String(telegramSelect.value).trim()
                 : "";
+
+        const manualInput = document.getElementById("telegramManual");
+
+        if (!telegramId && manualInput && manualInput.value.trim()) {
+
+            const typed = manualInput.value.trim();
+
+            if (/^\d+$/.test(typed)) {
+
+                telegramId = typed;
+
+            }
+            else {
+
+                try {
+
+                    telegramId = String(
+                        await ipcRenderer.invoke("telegram-resolve", typed)
+                    );
+
+                }
+                catch (error) {
+
+                    throw new Error(
+                        "Telegram: " +
+                        String((error && error.message) || error)
+                            .replace(/^Error invoking remote method '[^']*':\s*(Error:\s*)?/, "")
+                    );
+
+                }
+
+            }
+
+        }
 
         if (
             !discordId &&
