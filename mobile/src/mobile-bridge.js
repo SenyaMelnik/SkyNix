@@ -503,9 +503,11 @@
                     {
                         id: Math.floor(Math.random() * 2147483000),
                         title: "SkyNix — " + view.title,
-                        body: view.rows
-                            .map(row => row[0] + ": " + row[1])
-                            .join("\n")
+                        body: view.body !== undefined
+                            ? view.body
+                            : view.rows
+                                .map(row => row[0] + ": " + row[1])
+                                .join("\n")
                     }
                 ]
             });
@@ -514,6 +516,75 @@
         catch (error) {
 
             console.error("LocalNotifications:", error);
+
+        }
+
+    }
+
+    // ---------------- новости (уведомления и обновление окна) ----------------
+
+    const NEWS_POLL_MS = 2 * 60 * 1000;
+    const NEWS_SEEN_KEY = "skynix_news_seen";
+    let lastNewsSig = null;
+
+    async function pollNews() {
+
+        if (!getSession() || logoutRequested) return;
+
+        try {
+
+            const data = await commands["news-get"]();
+
+            const items = data.items || [];
+
+            let seen = null;
+
+            try {
+                seen = JSON.parse(localStorage.getItem(NEWS_SEEN_KEY) || "null");
+            } catch {
+                seen = null;
+            }
+
+            const seenIds = new Set(seen && Array.isArray(seen.ids) ? seen.ids : []);
+
+            // Первый запуск: старые (старше 10 минут) только запоминаем
+            {
+
+                const freshAfter = Date.now() - (seen ? 24 * 3600 * 1000 : 10 * 60 * 1000);
+
+                for (const item of items.slice().reverse()) {
+
+                    if (seenIds.has(item.id) || (item.at || 0) <= freshAfter) continue;
+
+                    showLocalNotification({
+                        title: item.platform === "telegram"
+                            ? "Новости · группа Telegram" + (item.group ? " (" + item.group + ")" : "")
+                            : "Новости · группа Discord",
+                        body: String(item.text || "").slice(0, 220)
+                    });
+
+                }
+
+            }
+
+            try {
+                localStorage.setItem(
+                    NEWS_SEEN_KEY,
+                    JSON.stringify({ ids: [...new Set([...items.map(i => i.id), ...seenIds])].slice(0, 200) })
+                );
+            } catch {}
+
+            const sig = JSON.stringify(items.map(i => [i.id, i.text]));
+
+            if (sig !== lastNewsSig) {
+                lastNewsSig = sig;
+                emit("news-changed", items);
+            }
+
+        }
+        catch (error) {
+
+            // нет сети — попробуем позже
 
         }
 
@@ -800,6 +871,60 @@
 
         },
 
+        "modlog-get": async () => {
+
+            const [discord, telegram] = await Promise.allSettled([
+                discordRequest("/api/discord/modlog", { method: "GET" }),
+                telegramRequest("/api/profile/modlog", { method: "GET" })
+            ]);
+
+            const items = [];
+            const errors = [];
+
+            if (discord.status === "fulfilled") items.push(...(discord.value.items || []));
+            else errors.push("Discord: " + (discord.reason && discord.reason.message || "ошибка"));
+
+            if (telegram.status === "fulfilled") items.push(...(telegram.value.items || []));
+            else errors.push("Telegram: " + (telegram.reason && telegram.reason.message || "ошибка"));
+
+            items.sort((x, y) => (y.at || 0) - (x.at || 0));
+
+            return { items, errors };
+
+        },
+
+        "application-replies-get": async () => {
+
+            try {
+                const data = await telegramRequest("/api/profile/application-replies", { method: "GET" });
+                return { items: data.items || [] };
+            }
+            catch (error) {
+                return { items: [], error: String(error && error.message || error) };
+            }
+
+        },
+
+        "news-get": async () => {
+
+            const [discord, telegram] = await Promise.allSettled([
+                discordRequest("/api/discord/news", { method: "GET" }),
+                telegramRequest("/api/profile/news", { method: "GET" })
+            ]);
+
+            const items = [];
+
+            if (discord.status === "fulfilled") items.push(...(discord.value.items || []));
+            if (telegram.status === "fulfilled") items.push(...(telegram.value.items || []));
+
+            items.sort((x, y) => (y.at || 0) - (x.at || 0));
+
+            return { items: items.slice(0, 40) };
+
+        },
+
+        "settings-set": async () => ({}),
+
         "profile-telegram-status": () =>
             telegramRequest("/api/profile/telegram", { method: "GET" }),
 
@@ -1016,6 +1141,8 @@
 
         setTimeout(pollNotices, 8000);
         setInterval(pollNotices, NOTICE_POLL_MS);
+        setTimeout(pollNews, 15000);
+        setInterval(pollNews, NEWS_POLL_MS);
 
         setTimeout(checkForUpdate, 6000);
         setInterval(checkForUpdate, UPDATE_CHECK_MS);

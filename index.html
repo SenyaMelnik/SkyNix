@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://cdn.discordapp.com https://*.workers.dev; connect-src https://discord.skynix.workers.dev https://skynix-moderation.skynix.workers.dev https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
 
 <title>SkyNix</title>
 
@@ -550,14 +551,14 @@ button:disabled {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap">
 <style id="skynix-theme">
 /* ====== SkyNix 2.0 · Glass ====== */
-:root{--violet:#6d4aff;--blue:#3b82f6;--glass:rgba(255,255,255,.06);--line:rgba(255,255,255,.12);--muted:#a9aee0;--text:#eef0ff}
+:root{--violet:#6d4aff;--blue:#3b82f6;--glass:rgba(var(--ov),.06);--line:rgba(var(--ov),.12);--muted:#a9aee0;--text:#eef0ff}
 html,body{height:100%}
-body{background:#090a19;color:var(--text);font-family:Manrope,"Segoe UI",Arial,sans-serif;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:Manrope,"Segoe UI",Arial,sans-serif;overflow:hidden}
 .g-orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .g-orbs i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:orbFloat 18s ease-in-out infinite alternate}
-.g-orbs i:nth-child(1){width:520px;height:520px;right:-120px;top:-160px;background:#41279c}
-.g-orbs i:nth-child(2){width:480px;height:480px;left:-140px;bottom:-180px;background:#0a5d7a;animation-duration:23s}
-.g-orbs i:nth-child(3){width:320px;height:320px;left:46%;top:38%;background:#5b2bb0;opacity:.28;animation-duration:29s}
+.g-orbs i:nth-child(1){width:520px;height:520px;right:-120px;top:-160px;background:var(--orb1)}
+.g-orbs i:nth-child(2){width:480px;height:480px;left:-140px;bottom:-180px;background:var(--orb2);animation-duration:23s}
+.g-orbs i:nth-child(3){width:320px;height:320px;left:46%;top:38%;background:var(--orb3);opacity:.28;animation-duration:29s}
 @keyframes orbFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(60px,-40px) scale(1.15)}}
 @keyframes cardIn{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
 @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:none}}
@@ -565,14 +566,14 @@ body{background:#090a19;color:var(--text);font-family:Manrope,"Segoe UI",Arial,s
 @keyframes shimmer{to{background-position:200% center}}
 @keyframes barGrow{from{width:0}}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(114,223,145,.55)}70%{box-shadow:0 0 0 9px rgba(114,223,145,0)}100%{box-shadow:0 0 0 0 rgba(114,223,145,0)}}
-#sidebar{position:fixed;inset:0 auto 0 0;width:250px;padding:26px 16px;display:flex;flex-direction:column;gap:2px;z-index:20;border-right:1px solid rgba(255,255,255,.08);background:rgba(10,11,28,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);animation:fadeIn .6s both}
-.g-brand{font-weight:800;font-size:26px;margin:0 10px 24px;background:linear-gradient(90deg,#fff,#9a8cff,#5fb4ff,#fff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 6s linear infinite}
-.g-nav{display:flex;align-items:center;gap:12px;width:100%;height:auto;margin:2px 0;padding:11px 14px;border:none;border-radius:12px;background:transparent;color:#b4b9e6;font:700 14px Manrope,"Segoe UI",Arial,sans-serif;text-align:left;cursor:pointer;transition:background .2s,transform .2s,color .2s,box-shadow .2s}
+#sidebar{position:fixed;inset:0 auto 0 0;width:250px;padding:26px 16px;display:flex;flex-direction:column;gap:2px;z-index:20;border-right:1px solid rgba(var(--ov),.08);background:var(--side-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);animation:fadeIn .6s both}
+.g-brand{font-weight:800;font-size:26px;margin:0 10px 24px;background:var(--brand-grad);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 6s linear infinite}
+.g-nav{display:flex;align-items:center;gap:12px;width:100%;height:auto;margin:2px 0;padding:11px 14px;border:none;border-radius:12px;background:transparent;color:var(--nav-text);font:700 14px Manrope,"Segoe UI",Arial,sans-serif;text-align:left;cursor:pointer;transition:background .2s,transform .2s,color .2s,box-shadow .2s}
 .g-nav svg{flex:none;transition:transform .25s}
-.g-nav:hover{background:rgba(255,255,255,.08);color:#fff;transform:translateX(4px)}
+.g-nav:hover{background:rgba(var(--ov),.08);color:var(--text-strong);transform:translateX(4px)}
 .g-nav:hover svg{transform:scale(1.15) rotate(-6deg)}
-.g-nav.active{background:linear-gradient(90deg,var(--violet),var(--blue));color:#fff;box-shadow:0 8px 24px rgba(91,76,255,.38)}
-.version{position:fixed;left:26px;right:auto;bottom:18px;color:#8e93c9;z-index:21}
+.g-nav.active{background:linear-gradient(90deg,var(--violet),var(--blue));color:var(--on-accent);box-shadow:0 8px 24px rgba(var(--acc-rgb),.38)}
+.version{position:fixed;left:26px;right:auto;bottom:18px;color:var(--dim);z-index:21}
 .container{position:relative;z-index:1;height:100vh;overflow-y:auto;margin-left:250px;width:calc(100% - 250px);overflow-x:hidden;padding:96px 36px 40px;text-align:left;scroll-behavior:smooth}
 .logo,.subtitle{display:none}
 .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
@@ -580,45 +581,45 @@ body{background:#090a19;color:var(--text);font-family:Manrope,"Segoe UI",Arial,s
 .g-hero h1{margin:0;font-size:32px;font-weight:800;letter-spacing:-.3px}
 .g-hero p{margin:6px 0 0;color:var(--muted);font-size:15px}
 .g-card{position:relative;padding:22px;border-radius:20px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 30px rgba(0,0,0,.25);animation:cardIn .65s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*70ms + 120ms);transition:transform .25s,border-color .25s,box-shadow .25s}
-.g-card:hover{transform:translateY(-4px);border-color:rgba(154,140,255,.55);box-shadow:0 18px 44px rgba(60,40,160,.38)}
+.g-card:hover{transform:translateY(-4px);border-color:rgba(var(--acc2-rgb),.55);box-shadow:0 18px 44px rgba(var(--acc-rgb),.38)}
 .g-full{grid-column:1/-1}
 .g-card-title{font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
-.g-text{color:#c4c8f0;font-size:14px;line-height:1.5;margin:0 0 16px}
+.g-text{color:var(--text-soft);font-size:14px;line-height:1.5;margin:0 0 16px}
 .g-muted{color:var(--muted);font-size:14px;line-height:1.45}
 .g-row{display:flex;justify-content:space-between;gap:12px;font-size:14px;margin:0 0 7px}
 .g-row b{font-weight:800}
-.g-bar{height:8px;border-radius:8px;background:rgba(255,255,255,.1);overflow:hidden;margin-bottom:16px}
+.g-bar{height:8px;border-radius:8px;background:rgba(var(--ov),.1);overflow:hidden;margin-bottom:16px}
 .g-bar i{display:block;height:100%;width:var(--w);border-radius:8px;background:#43e0a4;animation:barGrow 1.1s cubic-bezier(.2,.8,.2,1) backwards .35s}
 .g-bar i.warn{background:#ffc46b}.g-bar i.danger{background:linear-gradient(90deg,#ff7a7a,#ff4d6d)}
-.g-btn{position:relative;overflow:hidden;width:auto;height:auto;margin:0;padding:12px 18px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--text);font:800 14px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer;transition:transform .18s,box-shadow .18s,background .18s}
-.g-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.3) 50%,transparent 70%);transform:translateX(-130%);transition:transform .65s}
-.g-btn:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+.g-btn{position:relative;overflow:hidden;width:auto;height:auto;margin:0;padding:12px 18px;border-radius:12px;border:1px solid var(--line);background:rgba(var(--ov),.08);color:var(--text);font:800 14px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer;transition:transform .18s,box-shadow .18s,background .18s}
+.g-btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(var(--ov),.3) 50%,transparent 70%);transform:translateX(-130%);transition:transform .65s}
+.g-btn:hover{background:rgba(var(--ov),.14);transform:translateY(-2px)}
 .g-btn:hover::after{transform:translateX(130%)}
 .g-btn:active{transform:translateY(0) scale(.97)}
-.g-btn.primary{background:linear-gradient(90deg,var(--violet),var(--blue));border-color:transparent;box-shadow:0 8px 22px rgba(91,76,255,.35)}
+.g-btn.primary{background:linear-gradient(90deg,var(--violet),var(--blue));border-color:transparent;box-shadow:0 8px 22px rgba(var(--acc-rgb),.35)}
 .g-btn.danger{background:rgba(255,77,109,.16);border-color:rgba(255,77,109,.5)}
 .g-btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-.g-event{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:14px}
-.g-event:last-child{border-bottom:none}.g-event small{color:#8e93c9;white-space:nowrap}
+.g-event{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(var(--ov),.07);font-size:14px}
+.g-event:last-child{border-bottom:none}.g-event small{color:var(--dim);white-space:nowrap}
 .discord-area{position:fixed;left:auto;bottom:auto;top:22px;right:28px;z-index:30;animation:fadeIn .6s .2s both}
-.discord-status{padding:9px 16px;border-radius:40px;background:rgba(255,255,255,.07);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-weight:700;transition:background .2s,transform .2s}
-.discord-status:hover{background:rgba(255,255,255,.13);transform:translateY(-1px)}
+.discord-status{padding:9px 16px;border-radius:40px;background:rgba(var(--ov),.07);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-weight:700;transition:background .2s,transform .2s}
+.discord-status:hover{background:rgba(var(--ov),.13);transform:translateY(-1px)}
 .discord-green .status-dot{animation:pulse 2s infinite}
 .discord-login{display:inline-block;margin-top:0;padding:9px 16px;border-radius:40px;border:none;background:linear-gradient(90deg,var(--violet),var(--blue));font-size:13px;font-weight:800}
-.discord-menu{bottom:auto;left:auto;right:0;top:50px;width:250px;border-radius:16px;background:rgba(20,18,52,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);animation:pop .22s both}
+.discord-menu{bottom:auto;left:auto;right:0;top:50px;width:250px;border-radius:16px;background:var(--modal-bg);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);animation:pop .22s both}
 .discord-logout{height:38px;border-radius:10px}
-.modal-overlay{background:rgba(5,5,20,.62);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.modal-overlay{background:var(--scrim);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
 .modal-overlay.visible{animation:fadeIn .2s both}
-.modal,.g-modal{border-radius:22px;border:1px solid rgba(255,255,255,.14);background:rgba(22,20,58,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 24px 70px rgba(0,0,0,.6)}
+.modal,.g-modal{border-radius:22px;border:1px solid rgba(var(--ov),.14);background:var(--modal-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 24px 70px rgba(0,0,0,.6)}
 .modal-overlay.visible .modal,.g-modal{animation:pop .32s cubic-bezier(.2,.9,.3,1.15) both}
 .g-overlay{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);animation:fadeIn .2s both}
-.modal input,.modal select{border-radius:12px;background:rgba(10,10,30,.7);border-color:rgba(255,255,255,.14);transition:border-color .2s,box-shadow .2s}
-.modal input:focus,.modal select:focus{border-color:#8b7bff;box-shadow:0 0 0 3px rgba(139,123,255,.25)}
+.modal input,.modal select{border-radius:12px;background:var(--field-bg);border-color:rgba(var(--ov),.14);transition:border-color .2s,box-shadow .2s}
+.modal input:focus,.modal select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(var(--acc2-rgb),.25)}
 .modal-actions button:last-child{background:linear-gradient(90deg,var(--violet),var(--blue));border-color:transparent}
-::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:10px;border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:rgba(var(--ov),.14);border-radius:10px;border:2px solid transparent;background-clip:content-box}
 @media (max-width:820px){
 body{overflow:hidden}
-#sidebar{inset:auto 0 0 0;width:100%;height:auto;flex-direction:row;gap:2px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));border-right:none;border-top:1px solid rgba(255,255,255,.1);overflow-x:auto;background:rgba(10,11,28,.82)}
+#sidebar{inset:auto 0 0 0;width:100%;height:auto;flex-direction:row;gap:2px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));border-right:none;border-top:1px solid rgba(var(--ov),.1);overflow-x:auto;background:var(--side-bg-m)}
 .g-brand,.version{display:none}
 .g-nav{flex-direction:column;gap:4px;min-width:72px;width:auto;padding:8px 10px;font-size:11px;text-align:center;margin:0}
 .g-nav:hover{transform:none}
@@ -629,69 +630,375 @@ body{overflow:hidden}
 .modal{width:100%}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
-.g-overlay>.g-modal{background:rgba(22,20,58,.84)!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:22px!important;box-shadow:0 24px 70px rgba(0,0,0,.6)!important}
-.g-wo{position:fixed;inset:0;z-index:2147483645;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(5,5,20,.62);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);animation:fadeIn .2s both}
+.g-overlay>.g-modal{background:var(--modal-bg)!important;border:1px solid rgba(var(--ov),.14)!important;border-radius:22px!important;box-shadow:0 24px 70px rgba(0,0,0,.6)!important}
+.g-wo{position:fixed;inset:0;z-index:2147483645;display:flex;align-items:center;justify-content:center;padding:16px;background:var(--scrim);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);animation:fadeIn .2s both}
 .g-wo.closing{animation:fadeOut .18s both}
 @keyframes fadeOut{to{opacity:0}}
-.g-win{width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;border-radius:24px;background:rgba(22,20,58,.88);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 28px 80px rgba(0,0,0,.6);animation:pop .34s cubic-bezier(.2,.9,.3,1.12) both;overflow:hidden}
+.g-win{width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;border-radius:24px;background:var(--modal-bg);border:1px solid rgba(var(--ov),.14);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 28px 80px rgba(0,0,0,.6);animation:pop .34s cubic-bezier(.2,.9,.3,1.12) both;overflow:hidden}
 .g-win.wide{max-width:680px}
 .g-wo.closing .g-win{opacity:0;transform:scale(.96);transition:all .18s}
 .g-win-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 14px}
 .g-win-head h2{margin:0;font-size:22px;font-weight:800}
-.g-x{width:36px;height:36px;margin:0;padding:0;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.07);color:#fff;font-size:22px;line-height:1;cursor:pointer;transition:transform .2s,background .2s}
+.g-x{width:36px;height:36px;margin:0;padding:0;border-radius:50%;border:1px solid var(--line);background:rgba(var(--ov),.07);color:var(--text-strong);font-size:22px;line-height:1;cursor:pointer;transition:transform .2s,background .2s}
 .g-x:hover{background:rgba(255,77,109,.3);transform:rotate(90deg)}
 .g-win-body{padding:4px 24px 24px;overflow-y:auto}
-.g-hero-w{display:flex;align-items:center;gap:18px;padding:18px;margin:6px 0 4px;border-radius:20px;background:linear-gradient(135deg,rgba(109,74,255,.28),rgba(59,130,246,.14));border:1px solid rgba(255,255,255,.12);animation:cardIn .5s backwards}
+.g-hero-w{display:flex;align-items:center;gap:18px;padding:18px;margin:6px 0 4px;border-radius:20px;background:linear-gradient(135deg,rgba(var(--acc-rgb),.28),rgba(59,130,246,.14));border:1px solid rgba(var(--ov),.12);animation:cardIn .5s backwards}
 .g-hero-name{font-size:24px;font-weight:800;word-break:break-word;margin-bottom:8px}
-.g-av{position:relative;flex:none;width:var(--s);height:var(--s);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:calc(var(--s)*.4);background:linear-gradient(135deg,#9a8cff,#3b82f6);box-shadow:0 0 0 3px rgba(255,255,255,.14),0 8px 26px rgba(91,76,255,.45);overflow:hidden}
+.g-av{position:relative;flex:none;width:var(--s);height:var(--s);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:calc(var(--s)*.4);background:linear-gradient(135deg,var(--accent2),var(--blue));box-shadow:0 0 0 3px rgba(var(--ov),.14),0 8px 26px rgba(var(--acc-rgb),.45);overflow:hidden}
 .g-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.g-pill{display:inline-block;padding:5px 13px;border-radius:30px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);font-size:13px;font-weight:700;color:#e3deff}
+.g-pill{display:inline-block;padding:5px 13px;border-radius:30px;background:rgba(var(--ov),.12);border:1px solid rgba(var(--ov),.18);font-size:13px;font-weight:700;color:var(--pill-text)}
 .g-sec{margin-top:22px}
 .g-sec h3{margin:0 0 12px;font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
 .g-tl{position:relative;display:flex;flex-direction:column;gap:14px;padding-left:22px}
-.g-tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:linear-gradient(#6d4aff,rgba(255,255,255,.05))}
+.g-tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--violet),rgba(var(--ov),.05))}
 .g-tl-item{position:relative;animation:cardIn .45s backwards}
 .g-tl-item i{position:absolute;left:-22px;top:5px;width:12px;height:12px;border-radius:50%;background:#43e0a4;box-shadow:0 0 0 4px rgba(67,224,164,.18)}
 .g-tl-item.warn i{background:#ffc46b;box-shadow:0 0 0 4px rgba(255,196,107,.18)}
 .g-tl-item.danger i{background:#ff5d7a;box-shadow:0 0 0 4px rgba(255,93,122,.2)}
 .g-tl-title{font-weight:800;font-size:15px}
-.g-tl-meta{color:#8e93c9;font-size:12px;margin:2px 0}
-.g-tl-reason{color:#c4c8f0;font-size:14px;word-break:break-word}
-.g-chip{display:inline-block;padding:6px 12px;border-radius:30px;font-size:13px;font-weight:700;margin-bottom:14px;background:rgba(255,255,255,.1)}
+.g-tl-meta{color:var(--dim);font-size:12px;margin:2px 0}
+.g-tl-reason{color:var(--text-soft);font-size:14px;word-break:break-word}
+.g-chip{display:inline-block;padding:6px 12px;border-radius:30px;font-size:13px;font-weight:700;margin-bottom:14px;background:rgba(var(--ov),.1)}
 .g-chip.ok{background:rgba(67,224,164,.16);color:#8ef0c4}
-.g-code{margin:6px 0 14px;font-size:30px;font-weight:800;letter-spacing:6px;user-select:all;text-align:center;padding:14px;border-radius:16px;background:rgba(0,0,0,.28);border:1px dashed rgba(255,255,255,.25)}
+.g-code{margin:6px 0 14px;font-size:30px;font-weight:800;letter-spacing:6px;user-select:all;text-align:center;padding:14px;border-radius:16px;background:var(--field-bg);border:1px dashed rgba(var(--ov),.25)}
 .g-muted.small{font-size:12px;margin-top:10px}
 .g-code.small-code{font-size:19px;letter-spacing:1px;margin:2px 0 12px;word-break:break-all}
 .waiting{animation:pulseText 1.6s infinite}
 @keyframes pulseText{50%{opacity:.4}}
 .g-error{color:#ff8a8a;font-size:14px;margin-bottom:12px;line-height:1.4}
 .g-bars{margin:6px 0 14px}
-.g-search{width:100%;height:46px;margin:2px 0 12px;padding:0 16px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:#fff;font:600 14px Manrope,"Segoe UI",Arial,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
-.g-search:focus{border-color:#8b7bff;box-shadow:0 0 0 3px rgba(139,123,255,.25)}
-.g-tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:rgba(0,0,0,.25);margin-bottom:14px}
-.g-tab{flex:1;height:auto;margin:0;padding:10px;border:none;border-radius:10px;background:transparent;color:#b4b9e6;font:700 13px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer;transition:background .25s,color .25s}
-.g-tab.active{background:linear-gradient(90deg,var(--violet),var(--blue));color:#fff;box-shadow:0 6px 18px rgba(91,76,255,.35)}
+.g-search{width:100%;height:46px;margin:2px 0 12px;padding:0 16px;border-radius:14px;border:1px solid var(--line);background:var(--field-bg);color:var(--text-strong);font:600 14px Manrope,"Segoe UI",Arial,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+.g-search:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(var(--acc2-rgb),.25)}
+.g-tabs{display:flex;gap:6px;padding:5px;border-radius:14px;background:var(--field-bg);margin-bottom:14px}
+.g-tab{flex:1;height:auto;margin:0;padding:10px;border:none;border-radius:10px;background:transparent;color:var(--nav-text);font:700 13px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer;transition:background .25s,color .25s}
+.g-tab.active{background:linear-gradient(90deg,var(--violet),var(--blue));color:var(--on-accent);box-shadow:0 6px 18px rgba(var(--acc-rgb),.35)}
 .g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
-.g-member{display:flex;align-items:center;gap:12px;width:100%;height:auto;margin:0;padding:12px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:#fff;text-align:left;cursor:pointer;animation:cardIn .4s backwards;animation-delay:calc(var(--i,0)*35ms);transition:transform .2s,background .2s,border-color .2s}
-.g-member:hover{background:rgba(255,255,255,.1);border-color:rgba(154,140,255,.5);transform:translateY(-2px)}
+.g-member{display:flex;align-items:center;gap:12px;width:100%;height:auto;margin:0;padding:12px;border-radius:16px;border:1px solid var(--line);background:rgba(var(--ov),.05);color:var(--text-strong);text-align:left;cursor:pointer;animation:cardIn .4s backwards;animation-delay:calc(var(--i,0)*35ms);transition:transform .2s,background .2s,border-color .2s}
+.g-member:hover{background:rgba(var(--ov),.1);border-color:rgba(var(--acc2-rgb),.5);transform:translateY(-2px)}
 .g-member-name{font-weight:800;font-size:14px;word-break:break-word}
-.g-member-role{color:#a9aee0;font-size:12px;margin-top:2px}
+.g-member-role{color:var(--muted);font-size:12px;margin-top:2px}
 .g-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
-.g-tile{display:flex;flex-direction:column;gap:6px;align-items:flex-start;width:100%;height:auto;margin:0;padding:18px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;text-align:left;cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s}
+.g-tile{display:flex;flex-direction:column;gap:6px;align-items:flex-start;width:100%;height:auto;margin:0;padding:18px;border-radius:18px;border:1px solid var(--line);background:rgba(var(--ov),.06);color:var(--text-strong);text-align:left;cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s}
 .g-tile b{font-size:18px;font-weight:800}
-.g-tile span{font-size:12px;color:#a9aee0}
+.g-tile span{font-size:12px;color:var(--muted)}
 .g-tile.wide{grid-column:1/-1}
 .g-tile:hover{transform:translateY(-3px)}
 .g-tile.warn:hover{border-color:#ffc46b;box-shadow:0 14px 34px rgba(255,196,107,.2)}
 .g-tile.ok:hover{border-color:#43e0a4;box-shadow:0 14px 34px rgba(67,224,164,.2)}
 .g-tile.danger{background:rgba(255,77,109,.1)}
 .g-tile.danger:hover{border-color:#ff5d7a;box-shadow:0 14px 34px rgba(255,93,122,.28)}
-.g-tile.violet:hover{border-color:#8b7bff;box-shadow:0 14px 34px rgba(139,123,255,.3)}
+.g-tile.violet:hover{border-color:var(--accent2);box-shadow:0 14px 34px rgba(var(--acc2-rgb),.3)}
 @media (max-width:820px){.g-tiles{grid-template-columns:1fr}.g-grid{grid-template-columns:1fr}.g-win-head{padding:16px 18px 10px}.g-win-body{padding:4px 18px 20px}.g-hero-w{flex-direction:column;text-align:center}}
+
+/* ====== 2.0.1 ====== */
+html.is-max .actions{max-width:1500px}
+html.is-max .g-hero h1{font-size:34px}
+html.is-max .g-card-title{color:var(--muted)}
+html.is-max .g-text,html.is-max .g-muted{color:var(--text-soft)}
+html.is-max .g-win{max-width:640px}html.is-max .g-win.wide{max-width:780px}
+.g-wo{left:250px}
+@media (max-width:820px){.g-wo{left:0}}
+.g-nav:focus-visible,.g-btn:focus-visible,.g-tile:focus-visible,.g-member:focus-visible,.g-x:focus-visible,.g-tab:focus-visible,.discord-status:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+.g-mc-head{display:flex;align-items:center;gap:10px;font-size:18px;margin-bottom:8px}
+.g-mc-dot{width:12px;height:12px;border-radius:50%;background:var(--dim)}
+.g-mc-dot.on{background:#43e0a4;animation:pulse 2s infinite}
+.g-mc-dot.off{background:#ff5d7a}
+.g-mc-count{font-size:22px;font-weight:800;margin-bottom:6px}
+.g-silent *{animation:none!important}
+.g-mc-why{margin-top:8px;font-size:12px;color:var(--dim);word-break:break-all}
+.g-set{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid rgba(var(--ov),.07)}
+.g-set:last-child{border-bottom:none}
+.g-set b{display:block;font-size:15px}
+.g-set small{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.g-switch{position:relative;flex:none;width:46px;height:26px;margin:0;padding:0;border-radius:26px;border:1px solid var(--line);background:rgba(var(--ov),.12);cursor:pointer;transition:background .25s}
+.g-switch::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .25s}
+.g-switch.on{background:linear-gradient(90deg,var(--violet),var(--blue));border-color:transparent}
+.g-switch.on::after{transform:translateX(20px)}
+
+/* ====== Темы ====== */
+:root{--bg:#090a19;--orb1:#41279c;--orb2:#0a5d7a;--orb3:#5b2bb0;--side-bg:rgba(10,11,28,.55);--side-bg-m:rgba(10,11,28,.82);--brand-grad:linear-gradient(90deg,#fff,#9a8cff,#5fb4ff,#fff);--nav-text:#b4b9e6;--text-soft:#c4c8f0;--dim:#8e93c9;--pill-text:#e3deff;--accent2:#8b7bff;--acc-rgb:91,76,255;--acc2-rgb:139,123,255;--modal-bg:rgba(22,20,58,.86);--field-bg:rgba(0,0,0,.25);--scrim:rgba(5,5,20,.62);--ov:255,255,255;--text-strong:#fff;--on-accent:#fff}
+html[data-theme="dark"]{--bg:#0e0f13;--orb1:#1c2a4a;--orb2:#13333a;--orb3:#2a2f3a;--side-bg:rgba(16,17,21,.7);--side-bg-m:rgba(16,17,21,.9);--brand-grad:linear-gradient(90deg,#fff,#8fb4ff,#9fd8ff,#fff);--violet:#4a6cf7;--blue:#2fa4ff;--acc-rgb:74,108,247;--accent2:#7d9bff;--acc2-rgb:125,155,255;--modal-bg:rgba(24,26,33,.93);--nav-text:#b5bac8;--text-soft:#cdd1de;--muted:#a3a8b8;--dim:#868b9b;--pill-text:#dfe6ff;--scrim:rgba(0,0,0,.6);--field-bg:rgba(0,0,0,.3)}
+html[data-theme="light"]{--bg:#eef0fa;--orb1:#c9bfff;--orb2:#b8e3f5;--orb3:#e0cffc;--side-bg:rgba(255,255,255,.72);--side-bg-m:rgba(255,255,255,.92);--brand-grad:linear-gradient(90deg,#3d2fa8,#6d4aff,#2a7de1,#3d2fa8);--nav-text:#4a4f7a;--text-soft:#3b3f66;--muted:#5b6090;--dim:#6f74a0;--pill-text:#3d2fa8;--text:#1a1c3a;--text-strong:#14163a;--glass:rgba(255,255,255,.74);--line:rgba(40,40,100,.14);--ov:30,34,100;--modal-bg:rgba(255,255,255,.96);--field-bg:rgba(255,255,255,.85);--scrim:rgba(40,42,90,.35);--accent2:#6d4aff}
+html[data-theme="gold"]{--bg:#0d0a05;--orb1:#7a5600;--orb2:#5a3a0a;--orb3:#8a6a14;--side-bg:rgba(16,12,5,.62);--side-bg-m:rgba(16,12,5,.9);--brand-grad:linear-gradient(90deg,#fff,#ffd36b,#f0a500,#fff);--violet:#d99a00;--blue:#f6c453;--acc-rgb:217,154,0;--accent2:#f2c14e;--acc2-rgb:242,193,78;--modal-bg:rgba(32,24,10,.92);--nav-text:#d8c8a0;--text-soft:#e8dcc0;--muted:#cbb98a;--dim:#a8966a;--pill-text:#ffe9b0;--on-accent:#1a1200;--text:#fff6e0;--scrim:rgba(10,6,0,.62)}
+html[data-theme="lime"]{--bg:#06100a;--orb1:#1f6b2a;--orb2:#14583a;--orb3:#3d8a1a;--side-bg:rgba(6,16,10,.62);--side-bg-m:rgba(6,16,10,.9);--brand-grad:linear-gradient(90deg,#fff,#b8f27a,#4cd964,#fff);--violet:#3fbf4a;--blue:#a6e22e;--acc-rgb:63,191,74;--accent2:#8be04a;--acc2-rgb:139,224,74;--modal-bg:rgba(12,28,16,.92);--nav-text:#b8d8bf;--text-soft:#d3ead8;--muted:#a4c9ad;--dim:#7fa388;--pill-text:#d6ffbf;--on-accent:#08140a;--text:#eefff1;--scrim:rgba(0,10,4,.62)}
+.g-btn.primary,.discord-login,.modal-actions button:last-child{color:var(--on-accent)}
+html[data-theme="light"] .g-orbs i{opacity:.55}
+html[data-theme="light"] .g-card,html[data-theme="light"] .g-tile,html[data-theme="light"] .g-member{box-shadow:0 10px 30px rgba(40,40,100,.1)}
+html[data-theme="light"] .modal,html[data-theme="light"] .discord-menu,html[data-theme="light"] .g-win{border-color:rgba(40,40,100,.16);color:var(--text)}
+html[data-theme="light"] .modal input,html[data-theme="light"] .modal select{color:var(--text-strong);border-color:rgba(40,40,100,.2)}
+html[data-theme="light"] .modal-subtitle,html[data-theme="light"] .modal-label,html[data-theme="light"] .telegram-info,html[data-theme="light"] .discord-menu-role,html[data-theme="light"] .version{color:var(--muted)}
+html[data-theme="light"] .discord-green{color:#1f8f4a}html[data-theme="light"] .discord-orange{color:#b86a00}html[data-theme="light"] .discord-red{color:#d12a3a}html[data-theme="light"] .discord-gray{color:var(--dim)}
+html[data-theme="light"] .g-chip.ok{color:#1f8f4a}html[data-theme="light"] .g-error{color:#c62839}
+:where(html[data-theme="light"]) button{background:#fff;color:var(--text-strong);border-color:rgba(40,40,100,.18)}
+:where(html[data-theme="light"]) button:hover{background:#f1f2fb}
+.g-badge{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:linear-gradient(90deg,var(--violet),var(--blue));color:var(--on-accent);font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+.g-seg{display:flex;gap:6px;padding:5px;border-radius:14px;background:var(--field-bg)}
+.g-seg button{flex:1;height:auto;margin:0;padding:9px 12px;border:none;border-radius:10px;background:transparent;color:var(--nav-text);font:700 13px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer}
+.g-seg button.on{background:linear-gradient(90deg,var(--violet),var(--blue));color:var(--on-accent)}
+.g-themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+.g-theme{display:flex;align-items:center;gap:10px;height:auto;margin:0;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(var(--ov),.05);color:var(--text);font:700 13px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer;text-align:left}
+.g-theme.on{border-color:var(--accent2);box-shadow:0 0 0 2px rgba(var(--acc2-rgb),.3)}
+.g-theme i{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid rgba(128,128,160,.4)}
+.g-set-title{margin:18px 0 4px;font-size:13px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.g-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;margin-bottom:12px}
+.g-filters select,.g-filters input{width:100%;height:42px;margin:0;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--field-bg);color:var(--text);font:600 13px Manrope,"Segoe UI",Arial,sans-serif;outline:none}
+.g-filters select option{color:#14163a;background:#fff}
+.g-filters .g-wide{grid-column:1/-1}
+.g-count{font-size:13px;color:var(--muted);margin:2px 0 10px}
+.g-log{display:flex;flex-direction:column;gap:8px}
+.g-log-row{padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(var(--ov),.04);animation:cardIn .35s backwards}
+.g-log-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:4px}
+.g-log-who{font-weight:800;font-size:14px;word-break:break-word}
+.g-log-time{margin-left:auto;font-size:12px;color:var(--dim)}
+.g-log-reason{font-size:13px;color:var(--text-soft);word-break:break-word}
+.g-tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:800;background:rgba(var(--ov),.1);color:var(--text-soft)}
+.g-tag.mute{background:rgba(255,196,107,.2);color:#d98a00}.g-tag.ban{background:rgba(255,93,122,.2);color:#e0445e}.g-tag.ok{background:rgba(67,224,164,.2);color:#1f9f6e}
+.g-notif{position:relative;padding:14px 16px 14px 18px;border-radius:14px;border:1px solid var(--line);background:rgba(var(--ov),.04);animation:cardIn .35s backwards}
+.g-notif.new{border-color:rgba(var(--acc2-rgb),.55);background:rgba(var(--acc-rgb),.1)}
+.g-notif-title{font-weight:800;font-size:15px;margin-bottom:3px}
+.g-notif-meta{font-size:12px;color:var(--dim);margin-bottom:4px}
+.g-notif-text{font-size:14px;color:var(--text-soft);word-break:break-word}
+.g-notif-open{height:auto;margin:10px 0 0;padding:6px 14px;border-radius:10px;border:1px solid var(--line);background:rgba(var(--ov),.06);color:var(--accent2);font:700 12px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer}
+.g-new{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:800;background:linear-gradient(90deg,var(--violet),var(--blue));color:var(--on-accent);vertical-align:middle}
 </style>
 </head>
 
 <body>
+<script>
+try{if(typeof require==="function"){require("electron").ipcRenderer.on("window-state",function(e,st){document.documentElement.classList.toggle("is-max",!!(st&&st.max));});}}catch(e){}
+</script>
+<script>
+/* ===== Темы и язык (RU по умолчанию) ===== */
+(function () {
+  var root = document.documentElement;
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+  var THEMES = ["glass", "dark", "light", "system", "gold", "lime"];
+  var mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: light)") : null;
+  var themePref = store.get("skynix_theme");
+  if (THEMES.indexOf(themePref) < 0) themePref = "glass";
+  var lang = store.get("skynix_lang") === "en" ? "en" : "ru";
+
+  function resolve(p) {
+    if (p === "system") return mq && mq.matches ? "light" : "dark";
+    return p;
+  }
+  function applyTheme() {
+    var t = resolve(themePref);
+    if (t === "glass") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", t);
+  }
+  if (mq) {
+    var onChange = function () { if (themePref === "system") applyTheme(); };
+    if (mq.addEventListener) mq.addEventListener("change", onChange); else if (mq.addListener) mq.addListener(onChange);
+  }
+  applyTheme();
+  root.lang = lang;
+
+  /* ---- словарь ---- */
+  var EN = {
+    "Главная":"Home","Профиль":"Profile","Участники":"Members","Модерация":"Moderation","Настройки":"Settings","Войти":"Sign in",
+    "Центр уведомлений":"Notification center","Журнал модераторов":"Moderator log",
+    "Добро пожаловать в SkyNix":"Welcome to SkyNix",
+    "Войдите через Discord, чтобы открыть все возможности приложения.":"Sign in with Discord to unlock all app features.",
+    "Всё самое важное — на одном экране.":"Everything important on one screen.",
+    "Доброе утро":"Good morning","Доброй ночи":"Good night","Добрый вечер":"Good evening","Добрый день":"Good afternoon",
+    "Мои предупреждения":"My warnings","Последние события":"Recent events","Сервер Minecraft":"Minecraft server",
+    "Наказаний нет — так держать!":"No punishments — keep it up!","Наказаний нет.":"No punishments.",
+    "Вас нет в списках предупреждений.":"You are not on any warning list.","В списках предупреждений нет.":"Not on any warning list.",
+    "Загрузка...":"Loading...","Загрузка профиля...":"Loading profile...","Загрузка списка...":"Loading list...","Загрузка пользователей...":"Loading users...",
+    "Закрыть":"Close","Отмена":"Cancel","Сохранить":"Save","Сохраняем...":"Saving...","Подтвердить":"Confirm","Повторить":"Retry","Понятно":"Got it","Готово.":"Done.","Выполнение...":"Working...",
+    "← Назад":"← Back","Нет":"None","Время":"Time","Причина":"Reason","Причина:":"Reason:","Причина не указана":"No reason given","Пользователь":"User",
+    "Пинг":"Ping","Онлайн":"Online","Офлайн":"Offline","Проверяем сервер...":"Checking server...",
+    "игроков":"players","мс":"ms","из":"of","на":"for","от":"from","ошибка":"error",
+    "Сервер сейчас не отвечает. Возможно, он выключен или запускается.":"The server is not responding. It may be off or starting up.",
+    "нет ответа (таймаут)":"no response (timeout)","соединение отклонено":"connection refused","соединение сброшено":"connection reset","адрес не найден":"address not found","DNS не отвечает":"DNS not responding","таймаут соединения":"connection timeout",
+    "Минут":"Minutes","Секунд":"Seconds","Часов":"Hours","Дней":"Days","Единица времени":"Time unit","Время мута:":"Mute duration:",
+    "Мут":"Mute","Размут":"Unmute","Бан":"Ban","Разбан":"Unban","Замутить":"Mute","Размутить":"Unmute","Забанить":"Ban","Разбанить":"Unban",
+    "Мут участника":"Mute member","Размут участника":"Unmute member","Бан участника":"Ban member","Разбан участника":"Unban member","Заблокировать участника":"Block member",
+    "Предупреждения":"Warnings","Предупреждения участников":"Member warnings","Предупреждения модераторов":"Moderator warnings","Предупреждения съемок":"Filming warnings",
+    "Редактор списков в Telegram":"List editor in Telegram","Сохранить и обновить в Telegram":"Save and update in Telegram",
+    "История наказаний":"Punishment history","Ограничить сообщения":"Restrict messages","Снять ограничение":"Remove restriction","Вернуть доступ":"Restore access",
+    "Выберите действие.":"Choose an action.","Выберите пользователей.":"Choose users.","Выберите пользователя Discord или Telegram.":"Choose a Discord or Telegram user.",
+    "Выберите Discord, Telegram или пользователя сразу в обеих системах.":"Choose Discord, Telegram, or a user in both systems at once.",
+    "Можно выбрать пользователя в Discord, Telegram или сразу в обеих системах.":"You can choose a user in Discord, Telegram, or both systems at once.",
+    "Не выбран пользователь.":"No user selected.","Укажите причину.":"Enter a reason.","Укажите конкретное время мута.":"Enter a specific mute duration.","Максимальное время мута — 28 дней.":"Maximum mute duration is 28 days.","Некорректное время мута.":"Invalid mute duration.",
+    "Поиск по имени":"Search by name","Нет в списке? Введите @username или ID":"Not in the list? Enter @username or ID","Пользователь Discord":"Discord user","Пользователь Telegram":"Telegram user","пользователя Discord":"Discord user","пользователя Telegram":"Telegram user",
+    "Например: 1":"For example: 1","Например: Нарушение правил":"For example: Rule violation","Например: Спам":"For example: Spam","@username или имя":"@username or name",
+    "Ник в Minecraft":"Minecraft nickname","Ник пока не указан.":"Nickname not set yet.","Ник привязан:":"Nickname linked:","Ник удалён.":"Nickname removed.",
+    "Укажите ник, с которым вы заходите на сервер. По нему вам открывается доступ.":"Enter the nickname you use on the server. It grants you access.",
+    "Чтобы сервер пустил вас, в профиле должен быть сохранён ник Minecraft.":"For the server to let you in, your Minecraft nickname must be saved in your profile.",
+    "Укажите ник в профиле, затем настройте IP в один клик и заходите играть.":"Set your nickname in your profile, then set up the IP in one click and play.",
+    "Адрес сервера SkyNix:":"SkyNix server address:","Адрес скопирован в буфер обмена":"Address copied to clipboard","Короткий адрес готов: play.skynix":"Short address ready: play.skynix",
+    "Введите play.skynix в Minecraft. Приложение SkyNix должно оставаться запущенным (оно работает в трее).":"Enter play.skynix in Minecraft. The SkyNix app must stay running (it works in the tray).",
+    "Откройте Minecraft → Сетевая игра → Прямое подключение и вставьте адрес (Ctrl+V).":"Open Minecraft → Multiplayer → Direct Connection and paste the address (Ctrl+V).",
+    ". Доступ на сервер откроется в течение минуты.":". Server access will open within a minute.",
+    "Не удалось настроить IP Minecraft.":"Could not set up the Minecraft IP.",
+    "Привязать Telegram":"Link Telegram","Отвязать Telegram":"Unlink Telegram","Открыть Telegram":"Open Telegram","Точно отвязать?":"Really unlink?","Ожидаем привязку...":"Waiting for linking...","Привязан:":"Linked:","привязан":"linked",
+    "Откройте бота и нажмите Start. Код действует 10 минут.":"Open the bot and press Start. The code is valid for 10 minutes.",
+    "Привяжите Telegram в профиле, чтобы видеть свои предупреждения здесь.":"Link Telegram in your profile to see your warnings here.",
+    "Привяжите Telegram, чтобы видеть свои предупреждения в профиле и на главной.":"Link Telegram to see your warnings in your profile and on the home page.",
+    "Привяжите аккаунт Discord: приложение покажет вашу роль и доступные функции.":"Link your Discord account: the app will show your role and available features.",
+    "Discord не привязан":"Discord not linked","Аккаунт привязан":"Account linked","Войти через Discord":"Sign in with Discord","Выйти из аккаунта":"Sign out","Открыть профиль":"Open profile","Вход":"Sign in",
+    "Участник":"Member","Участник SkyNix":"SkyNix member","Не участник SkyNix":"Not a SkyNix member","Не в команде":"Not on the team","Новобранец":"Recruit","Новобранец SkyNix":"SkyNix recruit","Новобранцы ·":"Recruits ·","Участники ·":"Members ·",
+    "✅ Участник SkyNix":"✅ SkyNix member","🔰 Новобранец SkyNix":"🔰 SkyNix recruit","· новобранцы":"· recruits","· обе группы":"· both groups",
+    "Архонт":"Archon","Заместитель":"Deputy","Правая рука Создателя":"Creator's Right Hand","Гл.Модератор":"Chief Moderator","И.С.Модератор":"Acting Sr. Moderator","Мл.Модератор":"Jr. Moderator","Модератор":"Moderator",
+    "Wiki":"Wiki","Открыть Wiki":"Open Wiki","Открыть YouTube":"Open YouTube","Правила, история создания SkyNix и участники SkyNix.":"Rules, the history of SkyNix and its members.","Официальное приложение SkyNix":"Official SkyNix app","Канал Senya Melnik.":"Senya Melnik's channel.",
+    "Вступить в команду":"Join the team","Подать заявку в команду":"Apply to the team","Подайте заявку и дождитесь решения модерации.":"Submit an application and wait for moderation's decision.","Проверка заявки":"Application check","Бот для проверки заявки":"Application checking bot","Бот проверит вашу заявку и напишет результат.":"The bot will review your application and send the result.","Форма заявки:":"Application form:",
+    "Запускать вместе с Windows":"Launch with Windows","Приложение стартует свёрнутым в трей, и уведомления приходят сразу.":"The app starts minimized to the tray and notifications arrive right away.",
+    "Сворачивать в трей при закрытии":"Minimize to tray on close","Крестик не закрывает приложение: оно продолжает присылать уведомления. Выйти можно через значок в трее.":"The X button does not close the app: it keeps delivering notifications. Quit from the tray icon.",
+    "Версия 2.1.0":"Version 2.1.0","Модерация:":"Moderation:",
+    "Данные модерации отсутствуют.":"No moderation data.","Данные о предупреждениях пока не загружены.":"Warning data has not loaded yet.","Не удалось выполнить запрос.":"Could not complete the request.","Не удалось загрузить историю.":"Could not load history.","Не удалось загрузить предупреждения.":"Could not load warnings.",
+    "Не удалось получить список пользователей.":"Could not get the user list.","Не удалось получить пользователей Discord.":"Could not get Discord users.","Не удалось открыть авторизацию Discord.":"Could not open Discord authorization.","не удалось загрузить пользователей.":"could not load users.",
+    "У этого человека не привязан Telegram к профилю, просмотреть предупреждения невозможно.":"This person has no Telegram linked to their profile, so warnings cannot be viewed.",
+    "Действие успешно выполнено.":"Action completed successfully.","Ошибка модерации:":"Moderation error:","Никого нет.":"Nobody here.","Участники SkyNix":"SkyNix members",
+    "Имя пишите как @username. Если у человека":"Write the name as @username. If the person has","нет username — просто имя. После сохранения":"no username — just the name. After saving","бот отредактирует сообщение в Telegram.":"the bot will edit the message in Telegram.","бот опубликовал сообщение":"the bot posted the message","сообщение обновлено":"message updated","Сохранено:":"Saved:",
+    "Или отправьте боту @":"Or send to the bot @","Или отправьте боту: /link":"Or send to the bot: /link",
+    "+ Добавить":"+ Add",
+    /* новое */
+    "Язык":"Language","Тема оформления":"Appearance","Русский":"Русский","English":"English",
+    "Новости":"News","Новости · группа Telegram":"News · Telegram group","Новости · группа Discord":"News · Discord group","группа Telegram":"Telegram group","группа Discord":"Discord group","SkyNix Новобранцы":"SkyNix Recruits","Открыть":"Open","Тёмная":"Dark","Светлая":"Light","Как в системе":"Match system","Золотая":"Gold","Салатовая":"Lime",
+    "Общие":"General","Внешний вид":"Appearance",
+    "Уведомления":"Notifications","Наказания":"Sanctions","Заявки":"Applications","Всё":"All",
+    "Здесь пока пусто.":"Nothing here yet.","Новое":"New","Отметить всё прочитанным":"Mark all as read","Обновить":"Refresh",
+    "Ответов по заявкам пока нет.":"No application replies yet.","Ответы по заявкам доступны после привязки Telegram.":"Application replies are available after linking Telegram.",
+    "Заявка принята":"Application accepted","Заявка отклонена":"Application rejected","Заявка на рассмотрении":"Application under review","Информация по заявке":"Application update",
+    "Снят мут":"Mute lifted","Выдан мут":"Mute issued","Выдан бан":"Ban issued","Снят бан":"Ban lifted","Вам выдан мут":"You were muted","Вам выдан бан":"You were banned","Вам снят мут":"Your mute was lifted","Вам снят бан":"Your ban was lifted",
+    "Модератор:":"Moderator:","Действие":"Action","Платформа":"Platform","Все действия":"All actions","Все платформы":"All platforms","Все модераторы":"All moderators","Период":"Period","За всё время":"All time","Сегодня":"Today","7 дней":"7 days","30 дней":"30 days",
+    "Поиск по участнику или причине":"Search by member or reason","Записей:":"Entries:","Журнал пока пуст. Записываются действия, выполненные после обновления.":"The log is empty. Actions are recorded from the update onward.",
+    "Ничего не найдено по фильтрам.":"Nothing matches the filters.","Журнал доступен только модераторам.":"The log is available to moderators only.","Не удалось загрузить журнал.":"Could not load the log.",
+    "Цель:":"Target:","Дата":"Date","Недавние":"Recent","Все":"All"
+  };
+  var PLURAL = {
+    s:[["секунда","секунды","секунд"],["second","seconds"]], m:[["минута","минуты","минут"],["minute","minutes"]],
+    h:[["час","часа","часов"],["hour","hours"]], d:[["день","дня","дней"],["day","days"]]
+  };
+  var WORDS = {};
+  Object.keys(PLURAL).forEach(function (k) { var r = PLURAL[k][0], e = PLURAL[k][1]; WORDS[r[0]] = [e[0], e[1]]; WORDS[r[1]] = [e[0], e[1]]; WORDS[r[2]] = [e[0], e[1]]; });
+
+  function tr1(s) {
+    if (EN.hasOwnProperty(s)) return EN[s];
+    var m = s.match(/^на (\d+) (\S+)$/);
+    if (m && WORDS[m[2]]) return "for " + m[1] + " " + (Number(m[1]) === 1 ? WORDS[m[2]][0] : WORDS[m[2]][1]);
+    m = s.match(/^(.+?) на (\d+) (\S+)$/);
+    if (m && WORDS[m[3]] && EN.hasOwnProperty(m[1])) return EN[m[1]] + " for " + m[2] + " " + (Number(m[2]) === 1 ? WORDS[m[3]][0] : WORDS[m[3]][1]);
+    m = s.match(/^Пинг (\d+) мс$/);
+    if (m) return "Ping " + m[1] + " ms";
+    m = s.match(/^(\d+) \/ (\d+) игроков$/);
+    if (m) return m[1] + " / " + m[2] + " players";
+    m = s.match(/^(\d+) из (\d+)$/);
+    if (m) return m[1] + " of " + m[2];
+    m = s.match(/^(\d+) (игроков|мс)$/);
+    if (m) return m[1] + (m[2] === "мс" ? " ms" : " players");
+    m = s.match(/^✅ Участник SkyNix \((.+)\)$/);
+    if (m) return "✅ SkyNix member (" + (tr1(m[1]) || m[1]) + ")";
+    m = s.match(/^Версия (.+)$/);
+    if (m) return "Version " + m[1];
+    m = s.match(/^Ник привязан: (.+)$/);
+    if (m) return "Nickname linked: " + m[1];
+    return null;
+  }
+  function tr(str) {
+    if (!str) return str;
+    var lead = str.match(/^\s*/)[0], tail = str.match(/\s*$/)[0];
+    var core = str.trim();
+    if (!core) return str;
+    var r = tr1(core);
+    if (r !== null) return lead + r + tail;
+    // составные строки: «Мут на 5 минут · Имя · причина», «Доброе утро, Имя», «Причина: текст»
+    var parts = core.split(/( · |, |: )/), changed = false;
+    for (var i = 0; i < parts.length; i += 2) {
+      var t = tr1(parts[i]);
+      if (t !== null) { parts[i] = t; changed = true; }
+    }
+    return changed ? lead + parts.join("") + tail : str;
+  }
+
+  var texts = new WeakMap(), attrs = new WeakMap(), ATTRS = ["placeholder", "title", "aria-label"];
+  var busy = false;
+
+  function doText(n) {
+    var e = texts.get(n);
+    if (e && n.data === e.en) return;
+    var ru = n.data, en = tr(ru);
+    if (en !== ru) { texts.set(n, { ru: ru, en: en }); n.data = en; } else if (e) texts.delete(n);
+  }
+  function doAttrs(el) {
+    var map = attrs.get(el) || {};
+    ATTRS.forEach(function (a) {
+      if (!el.hasAttribute || !el.hasAttribute(a)) return;
+      var v = el.getAttribute(a), e = map[a];
+      if (e && v === e.en) return;
+      var en = tr(v);
+      if (en !== v) { map[a] = { ru: v, en: en }; el.setAttribute(a, en); } else if (e) delete map[a];
+    });
+    attrs.set(el, map);
+  }
+  function walk(node) {
+    if (node.nodeType === 3) { if (node.parentNode && !/^(SCRIPT|STYLE)$/.test(node.parentNode.nodeName)) doText(node); return; }
+    if (node.nodeType !== 1 || /^(SCRIPT|STYLE)$/.test(node.nodeName)) return;
+    doAttrs(node);
+    for (var c = node.firstChild; c; c = c.nextSibling) walk(c);
+  }
+  function restore(node) {
+    if (node.nodeType === 3) { var e = texts.get(node); if (e && node.data === e.en) node.data = e.ru; texts.delete(node); return; }
+    if (node.nodeType !== 1) return;
+    var map = attrs.get(node);
+    if (map) { ATTRS.forEach(function (a) { if (map[a] && node.getAttribute(a) === map[a].en) node.setAttribute(a, map[a].ru); }); attrs.delete(node); }
+    for (var c = node.firstChild; c; c = c.nextSibling) restore(c);
+  }
+
+  var observer = null;
+  function startObserver() {
+    if (observer || !document.body) return;
+    observer = new MutationObserver(function (list) {
+      if (lang !== "en" || busy) return;
+      busy = true;
+      try {
+        list.forEach(function (m) {
+          if (m.type === "characterData") doText(m.target);
+          else if (m.type === "attributes") doAttrs(m.target);
+          else m.addedNodes.forEach(walk);
+        });
+      } finally { busy = false; }
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ATTRS });
+  }
+  function translateAll() {
+    if (!document.body) return;
+    busy = true;
+    try { if (lang === "en") walk(document.body); else restore(document.body); } finally { busy = false; }
+    document.title = lang === "en" ? document.title : document.title;
+  }
+
+  window.SkyI18n = {
+    get lang() { return lang; },
+    get theme() { return themePref; },
+    tr: tr,
+    t: function (s) { return lang === "en" ? tr(s) : s; },
+    setLang: function (l) {
+      lang = l === "en" ? "en" : "ru";
+      store.set("skynix_lang", lang);
+      root.lang = lang;
+      translateAll();
+      try { require("electron").ipcRenderer.invoke("settings-set", { lang: lang }); } catch (e) {}
+      window.dispatchEvent(new Event("skynix-lang"));
+    },
+    setTheme: function (p) {
+      themePref = THEMES.indexOf(p) < 0 ? "glass" : p;
+      store.set("skynix_theme", themePref);
+      applyTheme();
+    }
+  };
+  window.tt = window.SkyI18n.t;
+
+  function init() { startObserver(); translateAll(); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
+})();
+</script>
+
+
 
 <div class="container">
 
@@ -780,7 +1087,7 @@ body{overflow:hidden}
 
 
 <div class="version">
-    Версия 2.0.0
+    Версия 2.1.0
 </div>
 
 
@@ -1280,6 +1587,9 @@ let telegramUsers = [];
 // ======================================================
 
 function openExternal(url) {
+
+    // Открываем только обычные https-ссылки и deep link Telegram
+    if (!/^(https:\/\/|tg:\/\/)/i.test(String(url || ""))) return;
 
     shell.openExternal(url);
 
@@ -2540,7 +2850,8 @@ function toggleDiscordMenu() {
 
             row.appendChild(value);
 
-            animateNumber(value, item.count, " из " + item.max);
+            if (silent) value.textContent = item.count + " из " + item.max;
+            else animateNumber(value, item.count, " из " + item.max);
 
             const percent =
                 item.max > 0
@@ -3272,9 +3583,539 @@ function toggleDiscordMenu() {
 
         }
 
+        tile(
+            "Журнал",
+            "Действия модераторов с фильтрами",
+            "violet",
+            () => window.openModLog(),
+            true
+        );
+
         body.appendChild(grid);
 
     }
+
+    // ---------------- Настройки ----------------
+
+    window.openSettings = async function () {
+
+        const body = openWindow("Настройки");
+
+        const I18N = window.SkyI18n;
+
+        let current = { autostart: true, closeToTray: true };
+
+        if (!window.SKYNIX_MOBILE) {
+            try {
+                current = await ipcRenderer.invoke("settings-get");
+            } catch {}
+        }
+
+        function row(title, hint, key) {
+
+            const wrap = gEl("div", "g-set");
+
+            const text = gEl("div", "");
+            text.appendChild(gEl("b", "", title));
+            text.appendChild(gEl("small", "", hint));
+
+            const sw = gEl("button", "g-switch" + (current[key] ? " on" : ""));
+            sw.setAttribute("role", "switch");
+            sw.setAttribute("aria-checked", String(Boolean(current[key])));
+            sw.setAttribute("aria-label", title);
+
+            sw.onclick = async () => {
+                const next = !sw.classList.contains("on");
+                sw.classList.toggle("on", next);
+                sw.setAttribute("aria-checked", String(next));
+                try {
+                    current = await ipcRenderer.invoke("settings-set", { [key]: next });
+                } catch {}
+            };
+
+            wrap.appendChild(text);
+            wrap.appendChild(sw);
+
+            return wrap;
+        }
+
+        // ---- язык ----
+        body.appendChild(gEl("div", "g-set-title", "Язык"));
+
+        const seg = gEl("div", "g-seg");
+
+        [["ru", "Русский"], ["en", "English"]].forEach(([code, label]) => {
+            const b = gEl("button", I18N.lang === code ? "on" : "", label);
+            b.onclick = () => {
+                if (I18N.lang === code) return;
+                I18N.setLang(code);
+                seg.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+                try { renderInterface(true); } catch {}
+            };
+            seg.appendChild(b);
+        });
+
+        body.appendChild(seg);
+
+        // ---- тема ----
+        body.appendChild(gEl("div", "g-set-title", "Тема оформления"));
+
+        const grid = gEl("div", "g-themes");
+
+        const THEME_LIST = [
+            ["glass", "SkyNix (Glass)", "linear-gradient(135deg,#41279c,#0a5d7a)"],
+            ["dark", "Тёмная", "linear-gradient(135deg,#0e0f13,#4a6cf7)"],
+            ["light", "Светлая", "linear-gradient(135deg,#ffffff,#c9bfff)"],
+            ["system", "Как в системе", "linear-gradient(90deg,#0e0f13 50%,#ffffff 50%)"],
+            ["gold", "Золотая", "linear-gradient(135deg,#7a5600,#f2c14e)"],
+            ["lime", "Салатовая", "linear-gradient(135deg,#1f6b2a,#8be04a)"]
+        ];
+
+        THEME_LIST.forEach(([id, label, swatch]) => {
+            const b = gEl("button", "g-theme" + (I18N.theme === id ? " on" : ""));
+            const dot = gEl("i", "");
+            dot.style.background = swatch;
+            b.appendChild(dot);
+            b.appendChild(gEl("span", "", label));
+            b.onclick = () => {
+                I18N.setTheme(id);
+                grid.querySelectorAll(".g-theme").forEach(x => x.classList.toggle("on", x === b));
+            };
+            grid.appendChild(b);
+        });
+
+        body.appendChild(grid);
+
+        // ---- система (только ПК) ----
+        if (!window.SKYNIX_MOBILE) {
+
+            body.appendChild(gEl("div", "g-set-title", "Общие"));
+
+            body.appendChild(row("Запускать вместе с Windows", "Приложение стартует свёрнутым в трей, и уведомления приходят сразу.", "autostart"));
+            body.appendChild(row("Сворачивать в трей при закрытии", "Крестик не закрывает приложение: оно продолжает присылать уведомления. Выйти можно через значок в трее.", "closeToTray"));
+
+        }
+
+    };
+
+    // ---------------- Центр уведомлений ----------------
+
+    const NOTIF_SEEN_KEY = "skynix_notif_seen";
+
+    function notifSeen() {
+        try { return Number(localStorage.getItem(NOTIF_SEEN_KEY)) || 0; } catch { return 0; }
+    }
+
+    function markNotifSeen(ts) {
+        try { localStorage.setItem(NOTIF_SEEN_KEY, String(ts)); } catch {}
+        updateNotifBadge();
+    }
+
+    function fmtMs(ms) {
+
+        const n = Number(ms);
+
+        if (!n) return "";
+
+        const units = [["d", 86400000], ["h", 3600000], ["m", 60000], ["s", 1000]];
+
+        for (const [u, size] of units) {
+            if (n >= size) return gDuration(Math.max(1, Math.round(n / size)) + u, true);
+        }
+
+        return gDuration("1s", true);
+
+    }
+
+    function sanctionTitle(action, self) {
+
+        const names = self
+            ? { mute: "Вам выдан мут", unmute: "Вам снят мут", ban: "Вам выдан бан", unban: "Вам снят бан" }
+            : { mute: "Выдан мут", unmute: "Снят мут", ban: "Выдан бан", unban: "Снят бан" };
+
+        return names[action] || action;
+
+    }
+
+    const REPLY_TITLES = {
+        accepted: "Заявка принята",
+        rejected: "Заявка отклонена",
+        review: "Заявка на рассмотрении",
+        info: "Информация по заявке"
+    };
+
+    let notifState = { history: [], replies: [], news: [], at: 0 };
+
+    function showReplies() {
+        return false;
+    }
+
+    function collectNotifs() {
+
+        const out = [];
+
+        for (const h of notifState.history || []) {
+            out.push({
+                kind: "sanction",
+                at: Number(h.createdAt) || 0,
+                title: sanctionTitle(h.action, true) + (h.action === "mute" ? fmtMs(durationToMs(h.duration)) : ""),
+                tone: h.action === "ban" ? "ban" : h.action === "mute" ? "mute" : "ok",
+                meta: h.moderator || "Модератор",
+                text: h.reason || "Причина не указана"
+            });
+        }
+
+        for (const n of notifState.news || []) {
+            out.push({
+                kind: "news",
+                at: Number(n.at) || 0,
+                title: n.platform === "telegram" ? "Новости · группа Telegram" : "Новости · группа Discord",
+                tone: "ok",
+                meta: n.platform === "telegram" ? n.group : "",
+                text: n.text || "",
+                link: n.link
+            });
+        }
+
+        for (const r of showReplies() ? (notifState.replies || []) : []) {
+            out.push({
+                kind: "reply",
+                at: Number(r.at) || 0,
+                title: REPLY_TITLES[r.status] || "Информация по заявке",
+                tone: r.status === "rejected" ? "ban" : r.status === "accepted" ? "ok" : "mute",
+                meta: "",
+                text: r.text || ""
+            });
+        }
+
+        out.sort((a, b) => b.at - a.at);
+
+        return out;
+
+    }
+
+    function durationToMs(raw) {
+
+        const m = String(raw || "").match(/^(\d+)(s|m|h|d)$/i);
+
+        if (!m) return 0;
+
+        return Number(m[1]) * { s: 1000, m: 60000, h: 3600000, d: 86400000 }[m[2].toLowerCase()];
+
+    }
+
+    function updateNotifBadge() {
+
+        const btn = document.querySelector('[data-key="notif"]');
+
+        if (!btn) return;
+
+        const seen = notifSeen();
+
+        const count = collectNotifs().filter(n => n.at > seen).length;
+
+        let badge = btn.querySelector(".g-badge");
+
+        if (!count) {
+            if (badge) badge.remove();
+            return;
+        }
+
+        if (!badge) {
+            badge = gEl("span", "g-badge");
+            btn.appendChild(badge);
+        }
+
+        badge.textContent = count > 9 ? "9+" : String(count);
+
+    }
+
+    async function refreshNotifData(withReplies) {
+
+        try {
+            const profile = await ipcRenderer.invoke("profile-get");
+            notifState.history = (profile && profile.history) || [];
+        } catch {}
+
+        if (withReplies && showReplies()) {
+            try {
+                const res = await ipcRenderer.invoke("application-replies-get");
+                notifState.replies = (res && res.items) || [];
+            } catch {}
+        }
+
+        if (withReplies) {
+            try {
+                const res = await ipcRenderer.invoke("news-get");
+                notifState.news = (res && res.items) || [];
+            } catch {}
+        }
+
+        notifState.at = Date.now();
+
+        updateNotifBadge();
+
+    }
+
+    window.updateNotifBadge = updateNotifBadge;
+
+    ipcRenderer.on("news-changed", (event, items) => {
+        notifState.news = items || [];
+        updateNotifBadge();
+        if (window.__notifRepaint) window.__notifRepaint();
+    });
+
+    ipcRenderer.on("open-notifications", () => {
+        if (discordSession && (discordSession.status === "member" || discordSession.status === "recruit")) {
+            window.openNotifications();
+        }
+    });
+
+    window.setNotifHistory = function (history) {
+        notifState.history = history || [];
+        updateNotifBadge();
+        if (!notifState.at) {
+            notifState.at = Date.now();
+            refreshNotifData(true).catch(() => {});
+        }
+    };
+
+    window.openNotifications = async function () {
+
+        const body = openWindow("Центр уведомлений");
+
+        const seenBefore = notifSeen();
+
+        let tab = "all";
+
+        const top = gEl("div", "g-seg");
+
+        const list = gEl("div", "g-log");
+
+        const tabs = [["all", "Всё"], ["news", "Новости"], ["sanction", "Наказания"]];
+
+        if (showReplies()) tabs.push(["reply", "Заявки"]);
+
+        function paint() {
+
+            if (!list.isConnected) {
+                window.__notifRepaint = null;
+                return;
+            }
+
+            list.textContent = "";
+
+            const items = collectNotifs().filter(n => tab === "all" || n.kind === tab);
+
+            if (!items.length) {
+                list.appendChild(gEl("div", "g-muted", tab === "reply" ? "Ответов по заявкам пока нет." : "Здесь пока пусто."));
+                return;
+            }
+
+            items.forEach((n, i) => {
+
+                const card = gEl("div", "g-notif" + (n.at > seenBefore ? " new" : ""));
+
+                card.style.animationDelay = Math.min(i, 8) * 40 + "ms";
+
+                const title = gEl("div", "g-notif-title");
+
+                title.appendChild(document.createTextNode(n.title));
+
+                if (n.at > seenBefore) title.appendChild(gEl("span", "g-new", "Новое"));
+
+                card.appendChild(title);
+
+                card.appendChild(gEl("div", "g-notif-meta", (n.meta ? n.meta + " · " : "") + gDate(n.at)));
+
+                if (n.text) card.appendChild(gEl("div", "g-notif-text", n.text));
+
+                if (n.link) {
+                    const open = gEl("button", "g-notif-open", "Открыть");
+                    open.onclick = () => openExternal(n.link);
+                    card.appendChild(open);
+                }
+
+                list.appendChild(card);
+
+            });
+
+        }
+
+        tabs.forEach(([id, label]) => {
+            const b = gEl("button", id === tab ? "on" : "", label);
+            b.onclick = () => {
+                tab = id;
+                top.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+                paint();
+            };
+            top.appendChild(b);
+        });
+
+        body.appendChild(top);
+
+        body.appendChild(gEl("div", "g-count", ""));
+
+        body.appendChild(list);
+
+        list.appendChild(gEl("div", "g-muted", "Загрузка..."));
+
+        window.__notifRepaint = paint;
+
+        await refreshNotifData(true);
+
+        paint();
+
+        const newest = collectNotifs()[0];
+
+        if (newest) markNotifSeen(Math.max(newest.at, notifSeen()));
+
+    };
+
+    // ---------------- Журнал модераторов ----------------
+
+    window.openModLog = async function () {
+
+        if (!(discordSession && discordSession.status === "member" && hasStaffRole())) return;
+
+        const body = openWindow("Журнал модераторов", true);
+
+        const wrap = gEl("div", "");
+
+        body.appendChild(wrap);
+
+        wrap.appendChild(gEl("div", "g-muted", "Загрузка..."));
+
+        let data;
+
+        try {
+            data = await ipcRenderer.invoke("modlog-get");
+        } catch (error) {
+            wrap.textContent = "";
+            errorBox(wrap, error);
+            return;
+        }
+
+        wrap.textContent = "";
+
+        (data.errors || []).forEach(e => wrap.appendChild(gEl("div", "g-error", e)));
+
+        const items = data.items || [];
+
+        const filters = gEl("div", "g-filters");
+
+        function select(options, first) {
+            const s = document.createElement("select");
+            const o0 = document.createElement("option");
+            o0.value = "";
+            o0.textContent = first;
+            s.appendChild(o0);
+            options.forEach(([v, l]) => {
+                const o = document.createElement("option");
+                o.value = v;
+                o.textContent = l;
+                s.appendChild(o);
+            });
+            return s;
+        }
+
+        const selAction = select([["mute", "Мут"], ["unmute", "Размут"], ["ban", "Бан"], ["unban", "Разбан"]], "Все действия");
+        const selPlatform = select([["discord", "Discord"], ["telegram", "Telegram"]], "Все платформы");
+
+        const moderators = [...new Set(items.map(i => i.moderator).filter(Boolean))].sort();
+
+        const selMod = select(moderators.map(m => [m, m]), "Все модераторы");
+        const selPeriod = select([["today", "Сегодня"], ["7", "7 дней"], ["30", "30 дней"]], "За всё время");
+
+        const search = document.createElement("input");
+        search.type = "text";
+        search.placeholder = "Поиск по участнику или причине";
+        search.className = "g-wide";
+
+        [selAction, selPlatform, selMod, selPeriod, search].forEach(n => filters.appendChild(n));
+
+        wrap.appendChild(filters);
+
+        const count = gEl("div", "g-count", "");
+
+        wrap.appendChild(count);
+
+        const list = gEl("div", "g-log");
+
+        wrap.appendChild(list);
+
+        function paint() {
+
+            list.textContent = "";
+
+            const q = search.value.trim().toLowerCase();
+
+            const now = Date.now();
+
+            const startToday = new Date();
+
+            startToday.setHours(0, 0, 0, 0);
+
+            const since =
+                selPeriod.value === "today" ? startToday.getTime()
+                    : selPeriod.value ? now - Number(selPeriod.value) * 86400000
+                        : 0;
+
+            const shown = items.filter(i =>
+                (!selAction.value || i.action === selAction.value) &&
+                (!selPlatform.value || i.platform === selPlatform.value) &&
+                (!selMod.value || i.moderator === selMod.value) &&
+                (!since || (i.at || 0) >= since) &&
+                (!q || String(i.target || "").toLowerCase().includes(q) || String(i.reason || "").toLowerCase().includes(q))
+            );
+
+            count.textContent = "Записей: " + shown.length;
+
+            if (!shown.length) {
+                list.appendChild(gEl("div", "g-muted", items.length ? "Ничего не найдено по фильтрам." : "Журнал пока пуст. Записываются действия, выполненные после обновления."));
+                return;
+            }
+
+            shown.slice(0, 150).forEach(i => {
+
+                const row = gEl("div", "g-log-row");
+
+                const top = gEl("div", "g-log-top");
+
+                const tone = i.action === "ban" ? "ban" : i.action === "mute" ? "mute" : "ok";
+
+                top.appendChild(gEl("span", "g-tag " + tone, window.tt(G_ACTIONS[i.action] || i.action) + (i.action === "mute" && i.duration ? fmtMs(i.duration) : "")));
+
+                top.appendChild(gEl("span", "g-log-who", i.target || "—"));
+
+                top.appendChild(gEl("span", "g-tag", i.platform === "telegram" ? "Telegram" : "Discord"));
+
+                top.appendChild(gEl("span", "g-log-time", gDate(i.at)));
+
+                row.appendChild(top);
+
+                row.appendChild(
+                    gEl(
+                        "div",
+                        "g-log-reason",
+                        "Модератор: " + (i.moderator || "—") +
+                        " · Причина: " + (i.reason || "Причина не указана")
+                    )
+                );
+
+                list.appendChild(row);
+
+            });
+
+        }
+
+        [selAction, selPlatform, selMod, selPeriod].forEach(n => n.onchange = paint);
+
+        search.oninput = paint;
+
+        paint();
+
+    };
 
     // ---------------- Minecraft: результат кнопки «IP SkyNix Minecraft» ----------------
 
@@ -3431,6 +4272,7 @@ async function minecraft() {
 // ======================================================
 
 let dashboardToken = 0;
+const dashboardCards = { warnings: null, history: null };
 
 let lastRenderKey = "";
 
@@ -3441,7 +4283,10 @@ const G_ICONS = {
     shield: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
     alert: '<path d="M12 3l10 18H2z"/><path d="M12 10v5"/><path d="M12 18v.5"/>',
     book: '<path d="M4 4h10a4 4 0 014 4v13H8a4 4 0 01-4-4z"/><path d="M4 17a4 4 0 014-4h10"/>',
-    login: '<path d="M10 4H5v16h5"/><path d="M14 8l4 4-4 4M18 12H9"/>'
+    login: '<path d="M10 4H5v16h5"/><path d="M14 8l4 4-4 4M18 12H9"/>',
+    bell: '<path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+    log: '<path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',
+    gear: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'
 };
 
 function gIcon(name) {
@@ -3521,7 +4366,7 @@ function animateNumber(node, to, suffix) {
 
 }
 
-function gDuration(raw) {
+function gDuration(raw, forceRu) {
 
     const match = String(raw || "").match(/^(\d+)(s|m|h|d)$/i);
 
@@ -3546,6 +4391,10 @@ function gDuration(raw) {
                 ? forms[1]
                 : forms[2];
 
+    if (!forceRu && window.SkyI18n && window.SkyI18n.lang === "en") {
+        return " for " + n + " " + (n === 1 ? { s: "second", m: "minute", h: "hour", d: "day" }[match[2].toLowerCase()] : { s: "seconds", m: "minutes", h: "hours", d: "days" }[match[2].toLowerCase()]);
+    }
+
     return " на " + n + " " + word;
 
 }
@@ -3555,6 +4404,10 @@ function gDate(timestamp) {
     const d = new Date(Number(timestamp));
 
     const two = v => String(v).padStart(2, "0");
+
+    if (window.SkyI18n && window.SkyI18n.lang === "en") {
+        return two(d.getMonth() + 1) + "/" + two(d.getDate()) + " " + d.getHours() + ":" + two(d.getMinutes());
+    }
 
     return two(d.getDate()) + "." + two(d.getMonth() + 1) + " " + d.getHours() + ":" + two(d.getMinutes());
 
@@ -3628,6 +4481,8 @@ function buildNav(items) {
 
         const button = gEl("button", "g-nav" + (item.active ? " active" : ""));
 
+        if (item.key) button.dataset.key = item.key;
+
         button.innerHTML = gIcon(item.icon);
 
         button.appendChild(gEl("span", "", item.label));
@@ -3648,19 +4503,136 @@ function scrollToTop() {
 
 }
 
-async function loadWarningsCard(card, token) {
+let minecraftStatusTimer = null;
+
+const MC_REASONS = {
+    timeout: "нет ответа (таймаут)",
+    ECONNREFUSED: "соединение отклонено",
+    ECONNRESET: "соединение сброшено",
+    ENOTFOUND: "адрес не найден",
+    EAI_AGAIN: "DNS не отвечает",
+    ETIMEDOUT: "таймаут соединения"
+};
+
+async function loadMinecraftStatusCard(card, token) {
 
     const body = gEl("div", "");
 
     card.appendChild(body);
 
-    body.appendChild(gEl("div", "g-muted", "Загрузка..."));
+    body.appendChild(gEl("div", "g-muted", "Проверяем сервер..."));
+
+    let lastSig = "";
+    let pingNode = null;
+
+    async function refresh() {
+
+        if (token !== dashboardToken || !document.body.contains(card)) {
+            clearInterval(minecraftStatusTimer);
+            return;
+        }
+
+        let status;
+
+        try {
+            status = await ipcRenderer.invoke("minecraft-status");
+        } catch {
+            status = { online: false, error: "ошибка" };
+        }
+
+        if (token !== dashboardToken) return;
+
+        const online = Boolean(status && status.online);
+
+        const pingText = online
+            ? "Пинг " + status.ping + " мс" + (status.version ? " · " + status.version : "")
+            : "";
+
+        const sig = JSON.stringify(
+            online
+                ? [true, status.players, status.version]
+                : [false, status && status.error]
+        );
+
+        // Ничего не изменилось — не перерисовываем, чтобы не мигало
+        if (sig === lastSig) {
+            if (pingNode) pingNode.textContent = pingText;
+            return;
+        }
+
+        lastSig = sig;
+
+        body.textContent = "";
+
+        card.classList.add("g-silent");
+
+        const head = gEl("div", "g-mc-head");
+        head.appendChild(gEl("i", "g-mc-dot " + (online ? "on" : "off")));
+        head.appendChild(gEl("b", "", online ? "Онлайн" : "Офлайн"));
+        body.appendChild(head);
+
+        pingNode = null;
+
+        if (online) {
+
+            body.appendChild(gEl("div", "g-mc-count", status.players.online + " / " + status.players.max + " игроков"));
+
+            if (status.players.sample && status.players.sample.length) {
+                body.appendChild(gEl("div", "g-muted", status.players.sample.join(", ")));
+            }
+
+            pingNode = gEl("div", "g-muted small", pingText);
+            body.appendChild(pingNode);
+
+        } else {
+
+            body.appendChild(gEl("div", "g-muted", "Сервер сейчас не отвечает. Возможно, он выключен или запускается."));
+
+            const why = (MC_REASONS[status && status.error] || (status && status.error) || "") +
+                (status && status.tried ? " · " + status.tried.join(", ") : "");
+
+            if (why.trim()) body.appendChild(gEl("div", "g-mc-why", "Причина: " + why));
+
+        }
+    }
+
+    refresh();
+
+    clearInterval(minecraftStatusTimer);
+    minecraftStatusTimer = setInterval(refresh, 30000);
+}
+
+async function loadWarningsCard(card, token, silent) {
+
+    let body = card._body;
+
+    if (!body) {
+
+        body = gEl("div", "");
+
+        card._body = body;
+
+        card.appendChild(body);
+
+        body.appendChild(gEl("div", "g-muted", "Загрузка..."));
+
+        silent = false;
+
+    }
 
     try {
 
         const data = await ipcRenderer.invoke("profile-telegram-status");
 
         if (token !== dashboardToken) return;
+
+        const sig = JSON.stringify([data.linked, data.warnings]);
+
+        if (silent && card._sig === sig) return;
+
+        card._sig = sig;
+
+        if (silent) card.classList.add("g-silent");
 
         body.textContent = "";
 
@@ -3736,6 +4708,8 @@ async function loadWarningsCard(card, token) {
 
         if (token !== dashboardToken) return;
 
+        if (silent) return;
+
         body.textContent = "";
 
         body.appendChild(gEl("div", "g-muted", "Не удалось загрузить предупреждения."));
@@ -3746,19 +4720,39 @@ async function loadWarningsCard(card, token) {
 
 const G_ACTIONS = { mute: "Мут", unmute: "Размут", ban: "Бан", unban: "Разбан" };
 
-async function loadHistoryCard(card, token) {
+async function loadHistoryCard(card, token, silent) {
 
-    const body = gEl("div", "");
+    let body = card._body;
 
-    card.appendChild(body);
+    if (!body) {
 
-    body.appendChild(gEl("div", "g-muted", "Загрузка..."));
+        body = gEl("div", "");
+
+        card._body = body;
+
+        card.appendChild(body);
+
+        body.appendChild(gEl("div", "g-muted", "Загрузка..."));
+
+        silent = false;
+
+    }
 
     try {
 
         const profile = await ipcRenderer.invoke("profile-get");
 
         if (token !== dashboardToken) return;
+
+        if (window.setNotifHistory) window.setNotifHistory(profile.history || []);
+
+        const sig = JSON.stringify((profile.history || []).slice(0, 4));
+
+        if (silent && card._sig === sig) return;
+
+        card._sig = sig;
+
+        if (silent) card.classList.add("g-silent");
 
         body.textContent = "";
 
@@ -3779,7 +4773,7 @@ async function loadHistoryCard(card, token) {
             const text = gEl(
                 "span",
                 "",
-                (G_ACTIONS[item.action] || item.action) +
+                window.tt(G_ACTIONS[item.action] || item.action) +
                 (item.action === "mute" ? gDuration(item.duration) : "") +
                 " · " + (item.moderator || "Модератор") +
                 (item.reason ? " · " + item.reason : "")
@@ -3798,6 +4792,8 @@ async function loadHistoryCard(card, token) {
     catch (error) {
 
         if (token !== dashboardToken) return;
+
+        if (silent) return;
 
         body.textContent = "";
 
@@ -3852,6 +4848,9 @@ function renderInterface(force) {
 
     const token = ++dashboardToken;
 
+    dashboardCards.warnings = null;
+    dashboardCards.history = null;
+
     const root = document.getElementById("actions");
 
     root.textContent = "";
@@ -3892,11 +4891,19 @@ function renderInterface(force) {
 
     nav.push({ label: "Wiki", icon: "book", action: () => openWiki() });
 
+    if (discordSession && (discordSession.status === "member" || discordSession.status === "recruit")) {
+        nav.push({ label: "Уведомления", icon: "bell", key: "notif", action: () => window.openNotifications() });
+    }
+
+    nav.push({ label: "Настройки", icon: "gear", action: () => window.openSettings() });
+
     if (!discordSession) {
         nav.push({ label: "Войти", icon: "login", action: () => loginDiscord() });
     }
 
     buildNav(nav);
+
+    if (window.updateNotifBadge) window.updateNotifBadge();
 
     // ---- заголовок ----
     const hero = gEl("div", "g-hero");
@@ -3931,15 +4938,25 @@ function renderInterface(force) {
 
         root.appendChild(warningsCard);
 
+        dashboardCards.warnings = warningsCard;
+
         loadWarningsCard(warningsCard, token);
 
         const historyCard = gCard("Последние события", index++);
 
         root.appendChild(historyCard);
 
+        dashboardCards.history = historyCard;
+
         loadHistoryCard(historyCard, token);
 
         if (!window.SKYNIX_MOBILE) {
+
+            const mcCard = gCard("Сервер Minecraft", index++);
+
+            root.appendChild(mcCard);
+
+            loadMinecraftStatusCard(mcCard, token);
 
             root.appendChild(
                 linkCard(
@@ -4033,11 +5050,24 @@ async function openApplication() {
 
 }
 
-window.refreshDashboard = function () {
+window.silentRefreshDashboard = function () {
 
-    renderInterface(true);
+    const w = dashboardCards.warnings;
+    const h = dashboardCards.history;
+
+    if (!w || !h || !document.body.contains(w)) {
+        renderInterface(true);
+        return;
+    }
+
+    loadWarningsCard(w, dashboardToken, true);
+    loadHistoryCard(h, dashboardToken, true);
 
 };
+
+window.refreshDashboard = window.silentRefreshDashboard;
+
+ipcRenderer.on("data-changed", () => window.silentRefreshDashboard());
 
 
 // ======================================================

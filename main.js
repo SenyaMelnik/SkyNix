@@ -8,7 +8,8 @@ const {
     Menu,
     nativeImage,
     Notification,
-    clipboard
+    clipboard,
+    screen
 } = require("electron");
 
 const {
@@ -28,11 +29,11 @@ const {
 // ============================================================
 // SKY NIX
 // main.js
-// Version 2.0.0
+// Version 2.1.0
 // ============================================================
 
 // CONFIG
-const APP_VERSION = "2.0.0";
+const APP_VERSION = "2.1.0";
 const WORKER_URL = "https://discord.skynix.workers.dev";
 const TELEGRAM_WORKER_URL = "https://skynix-moderation.skynix.workers.dev";
 const DISCORD_LOGIN_URL = "https://discord.skynix.workers.dev/api/discord/login";
@@ -58,6 +59,7 @@ const HOSTS = path.join(
 // VARIABLES
 let mainWindow = null;
 let tray = null;
+let buildTrayMenu = null;
 let isQuitting = false;
 let startedAtWindowsLogin = false;
 let USER_DATA = null;
@@ -226,6 +228,72 @@ function initializeUserData() {
 }
 
 // ============================================================
+// SETTINGS (автозапуск, сворачивание в трей)
+// ============================================================
+
+function settingsPath() {
+    return path.join(app.getPath("userData"), "settings.json");
+}
+
+const EN_TEXT = {
+    "Открыть SkyNix": "Open SkyNix",
+    "Выйти из SkyNix": "Quit SkyNix",
+    "Вы были замучены": "You were muted",
+    "С вас снят мут": "Your mute was lifted",
+    "Вы были забанены": "You were banned",
+    "Вы были разбанены": "You were unbanned",
+    "Мут": "Mute",
+    "Размут": "Unmute",
+    "Бан": "Ban",
+    "Разбан": "Unban",
+    "Кем": "By",
+    "Что именно": "Action",
+    "Срок": "Duration",
+    "Без срока": "Permanent",
+    "Причина": "Reason",
+    "Не указана": "Not specified",
+    "Модератор": "Moderator",
+    "Действие модерации": "Moderation action",
+    "Новости · группа Telegram": "News · Telegram group",
+    "Новости · группа Discord": "News · Discord group",
+    "SkyNix Новобранцы": "SkyNix Recruits"
+};
+
+function currentLang() {
+    try {
+        return readSettings().lang === "en" ? "en" : "ru";
+    } catch {
+        return "ru";
+    }
+}
+
+function L(text) {
+    return currentLang() === "en" && EN_TEXT[text] ? EN_TEXT[text] : text;
+}
+
+function readSettings() {
+    const defaults = { autostart: true, closeToTray: true, lang: "ru" };
+    try {
+        const raw = JSON.parse(fs.readFileSync(settingsPath(), "utf8"));
+        return {
+            autostart: raw.autostart !== false,
+            closeToTray: raw.closeToTray !== false,
+            lang: raw.lang === "en" ? "en" : "ru"
+        };
+    } catch {
+        return defaults;
+    }
+}
+
+function writeSettings(value) {
+    try {
+        fs.writeFileSync(settingsPath(), JSON.stringify(value));
+    } catch (error) {
+        log.warn("Не удалось сохранить настройки:", error && error.message);
+    }
+}
+
+// ============================================================
 // WINDOWS AUTOSTART
 // ============================================================
 
@@ -236,7 +304,7 @@ function setupWindowsAutostart() {
 
     try {
         app.setLoginItemSettings({
-            openAtLogin: true,
+            openAtLogin: readSettings().autostart,
             openAsHidden: true,
             args: [
                 "--autostart"
@@ -316,10 +384,11 @@ function createTray() {
             "SkyNix"
         );
 
+        buildTrayMenu = () => {
         const contextMenu =
             Menu.buildFromTemplate([
                 {
-                    label: "Открыть SkyNix",
+                    label: L("Открыть SkyNix"),
                     click: () => {
                         showMainWindow();
                     }
@@ -328,7 +397,7 @@ function createTray() {
                     type: "separator"
                 },
                 {
-                    label: "Выйти из SkyNix",
+                    label: L("Выйти из SkyNix"),
                     click: () => {
                         isQuitting = true;
                         app.quit();
@@ -339,6 +408,8 @@ function createTray() {
         tray.setContextMenu(
             contextMenu
         );
+        };
+        buildTrayMenu();
 
         tray.on(
             "click",
@@ -806,9 +877,13 @@ ipcMain.handle(
         data
     ) => {
         try {
-            return await telegramModeration(
+            const tgResult = await telegramModeration(
                 data
             );
+
+            bumpDataVersion();
+
+            return tgResult;
         }
         catch (error) {
             log.error(
@@ -1128,6 +1203,37 @@ function createWindow() {
         )
     );
 
+    // Увеличение интерфейса только при развёрнутом окне.
+    function applyWindowState() {
+        if (!mainWindow || mainWindow.isDestroyed()) return;
+        const max = mainWindow.isMaximized() || mainWindow.isFullScreen();
+        let factor = 1;
+        if (max) {
+            const w = screen.getDisplayMatching(mainWindow.getBounds()).size.width;
+            factor = w >= 2200 ? 1.3 : w >= 1700 ? 1.15 : 1;
+        }
+        try { mainWindow.webContents.setZoomFactor(factor); } catch {}
+        mainWindow.webContents.send("window-state", { max });
+    }
+
+    ["maximize", "unmaximize", "enter-full-screen", "leave-full-screen"].forEach(name => {
+        mainWindow.on(name, applyWindowState);
+    });
+    mainWindow.webContents.on("did-finish-load", applyWindowState);
+
+    // Защита главного окна: только локальный index.html, всё остальное в браузер.
+    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+        if (/^https:\/\//i.test(url)) shell.openExternal(url);
+        return { action: "deny" };
+    });
+
+    mainWindow.webContents.on("will-navigate", (event, url) => {
+        if (!url.startsWith("file://")) {
+            event.preventDefault();
+            if (/^https:\/\//i.test(url)) shell.openExternal(url);
+        }
+    });
+
     mainWindow.once(
         "ready-to-show",
         () => {
@@ -1156,7 +1262,7 @@ function createWindow() {
     mainWindow.on(
         "close",
         event => {
-            if (!isQuitting) {
+            if (!isQuitting && readSettings().closeToTray) {
                 event.preventDefault();
 
                 mainWindow.hide();
@@ -2250,12 +2356,12 @@ function buildNoticeView(notice) {
 
     const rows = [
         [
-            "Кем",
-            notice.moderator || "Модератор"
+            L("Кем"),
+            notice.moderator || L("Модератор")
         ],
         [
-            "Что именно",
-            NOTICE_ACTIONS[action] || action
+            L("Что именно"),
+            L(NOTICE_ACTIONS[action] || action)
         ]
     ];
 
@@ -2264,22 +2370,22 @@ function buildNoticeView(notice) {
             formatNoticeDuration(notice.duration);
 
         if (duration) {
-            rows.push(["Срок", duration]);
+            rows.push([L("Срок"), currentLang() === "en" ? duration.replace(/^(\d+) (секунд\S*)$/, "$1 s").replace(/^(\d+) (минут\S*)$/, "$1 min").replace(/^(\d+) (час\S*)$/, "$1 h").replace(/^(\d+) (д\S+)$/, "$1 d") : duration]);
         }
     }
     else if (action === "ban") {
-        rows.push(["Срок", "Без срока"]);
+        rows.push([L("Срок"), L("Без срока")]);
     }
 
     rows.push([
-        "Причина",
-        notice.reason || "Не указана"
+        L("Причина"),
+        notice.reason || L("Не указана")
     ]);
 
     return {
         title:
-            NOTICE_TITLES[action] ||
-            "Действие модерации",
+            L(NOTICE_TITLES[action] ||
+            "Действие модерации"),
         rows
     };
 }
@@ -2372,6 +2478,25 @@ function getEncodedDiscordSession() {
         .toString("base64");
 }
 
+let lastDataVersion = null;
+
+function notifyDataChanged() {
+    if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.webContents.isLoading()) {
+        mainWindow.webContents.send("data-changed");
+    }
+}
+
+async function bumpDataVersion() {
+    if (!discordSession) return;
+    try {
+        await fetch(`${WORKER_URL}/api/discord/bump`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${getEncodedDiscordSession()}` },
+            signal: AbortSignal.timeout(10000)
+        });
+    } catch {}
+}
+
 async function pollModerationNotices() {
     if (
         !discordSession ||
@@ -2405,6 +2530,14 @@ async function pollModerationNotices() {
 
         for (const notice of data.notifications) {
             deliverModerationNotice(notice);
+        }
+
+        // Данные в приложении обновляем только если на сервере что-то менялось
+        if (typeof data.ver === "string") {
+            if (lastDataVersion !== null && data.ver !== lastDataVersion) {
+                notifyDataChanged();
+            }
+            lastDataVersion = data.ver;
         }
     }
     catch (error) {
@@ -2485,6 +2618,10 @@ function setupModerationNotices() {
         pollModerationNotices,
         NOTICE_POLL_MS
     );
+
+    setTimeout(pollNews, 15000);
+
+    setInterval(pollNews, NEWS_POLL_MS);
 }
 
 // ============================================================
@@ -2610,7 +2747,10 @@ ipcMain.handle(
                     sections
                 })
             }
-        );
+        ).then(result => {
+            bumpDataVersion();
+            return result;
+        });
     }
 );
 
@@ -3273,3 +3413,305 @@ process.on(
         );
     }
 );
+
+// ---------------- Статус Minecraft-сервера (Server List Ping) ----------------
+
+function mcVarInt(n) {
+    const out = [];
+    do {
+        let b = n & 0x7f;
+        n >>>= 7;
+        if (n) b |= 0x80;
+        out.push(b);
+    } while (n);
+    return Buffer.from(out);
+}
+
+function mcString(s) {
+    const b = Buffer.from(s, "utf8");
+    return Buffer.concat([mcVarInt(b.length), b]);
+}
+
+function mcMotdText(d) {
+    if (!d) return "";
+    if (typeof d === "string") return d.replace(/§./g, "");
+    let t = (d.text || "").replace(/§./g, "");
+    if (Array.isArray(d.extra)) t += d.extra.map(mcMotdText).join("");
+    return t;
+}
+
+function pingMinecraftOnce(host, port) {
+    return new Promise(resolve => {
+        const started = Date.now();
+        let finished = false;
+        let buf = Buffer.alloc(0);
+
+        const done = value => {
+            if (finished) return;
+            finished = true;
+            try { socket.destroy(); } catch {}
+            resolve(value);
+        };
+
+        const socket = net.connect({ host, port });
+        socket.setTimeout(4500, () => done({ error: "timeout" }));
+        socket.on("error", err => done({ error: (err && err.code) || "error" }));
+
+        socket.on("connect", () => {
+            const hs = Buffer.concat([
+                mcVarInt(0x00),
+                mcVarInt(765),
+                mcString(host),
+                Buffer.from([(port >> 8) & 0xff, port & 0xff]),
+                mcVarInt(1)
+            ]);
+            socket.write(Buffer.concat([mcVarInt(hs.length), hs]));
+            socket.write(Buffer.from([0x01, 0x00]));
+        });
+
+        socket.on("data", chunk => {
+            buf = Buffer.concat([buf, chunk]);
+            try {
+                let pos = 0;
+                const readVar = () => {
+                    let num = 0, shift = 0, b;
+                    do {
+                        if (pos >= buf.length) throw new Error("more");
+                        b = buf[pos++];
+                        num |= (b & 0x7f) << shift;
+                        shift += 7;
+                    } while (b & 0x80);
+                    return num;
+                };
+                const total = readVar();
+                if (buf.length - pos < total) return;
+                readVar();
+                const jsonLen = readVar();
+                if (buf.length - pos < jsonLen) return;
+                const data = JSON.parse(buf.slice(pos, pos + jsonLen).toString("utf8"));
+                done({
+                    online: true,
+                    ping: Date.now() - started,
+                    version: data.version && data.version.name || "",
+                    players: {
+                        online: data.players && data.players.online || 0,
+                        max: data.players && data.players.max || 0,
+                        sample: (data.players && data.players.sample || []).map(p => p.name).slice(0, 12)
+                    },
+                    motd: mcMotdText(data.description).trim()
+                });
+            } catch (error) {
+                // ждём остаток пакета
+            }
+        });
+    });
+}
+
+let minecraftStatusCache = { at: 0, value: null };
+
+ipcMain.handle("minecraft-status", async () => {
+    if (minecraftStatusCache.value && Date.now() - minecraftStatusCache.at < 15 * 1000) {
+        return minecraftStatusCache.value;
+    }
+
+    let value = { online: false, error: "unknown" };
+
+    try {
+        const target = await getTunnelTarget();
+        const tried = [target.host + ":" + target.port];
+        let result = await pingMinecraftOnce(target.host, target.port);
+
+        // Запасной путь: сервер на этом же компьютере
+        if (!result || !result.online) {
+            const local = await pingMinecraftOnce("127.0.0.1", 25565);
+            tried.push("127.0.0.1:25565");
+            if (local && local.online) result = local;
+        }
+
+        value = result && result.online
+            ? result
+            : { online: false, error: (result && result.error) || "unknown", tried };
+    } catch (error) {
+        value = { online: false, error: String(error && error.message || error) };
+    }
+
+    minecraftStatusCache = { at: Date.now(), value };
+    return value;
+});
+ipcMain.handle("settings-get", () => readSettings());
+
+ipcMain.handle("settings-set", (event, patch) => {
+    const next = Object.assign(readSettings(), {
+        autostart: patch && typeof patch.autostart === "boolean" ? patch.autostart : undefined,
+        closeToTray: patch && typeof patch.closeToTray === "boolean" ? patch.closeToTray : undefined,
+        lang: patch && (patch.lang === "en" || patch.lang === "ru") ? patch.lang : undefined
+    });
+    const current = readSettings();
+    const merged = {
+        autostart: next.autostart === undefined ? current.autostart : next.autostart,
+        closeToTray: next.closeToTray === undefined ? current.closeToTray : next.closeToTray,
+        lang: next.lang === undefined ? current.lang : next.lang
+    };
+    writeSettings(merged);
+    if (merged.lang !== current.lang && tray && buildTrayMenu) {
+        try { buildTrayMenu(); } catch {}
+    }
+    if (process.platform === "win32") {
+        try {
+            app.setLoginItemSettings({
+                openAtLogin: merged.autostart,
+                openAsHidden: true,
+                args: ["--autostart"]
+            });
+        } catch {}
+    }
+    return merged;
+});
+
+// Журнал действий модераторов (Discord + Telegram) и ответы по заявкам
+ipcMain.handle("modlog-get", async () => {
+    requireDiscordSession();
+
+    const [discord, telegram] = await Promise.allSettled([
+        discordApiGet("/api/discord/modlog"),
+        telegramProfileRequest("/api/profile/modlog", "GET")
+    ]);
+
+    const items = [];
+    const errors = [];
+
+    if (discord.status === "fulfilled") {
+        items.push(...(discord.value.items || []));
+    } else {
+        errors.push("Discord: " + (discord.reason && discord.reason.message || "ошибка"));
+    }
+
+    if (telegram.status === "fulfilled") {
+        items.push(...(telegram.value.items || []));
+    } else {
+        errors.push("Telegram: " + (telegram.reason && telegram.reason.message || "ошибка"));
+    }
+
+    items.sort((a, b) => (b.at || 0) - (a.at || 0));
+
+    return { items, errors };
+});
+
+async function fetchNewsItems() {
+    requireDiscordSession();
+
+    const [discord, telegram] = await Promise.allSettled([
+        discordApiGet("/api/discord/news"),
+        telegramProfileRequest("/api/profile/news", "GET")
+    ]);
+
+    const items = [];
+
+    if (discord.status === "fulfilled") items.push(...(discord.value.items || []));
+    if (telegram.status === "fulfilled") items.push(...(telegram.value.items || []));
+
+    items.sort((x, y) => (y.at || 0) - (x.at || 0));
+
+    return items.slice(0, 40);
+}
+
+ipcMain.handle("news-get", async () => ({ items: await fetchNewsItems() }));
+
+// ---- Новости: уведомления приложения и обновление окна ----
+const NEWS_POLL_MS = 2 * 60 * 1000;
+let lastNewsSig = null;
+
+function newsSeenPath() {
+    return path.join(USER_DATA, "news-seen.json");
+}
+
+function readNewsSeen() {
+    try {
+        const raw = JSON.parse(fs.readFileSync(newsSeenPath(), "utf8"));
+        return Array.isArray(raw.ids) ? raw : null;
+    } catch {
+        return null;
+    }
+}
+
+function showNewsToast(item) {
+    try {
+        if (!Notification.isSupported()) return;
+
+        const title = item.platform === "telegram"
+            ? L("Новости · группа Telegram")
+            : L("Новости · группа Discord");
+
+        const options = {
+            title: "SkyNix — " + title + (item.platform === "telegram" && item.group ? " (" + L(item.group) + ")" : ""),
+            body: String(item.text || "").slice(0, 220)
+        };
+
+        const iconPath = path.join(__dirname, "assets", "icon.ico");
+        if (fs.existsSync(iconPath)) options.icon = iconPath;
+
+        const toast = new Notification(options);
+
+        toast.on("click", () => {
+            showMainWindow();
+            try {
+                if (mainWindow && !mainWindow.isDestroyed()) {
+                    mainWindow.webContents.send("open-notifications");
+                }
+            } catch {}
+        });
+
+        toast.show();
+    } catch (error) {
+        log.warn("Не удалось показать уведомление о новости:", error && error.message);
+    }
+}
+
+async function pollNews() {
+    if (!discordSession || discordLogoutRequested) return;
+
+    try {
+        const items = await fetchNewsItems();
+
+        const seen = readNewsSeen();
+        const seenIds = new Set(seen ? seen.ids : []);
+
+        // Первый запуск: старые новости (старше 10 минут) только запоминаем,
+        // свежие показываем. Дальше показываем всё, чего ещё не было (не старше суток).
+        const freshAfter = Date.now() - (seen ? 24 * 60 * 60 * 1000 : 10 * 60 * 1000);
+
+        for (const item of items.slice().reverse()) {
+            if (!seenIds.has(item.id) && (item.at || 0) > freshAfter) {
+                log.info("Новость: показываю уведомление", item.id);
+                showNewsToast(item);
+            }
+        }
+
+        const ids = [...new Set([...items.map(i => i.id), ...seenIds])].slice(0, 200);
+
+        try {
+            fs.writeFileSync(newsSeenPath(), JSON.stringify({ ids }));
+        } catch {}
+
+        const sig = JSON.stringify(items.map(i => [i.id, i.text]));
+
+        if (sig !== lastNewsSig) {
+            lastNewsSig = sig;
+
+            if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.webContents.isLoading()) {
+                mainWindow.webContents.send("news-changed", items);
+            }
+        }
+    } catch (error) {
+        log.warn("Проверка новостей не удалась:", error && error.message);
+    }
+}
+
+ipcMain.handle("application-replies-get", async () => {
+    try {
+        const data = await telegramProfileRequest("/api/profile/application-replies", "GET");
+        return { items: data.items || [] };
+    } catch (error) {
+        return { items: [], error: String(error && error.message || error) };
+    }
+});

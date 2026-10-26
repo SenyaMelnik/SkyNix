@@ -1,6 +1,6 @@
 {
   "name": "skynix",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Official SkyNix application",
   "main": "main.js",
   "author": "Senya Melnik",
@@ -20,6 +20,11 @@
   "build": {
     "appId": "work.skynix.app",
     "productName": "SkyNix",
+    "files": [
+      "main.js",
+      "index.html",
+      "assets/**/*"
+    ],
     "protocols": [
       {
         "name": "SkyNix Discord Login",
