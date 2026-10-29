@@ -29,11 +29,11 @@ const {
 // ============================================================
 // SKY NIX
 // main.js
-// Version 2.1.0
+// Version 2.2.0
 // ============================================================
 
 // CONFIG
-const APP_VERSION = "2.1.0";
+const APP_VERSION = "2.2.0";
 const WORKER_URL = "https://discord.skynix.workers.dev";
 const TELEGRAM_WORKER_URL = "https://skynix-moderation.skynix.workers.dev";
 const DISCORD_LOGIN_URL = "https://discord.skynix.workers.dev/api/discord/login";
@@ -2622,6 +2622,10 @@ function setupModerationNotices() {
     setTimeout(pollNews, 15000);
 
     setInterval(pollNews, NEWS_POLL_MS);
+
+    setTimeout(pollShoots, 20000);
+
+    setInterval(pollShoots, NEWS_POLL_MS);
 }
 
 // ============================================================
@@ -3616,6 +3620,150 @@ async function fetchNewsItems() {
 }
 
 ipcMain.handle("news-get", async () => ({ items: await fetchNewsItems() }));
+
+// ---- Съёмки и «Написать в новости» ----
+function tgPost(endpoint, payload) {
+    requireDiscordSession();
+
+    return telegramRequest(endpoint, {
+        method: "POST",
+        body: JSON.stringify(payload || {})
+    });
+}
+
+ipcMain.handle("shoot-people", () => telegramProfileRequest("/api/profile/shoot-people", "GET"));
+ipcMain.handle("shoots-get", () => telegramProfileRequest("/api/profile/shoots", "GET"));
+ipcMain.handle("shoot-submit", (event, data) => tgPost("/api/profile/shoot-submit", data));
+ipcMain.handle("shoot-decide", (event, data) => tgPost("/api/profile/shoot-decide", data));
+ipcMain.handle("shoot-publish", (event, data) => tgPost("/api/profile/shoot-publish", data));
+
+ipcMain.handle("news-post", async (event, data) => {
+    requireDiscordSession();
+
+    const text = String((data && data.text) || "").trim();
+    const targets = Array.isArray(data && data.targets) ? data.targets : [];
+
+    if (!text) throw new Error("Напишите текст сообщения.");
+    if (!targets.length) throw new Error("Выберите, куда отправить.");
+
+    const tgTargets = targets.filter(x => x === "main" || x === "recruits");
+    const report = [];
+
+    if (targets.includes("discord")) {
+        try {
+            await discordApiPost("/api/discord/news-post", { text });
+            report.push({ target: "discord", ok: true });
+        } catch (error) {
+            report.push({ target: "discord", ok: false, error: String(error && error.message || error) });
+        }
+    }
+
+    if (tgTargets.length) {
+        try {
+            const res = await tgPost("/api/profile/news-post", { text, targets: tgTargets });
+            for (const r of res.results || []) report.push(r);
+        } catch (error) {
+            for (const target of tgTargets) {
+                report.push({ target, ok: false, error: String(error && error.message || error) });
+            }
+        }
+    }
+
+    return { ok: report.some(r => r.ok), results: report };
+});
+
+// Пуши о съёмках: Архону — новая заявка; автору — одобрено/отклонено
+function shootsSeenPath() {
+    return path.join(USER_DATA, "shoots-seen.json");
+}
+
+function showShootToast(title, body) {
+    try {
+        if (!Notification.isSupported()) return;
+
+        const options = { title: "SkyNix — " + L(title), body: String(body || "").slice(0, 220) };
+        const iconPath = path.join(__dirname, "assets", "icon.ico");
+        if (fs.existsSync(iconPath)) options.icon = iconPath;
+
+        const toast = new Notification(options);
+
+        toast.on("click", () => {
+            showMainWindow();
+            try {
+                if (mainWindow && !mainWindow.isDestroyed()) {
+                    mainWindow.webContents.send("open-notifications");
+                }
+            } catch {}
+        });
+
+        toast.show();
+    } catch {}
+}
+
+let lastShootSig = null;
+
+async function pollShoots() {
+    if (!discordSession || discordLogoutRequested) return;
+
+    try {
+        const data = await telegramProfileRequest("/api/profile/shoots", "GET");
+
+        let seen = null;
+
+        try {
+            seen = JSON.parse(fs.readFileSync(shootsSeenPath(), "utf8"));
+        } catch {
+            seen = null;
+        }
+
+        const known = new Set(seen && Array.isArray(seen.keys) ? seen.keys : []);
+        const fresh = Date.now() - (seen ? 24 * 60 * 60 * 1000 : 10 * 60 * 1000);
+        const keys = [];
+
+        for (const r of data.pending || []) {
+            const key = "p:" + r.id;
+            keys.push(key);
+            if (!known.has(key) && (r.at || 0) > fresh) {
+                showShootToast("Заявка на съёмки", r.by + ": " + r.title);
+            }
+        }
+
+        for (const r of data.reports || []) {
+            const key = "r:" + r.id;
+            keys.push(key);
+            if (!known.has(key) && (r.at || 0) > fresh) {
+                showShootToast("Опрос закрыт", r.missing.length ? ("Не ответили: " + r.missing.length + " — " + r.title) : (r.title + ": проголосовали все"));
+            }
+        }
+
+        for (const r of data.mine || []) {
+            if (r.status === "pending") continue;
+            const key = "m:" + r.id + ":" + r.status;
+            keys.push(key);
+            if (!known.has(key) && (r.decidedAt || r.at || 0) > fresh) {
+                showShootToast(
+                    r.status === "sent" ? "Съёмки одобрены" : "Съёмки отклонены",
+                    r.status === "sent" ? r.title : (L("Причина: ") + r.reason)
+                );
+            }
+        }
+
+        try {
+            fs.writeFileSync(shootsSeenPath(), JSON.stringify({ keys: [...new Set([...keys, ...known])].slice(0, 200) }));
+        } catch {}
+
+        const sig = JSON.stringify([(data.pending || []).map(r => r.id), (data.mine || []).map(r => [r.id, r.status])]);
+
+        if (sig !== lastShootSig) {
+            lastShootSig = sig;
+            if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.webContents.isLoading()) {
+                mainWindow.webContents.send("shoots-changed", data);
+            }
+        }
+    } catch {
+        // не участник или воркер недоступен — тихо
+    }
+}
 
 // ---- Новости: уведомления приложения и обновление окна ----
 const NEWS_POLL_MS = 2 * 60 * 1000;

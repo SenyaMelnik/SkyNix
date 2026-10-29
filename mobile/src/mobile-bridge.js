@@ -502,6 +502,7 @@
                 notifications: [
                     {
                         id: Math.floor(Math.random() * 2147483000),
+                        channelId: "skynix",
                         title: "SkyNix — " + view.title,
                         body: view.body !== undefined
                             ? view.body
@@ -585,6 +586,77 @@
         catch (error) {
 
             // нет сети — попробуем позже
+
+        }
+
+    }
+
+    const SHOOTS_SEEN_KEY = "skynix_shoots_seen";
+    let lastShootSig = null;
+
+    async function pollShoots() {
+
+        if (!getSession() || logoutRequested) return;
+
+        try {
+
+            const data = await commands["shoots-get"]();
+
+            let seen = null;
+
+            try {
+                seen = JSON.parse(localStorage.getItem(SHOOTS_SEEN_KEY) || "null");
+            } catch {
+                seen = null;
+            }
+
+            const known = new Set(seen && Array.isArray(seen.keys) ? seen.keys : []);
+            const fresh = Date.now() - (seen ? 24 * 3600 * 1000 : 10 * 60 * 1000);
+            const keys = [];
+
+            for (const r of data.pending || []) {
+                const key = "p:" + r.id;
+                keys.push(key);
+                if (!known.has(key) && (r.at || 0) > fresh) {
+                    showLocalNotification({ title: "Заявка на съёмки", body: String(r.by + ": " + r.title).slice(0, 220) });
+                }
+            }
+
+            for (const r of data.reports || []) {
+                const key = "r:" + r.id;
+                keys.push(key);
+                if (!known.has(key) && (r.at || 0) > fresh) {
+                    showLocalNotification({ title: "Опрос закрыт", body: r.missing.length ? ("Не ответили: " + r.missing.length + " — " + r.title) : (r.title + ": проголосовали все") });
+                }
+            }
+
+            for (const r of data.mine || []) {
+                if (r.status === "pending") continue;
+                const key = "m:" + r.id + ":" + r.status;
+                keys.push(key);
+                if (!known.has(key) && (r.decidedAt || r.at || 0) > fresh) {
+                    showLocalNotification({
+                        title: r.status === "sent" ? "Съёмки одобрены" : "Съёмки отклонены",
+                        body: r.status === "sent" ? String(r.title) : "Причина: " + r.reason
+                    });
+                }
+            }
+
+            try {
+                localStorage.setItem(SHOOTS_SEEN_KEY, JSON.stringify({ keys: [...new Set([...keys, ...known])].slice(0, 200) }));
+            } catch {}
+
+            const sig = JSON.stringify([(data.pending || []).map(r => r.id), (data.mine || []).map(r => [r.id, r.status])]);
+
+            if (sig !== lastShootSig) {
+                lastShootSig = sig;
+                emit("shoots-changed", data);
+            }
+
+        }
+        catch (error) {
+
+            // не участник или нет сети
 
         }
 
@@ -923,6 +995,54 @@
 
         },
 
+        "shoot-people": () => telegramRequest("/api/profile/shoot-people", { method: "GET" }),
+
+        "shoots-get": () => telegramRequest("/api/profile/shoots", { method: "GET" }),
+
+        "shoot-submit": data =>
+            telegramRequest("/api/profile/shoot-submit", { method: "POST", body: JSON.stringify(data || {}) }),
+
+        "shoot-decide": data =>
+            telegramRequest("/api/profile/shoot-decide", { method: "POST", body: JSON.stringify(data || {}) }),
+
+        "shoot-publish": data =>
+            telegramRequest("/api/profile/shoot-publish", { method: "POST", body: JSON.stringify(data || {}) }),
+
+        "news-post": async data => {
+
+            const text = String((data && data.text) || "").trim();
+            const targets = Array.isArray(data && data.targets) ? data.targets : [];
+
+            if (!text) throw new Error("Напишите текст сообщения.");
+            if (!targets.length) throw new Error("Выберите, куда отправить.");
+
+            const tgTargets = targets.filter(x => x === "main" || x === "recruits");
+            const report = [];
+
+            if (targets.includes("discord")) {
+                try {
+                    await discordRequest("/api/discord/news-post", { method: "POST", body: JSON.stringify({ text }) });
+                    report.push({ target: "discord", ok: true });
+                }
+                catch (error) {
+                    report.push({ target: "discord", ok: false, error: String(error && error.message || error) });
+                }
+            }
+
+            if (tgTargets.length) {
+                try {
+                    const res = await telegramRequest("/api/profile/news-post", { method: "POST", body: JSON.stringify({ text, targets: tgTargets }) });
+                    for (const r of res.results || []) report.push(r);
+                }
+                catch (error) {
+                    for (const target of tgTargets) report.push({ target, ok: false, error: String(error && error.message || error) });
+                }
+            }
+
+            return { ok: report.some(r => r.ok), results: report };
+
+        },
+
         "settings-set": async () => ({}),
 
         "profile-telegram-status": () =>
@@ -1131,7 +1251,28 @@
             const { LocalNotifications } = plugins();
 
             if (LocalNotifications) {
-                LocalNotifications.requestPermissions().catch(() => {});
+
+                // канал с высокой важностью: иначе Android показывает уведомления «тихо» или прячет их
+                try {
+                    await LocalNotifications.createChannel({
+                        id: "skynix",
+                        name: "SkyNix",
+                        description: "Новости, наказания и съёмки",
+                        importance: 4,
+                        visibility: 1,
+                        vibration: true
+                    });
+                } catch {}
+
+                // разрешение спрашиваем при каждом запуске, пока пользователь его не даст
+                try {
+                    const state = await LocalNotifications.checkPermissions();
+
+                    if (!state || state.display !== "granted") {
+                        await LocalNotifications.requestPermissions();
+                    }
+                } catch {}
+
             }
 
         }
@@ -1139,10 +1280,44 @@
             // Игнорируем
         }
 
+        // при возврате в приложение сразу проверяем новое — в фоне Android замораживает таймеры
+        let lastResume = 0;
+
+        function onResume() {
+
+            if (Date.now() - lastResume < 15000) return;
+
+            lastResume = Date.now();
+
+            pollNotices();
+            pollNews();
+            pollShoots();
+
+        }
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") onResume();
+        });
+
+        try {
+
+            const { App: AppPlugin } = plugins();
+
+            if (AppPlugin) {
+                AppPlugin.addListener("appStateChange", state => {
+                    if (state && state.isActive) onResume();
+                });
+            }
+
+        }
+        catch {}
+
         setTimeout(pollNotices, 8000);
         setInterval(pollNotices, NOTICE_POLL_MS);
         setTimeout(pollNews, 15000);
         setInterval(pollNews, NEWS_POLL_MS);
+        setTimeout(pollShoots, 20000);
+        setInterval(pollShoots, NEWS_POLL_MS);
 
         setTimeout(checkForUpdate, 6000);
         setInterval(checkForUpdate, UPDATE_CHECK_MS);

@@ -1,6 +1,6 @@
 {
   "name": "skynix-mobile",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "description": "SkyNix для Android (Capacitor). Использует общий index.html из корня репозитория.",
   "scripts": {

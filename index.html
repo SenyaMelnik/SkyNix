@@ -760,6 +760,34 @@ html[data-theme="light"] .g-chip.ok{color:#1f8f4a}html[data-theme="light"] .g-er
 .g-notif-text{font-size:14px;color:var(--text-soft);word-break:break-word}
 .g-notif-open{height:auto;margin:10px 0 0;padding:6px 14px;border-radius:10px;border:1px solid var(--line);background:rgba(var(--ov),.06);color:var(--accent2);font:700 12px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer}
 .g-new{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:800;background:linear-gradient(90deg,var(--violet),var(--blue));color:var(--on-accent);vertical-align:middle}
+
+.g-form{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.g-field{display:flex;flex-direction:column;gap:6px}
+.g-field-label{font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+.g-form select,.g-form input[type="text"],.g-win-body textarea.g-textarea,.g-log-row input[type="text"]{width:100%;height:42px;margin:0;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--field-bg);color:var(--text);font:600 14px Manrope,"Segoe UI",Arial,sans-serif;outline:none;box-sizing:border-box}
+.g-win-body textarea.g-textarea{height:auto;padding:10px 12px;resize:vertical;min-height:120px}
+.g-form select option{color:#14163a;background:#fff}
+.g-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.g-fixed{height:42px;display:flex;align-items:center;padding:0 12px;border-radius:12px;border:1px dashed var(--line);color:var(--text-soft);font-weight:700;font-size:14px}
+.g-pick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.g-pick{border:1px solid var(--line);border-radius:14px;background:rgba(var(--ov),.04);overflow:hidden}
+.g-pick-head b{white-space:nowrap}.g-pick-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.g-pick-all{width:auto;flex:none;height:auto;margin:0;padding:5px 10px;border-radius:10px;border:1px solid var(--line);background:rgba(var(--ov),.06);color:var(--accent2);font:700 12px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer}
+.g-pick-list{max-height:210px;overflow:auto;padding:6px 8px}
+.g-pick-row{display:flex;align-items:center;gap:10px;padding:6px 6px;border-radius:8px;cursor:pointer;font-size:14px;word-break:break-all}
+.g-pick-row:hover{background:rgba(var(--ov),.07)}
+.g-pick-row input[type="checkbox"]{flex:none;width:18px;height:18px;margin:0;padding:0;accent-color:var(--accent2)}
+.g-pick-manual{padding:10px 12px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.g-pick-manual-row{display:flex;gap:8px}
+.g-pick-manual-row input{flex:1;min-width:0}
+.g-pick-manual-row input.bad{border-color:#ff4d6d}
+.g-pickchips{display:flex;flex-wrap:wrap;gap:8px}
+.g-pickchip{width:auto;height:auto;margin:0;padding:9px 14px;border-radius:30px;border:1px solid var(--line);background:rgba(var(--ov),.05);color:var(--text-soft);font:700 13px Manrope,"Segoe UI",Arial,sans-serif;cursor:pointer}
+.g-pickchip.on{background:linear-gradient(90deg,var(--violet),var(--blue));border-color:transparent;color:var(--on-accent)}
+.g-shoot-text{margin:8px 0 10px;padding:10px 12px;border-radius:12px;background:rgba(var(--ov),.06);white-space:pre-wrap;word-break:break-word;font:500 13px/1.5 Manrope,"Segoe UI",Arial,sans-serif;color:var(--text)}
+.g-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.g-log-row .g-pickchips{margin-top:6px}
+@media (max-width:520px){.g-trio{grid-template-columns:1fr 1fr 1fr;gap:6px}}
 </style>
 </head>
 
@@ -848,7 +876,9 @@ try{if(typeof require==="function"){require("electron").ipcRenderer.on("window-s
     "Вступить в команду":"Join the team","Подать заявку в команду":"Apply to the team","Подайте заявку и дождитесь решения модерации.":"Submit an application and wait for moderation's decision.","Проверка заявки":"Application check","Бот для проверки заявки":"Application checking bot","Бот проверит вашу заявку и напишет результат.":"The bot will review your application and send the result.","Форма заявки:":"Application form:",
     "Запускать вместе с Windows":"Launch with Windows","Приложение стартует свёрнутым в трей, и уведомления приходят сразу.":"The app starts minimized to the tray and notifications arrive right away.",
     "Сворачивать в трей при закрытии":"Minimize to tray on close","Крестик не закрывает приложение: оно продолжает присылать уведомления. Выйти можно через значок в трее.":"The X button does not close the app: it keeps delivering notifications. Quit from the tray icon.",
-    "Версия 2.1.0":"Version 2.1.0","Модерация:":"Moderation:",
+    "Версия 2.2.0":"Version 2.2.0","Не ответили в опросах":"Did not answer the polls","Проголосовали все.":"Everyone voted.","Новобранцы":"Recruits","Не нашли человека? Введите вручную":"Can't find someone? Enter manually","Добавить":"Add","Для использования привяжите Telegram к своему профилю в приложении.":"To use this, link Telegram to your profile in the app.",
+    "Съёмки":"Shoots","Стрим":"Stream","Провести съёмки":"Host a shoot","Провести съёмки (без проверки)":"Host a shoot (no review)","Сообщение и опрос сразу уйдут в выбранные группы Telegram.":"The message and poll will go straight to the selected Telegram groups.","Заполните форму — заявка уйдёт Архонту на проверку.":"Fill in the form — the request goes to the Archon for review.","День":"Day","Месяц":"Month","Год":"Year","Часы":"Hours","Минуты":"Minutes","Часовой пояс":"Time zone","по МСК":"Moscow time","Января":"January","Февраля":"February","Марта":"March","Апреля":"April","Мая":"May","Июня":"June","Июля":"July","Августа":"August","Сентября":"September","Октября":"October","Ноября":"November","Декабря":"December","Что снимаем":"What are we shooting","Например: новый ролик про SkyNix":"For example: a new SkyNix video","Кто сможет прийти?":"Who can come?","Загружаю список…":"Loading the list…","Из SkyNix":"From SkyNix","Из новобранцев":"From recruits","Выбрать всех":"Select all","Снять выбор":"Clear selection","Список пока пуст.":"The list is empty for now.","Куда отправить":"Send to","Группа SkyNix":"SkyNix group","Группа новобранцев":"Recruits group","Отправить в Telegram":"Send to Telegram","Отправить на проверку":"Submit for review","Напишите, что снимаем.":"Write what we are shooting.","Выберите хотя бы одного человека.":"Choose at least one person.","Выберите, куда отправить.":"Choose where to send.","✅ Отправлено":"✅ Sent","✅ Заявка отправлена":"✅ Request sent","Сообщение и опрос опубликованы в новостях выбранных групп.":"The message and poll were published in the news of the selected groups.","Архонт её проверит. Когда будет решение — придёт уведомление.":"The Archon will review it. You will get a notification with the decision.","Заявки на съёмки":"Shoot requests","Загружаю…":"Loading…","Новых заявок нет.":"No new requests.","Все заявки обработаны.":"All requests are processed.","Опрос уже не успеть создать: до начала меньше 15 минут. Можно только отказать.":"Too late for a poll: less than 15 minutes to the start. You can only reject.","В группу SkyNix":"To the SkyNix group","В группу новобранцев":"To the recruits group","Причина отказа":"Rejection reason","Подтвердить отказ":"Confirm rejection","Укажите причину отказа.":"Enter a rejection reason.","Отправить":"Send","Отказать":"Reject","Написать в новости":"Post to news","Сообщение отправится от имени бота.":"The message will be sent as the bot.","Текст новости":"News text","Текст":"Text","Напишите текст.":"Write some text.","Telegram · SkyNix":"Telegram · SkyNix","Telegram · Новобранцы":"Telegram · Recruits","Сразу в группы, без проверки":"Straight to the groups, no review","Отправить заявку Архонту":"Send a request to the Archon","Одобрить или отказать":"Approve or reject","Сообщение от имени бота":"Message as the bot","Мои заявки":"My requests","одобрено":"approved","отклонено":"rejected","на проверке":"under review","Проведение съёмок одобрено":"Shoot approved","В проведении съёмок отказано":"Shoot rejected","Новая заявка на съёмки":"New shoot request",
+"Модерация:":"Moderation:",
     "Данные модерации отсутствуют.":"No moderation data.","Данные о предупреждениях пока не загружены.":"Warning data has not loaded yet.","Не удалось выполнить запрос.":"Could not complete the request.","Не удалось загрузить историю.":"Could not load history.","Не удалось загрузить предупреждения.":"Could not load warnings.",
     "Не удалось получить список пользователей.":"Could not get the user list.","Не удалось получить пользователей Discord.":"Could not get Discord users.","Не удалось открыть авторизацию Discord.":"Could not open Discord authorization.","не удалось загрузить пользователей.":"could not load users.",
     "У этого человека не привязан Telegram к профилю, просмотреть предупреждения невозможно.":"This person has no Telegram linked to their profile, so warnings cannot be viewed.",
@@ -1087,7 +1117,7 @@ try{if(typeof require==="function"){require("electron").ipcRenderer.on("window-s
 
 
 <div class="version">
-    Версия 2.1.0
+    Версия 2.2.0
 </div>
 
 
@@ -2838,7 +2868,7 @@ function toggleDiscordMenu() {
 
     }
 
-    function warningBars(container, items) {
+    function warningBars(container, items, quiet) {
 
         for (const item of items) {
 
@@ -2850,7 +2880,7 @@ function toggleDiscordMenu() {
 
             row.appendChild(value);
 
-            if (silent) value.textContent = item.count + " из " + item.max;
+            if (quiet) value.textContent = item.count + " из " + item.max;
             else animateNumber(value, item.count, " из " + item.max);
 
             const percent =
@@ -3777,6 +3807,38 @@ function toggleDiscordMenu() {
             });
         }
 
+        if (typeof shootState !== "undefined") {
+
+            for (const r of shootState.mine || []) {
+
+                if (r.status === "pending") continue;
+
+                out.push({
+                    kind: "shoot",
+                    at: Number(r.decidedAt) || Number(r.at) || 0,
+                    title: r.status === "sent" ? "Проведение съёмок одобрено" : "В проведении съёмок отказано",
+                    tone: r.status === "sent" ? "ok" : "ban",
+                    meta: ruShootDate(r.date) + " · " + r.time + " МСК",
+                    text: r.status === "sent" ? r.title : "Причина: " + (r.reason || "не указана")
+                });
+
+            }
+
+            for (const r of shootState.pending || []) {
+
+                out.push({
+                    kind: "shoot",
+                    at: Number(r.at) || 0,
+                    title: "Новая заявка на съёмки",
+                    tone: "mute",
+                    meta: r.by,
+                    text: r.title + " · " + ruShootDate(r.date) + " " + r.time + " МСК"
+                });
+
+            }
+
+        }
+
         for (const r of showReplies() ? (notifState.replies || []) : []) {
             out.push({
                 kind: "reply",
@@ -3849,6 +3911,10 @@ function toggleDiscordMenu() {
                 const res = await ipcRenderer.invoke("news-get");
                 notifState.news = (res && res.items) || [];
             } catch {}
+        }
+
+        if (withReplies && typeof window.refreshShoots === "function") {
+            window.refreshShoots();
         }
 
         notifState.at = Date.now();
@@ -4193,6 +4259,859 @@ function toggleDiscordMenu() {
 
     };
 
+
+    // ======================================================
+    // СЪЁМКИ И НОВОСТИ ОТ ИМЕНИ БОТА (2.2.0)
+    // ======================================================
+
+    const SHOOT_MONTHS = [
+        "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
+        "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
+    ];
+
+    function canShoot() {
+        return Boolean(discordSession && discordSession.status === "member");
+    }
+
+    function isArchonUser() {
+        return Boolean(discordSession && discordSession.status === "member" && discordSession.role === ROLE_ARCHON);
+    }
+
+    function pad2(n) {
+        return String(n).padStart(2, "0");
+    }
+
+    function makeSelect(options, value) {
+
+        const select = document.createElement("select");
+
+        for (const [v, t] of options) {
+            const option = document.createElement("option");
+            option.value = String(v);
+            option.textContent = t;
+            select.appendChild(option);
+        }
+
+        select.value = String(value);
+
+        return select;
+
+    }
+
+    function field(label, node) {
+
+        const wrap = gEl("label", "g-field");
+
+        wrap.appendChild(gEl("span", "g-field-label", label));
+
+        wrap.appendChild(node);
+
+        return wrap;
+
+    }
+
+    function chipToggle(label, on) {
+
+        const chip = gEl("button", "g-pickchip" + (on ? " on" : ""), label);
+
+        chip.type = "button";
+
+        chip.setAttribute("aria-pressed", String(Boolean(on)));
+
+        chip.onclick = () => {
+            chip.classList.toggle("on");
+            chip.setAttribute("aria-pressed", String(chip.classList.contains("on")));
+        };
+
+        chip.isOn = () => chip.classList.contains("on");
+
+        return chip;
+
+    }
+
+    function peopleBox(title, people) {
+
+        const wrap = gEl("div", "g-pick");
+
+        const head = gEl("div", "g-pick-head");
+
+        head.appendChild(gEl("b", "", title));
+
+        const all = gEl("button", "g-pick-all", "Выбрать всех");
+
+        all.type = "button";
+
+        head.appendChild(all);
+
+        wrap.appendChild(head);
+
+        const list = gEl("div", "g-pick-list");
+
+        const boxes = [];
+
+        if (!people.length) {
+            list.appendChild(gEl("div", "g-muted small", "Список пока пуст."));
+        }
+
+        for (const p of people) {
+
+            const row = gEl("label", "g-pick-row");
+
+            const box = document.createElement("input");
+
+            box.type = "checkbox";
+
+            box.value = String(p.id);
+
+            boxes.push(box);
+
+            row.appendChild(box);
+
+            row.appendChild(gEl("span", "", p.label));
+
+            list.appendChild(row);
+
+        }
+
+        wrap.appendChild(list);
+
+        // ручной ввод, если человека нет в списке
+        const extras = [];
+
+        const manual = gEl("div", "g-pick-manual");
+
+        manual.appendChild(gEl("div", "g-field-label", "Не нашли человека? Введите вручную"));
+
+        const manualRow = gEl("div", "g-pick-manual-row");
+
+        const manualInput = document.createElement("input");
+
+        manualInput.type = "text";
+        manualInput.maxLength = 33;
+        manualInput.placeholder = "@username";
+
+        const manualAdd = gEl("button", "g-pick-all", "Добавить");
+
+        manualAdd.type = "button";
+
+        const extraChips = gEl("div", "g-pickchips");
+
+        function addExtra() {
+
+            const handle = manualInput.value.trim().replace(/^@/, "");
+
+            if (!/^[A-Za-z][A-Za-z0-9_]{4,31}$/.test(handle)) {
+                manualInput.classList.add("bad");
+                return;
+            }
+
+            manualInput.classList.remove("bad");
+
+            if (extras.some(x => x.toLowerCase() === handle.toLowerCase())) {
+                manualInput.value = "";
+                return;
+            }
+
+            extras.push(handle);
+
+            const chip = gEl("button", "g-pickchip on", "@" + handle + " ×");
+
+            chip.type = "button";
+
+            chip.onclick = () => {
+                extras.splice(extras.indexOf(handle), 1);
+                chip.remove();
+            };
+
+            extraChips.appendChild(chip);
+
+            manualInput.value = "";
+
+        }
+
+        manualAdd.onclick = addExtra;
+
+        manualInput.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                addExtra();
+            }
+        });
+
+        manualRow.appendChild(manualInput);
+        manualRow.appendChild(manualAdd);
+        manual.appendChild(manualRow);
+        manual.appendChild(extraChips);
+        wrap.appendChild(manual);
+
+        wrap.extras = () => extras.slice();
+
+        let allOn = false;
+
+        all.onclick = () => {
+            allOn = !allOn;
+            boxes.forEach(b => { b.checked = allOn; });
+            all.textContent = allOn ? "Снять выбор" : "Выбрать всех";
+        };
+
+        wrap.selected = () => boxes.filter(b => b.checked).map(b => Number(b.value));
+
+        return wrap;
+
+    }
+
+    function shootStatusText(r) {
+        if (r.status === "sent") return "одобрено";
+        if (r.status === "rejected") return "отклонено";
+        return "на проверке";
+    }
+
+    function ruShootDate(date) {
+        const [y, m, d] = String(date).split("-");
+        return d + "." + m + "." + y;
+    }
+
+    async function openShootForm() {
+
+        if (!canShoot()) return;
+
+        const archon = isArchonUser();
+
+        const body = openWindow(archon ? "Провести съёмки (без проверки)" : "Провести съёмки", true);
+
+        // без привязанного Telegram съёмки провести нельзя (в ЛС пишут автору)
+        try {
+
+            const tg = await ipcRenderer.invoke("profile-telegram-status");
+
+            if (!tg || !tg.linked) {
+
+                body.textContent = "";
+
+                body.appendChild(gEl("p", "g-text", "Для использования привяжите Telegram к своему профилю в приложении."));
+
+                body.appendChild(gButton("Открыть профиль", () => { closeNow(); openProfile(); }, "primary"));
+
+                return;
+
+            }
+
+        } catch {}
+
+        body.appendChild(gEl("p", "g-muted", archon
+            ? "Сообщение и опрос сразу уйдут в выбранные группы Telegram."
+            : "Заполните форму — заявка уйдёт Архонту на проверку."));
+
+        const form = gEl("div", "g-form");
+
+        body.appendChild(form);
+
+        let kind = "shoot";
+
+        const seg = gEl("div", "g-seg");
+
+        const bShoot = gEl("button", "on", "Съёмки");
+        const bStream = gEl("button", "", "Стрим");
+
+        bShoot.type = bStream.type = "button";
+
+        bShoot.onclick = () => { kind = "shoot"; bShoot.classList.add("on"); bStream.classList.remove("on"); };
+        bStream.onclick = () => { kind = "stream"; bStream.classList.add("on"); bShoot.classList.remove("on"); };
+
+        seg.appendChild(bShoot);
+        seg.appendChild(bStream);
+
+        form.appendChild(seg);
+
+        // дата
+        const tomorrow = new Date(Date.now() + 24 * 3600 * 1000);
+
+        const thisYear = new Date().getFullYear();
+
+        const daySel = makeSelect([], 1);
+        const monthSel = makeSelect(SHOOT_MONTHS.map((m, i) => [i + 1, m]), tomorrow.getMonth() + 1);
+        const yearSel = makeSelect([[thisYear, String(thisYear)], [thisYear + 1, String(thisYear + 1)]], tomorrow.getFullYear());
+
+        function fillDays(keep) {
+
+            const days = new Date(Number(yearSel.value), Number(monthSel.value), 0).getDate();
+
+            daySel.textContent = "";
+
+            for (let d = 1; d <= days; d++) {
+                const option = document.createElement("option");
+                option.value = String(d);
+                option.textContent = String(d);
+                daySel.appendChild(option);
+            }
+
+            daySel.value = String(Math.min(keep, days));
+
+        }
+
+        fillDays(tomorrow.getDate());
+
+        monthSel.onchange = yearSel.onchange = () => fillDays(Number(daySel.value));
+
+        const dateRow = gEl("div", "g-trio");
+
+        dateRow.appendChild(field("День", daySel));
+        dateRow.appendChild(field("Месяц", monthSel));
+        dateRow.appendChild(field("Год", yearSel));
+
+        form.appendChild(dateRow);
+
+        // время
+        const hourSel = makeSelect(Array.from({ length: 24 }, (_, h) => [h, pad2(h)]), 14);
+        const minSel = makeSelect(Array.from({ length: 12 }, (_, i) => [i * 5, pad2(i * 5)]), 0);
+
+        const timeRow = gEl("div", "g-trio");
+
+        timeRow.appendChild(field("Часы", hourSel));
+        timeRow.appendChild(field("Минуты", minSel));
+        timeRow.appendChild(field("Часовой пояс", gEl("div", "g-fixed", "по МСК")));
+
+        form.appendChild(timeRow);
+
+        const title = document.createElement("input");
+
+        title.type = "text";
+        title.maxLength = 80;
+        title.placeholder = "Например: новый ролик про SkyNix";
+
+        form.appendChild(field("Что снимаем", title));
+
+        form.appendChild(gEl("div", "g-field-label", "Кто сможет прийти?"));
+
+        const peopleHost = gEl("div", "g-pick-grid");
+
+        peopleHost.appendChild(gEl("div", "g-muted", "Загружаю список…"));
+
+        form.appendChild(peopleHost);
+
+        let mainBox = null;
+        let recBox = null;
+
+        // куда отправить (только Архонт)
+        let targetMain = null;
+        let targetRec = null;
+
+        if (archon) {
+
+            form.appendChild(gEl("div", "g-field-label", "Куда отправить"));
+
+            const targets = gEl("div", "g-pickchips");
+
+            targetMain = chipToggle("Группа SkyNix", true);
+            targetRec = chipToggle("Группа новобранцев", false);
+
+            targets.appendChild(targetMain);
+            targets.appendChild(targetRec);
+
+            form.appendChild(targets);
+
+        }
+
+        const error = gEl("div", "g-error");
+
+        form.appendChild(error);
+
+        const send = gButton(archon ? "Отправить в Telegram" : "Отправить на проверку", async () => {
+
+            error.textContent = "";
+
+            const payload = {
+                kind,
+                title: title.value.trim(),
+                date: yearSel.value + "-" + pad2(monthSel.value) + "-" + pad2(daySel.value),
+                time: pad2(hourSel.value) + ":" + pad2(minSel.value),
+                main: mainBox ? mainBox.selected() : [],
+                recruits: recBox ? recBox.selected() : [],
+                mainExtra: mainBox ? mainBox.extras() : [],
+                recruitsExtra: recBox ? recBox.extras() : []
+            };
+
+            if (!payload.title) {
+                error.textContent = "Напишите, что снимаем.";
+                return;
+            }
+
+            if (!payload.main.length && !payload.recruits.length && !payload.mainExtra.length && !payload.recruitsExtra.length) {
+                error.textContent = "Выберите хотя бы одного человека.";
+                return;
+            }
+
+            if (archon) {
+
+                payload.targets = [];
+
+                if (targetMain.isOn()) payload.targets.push("main");
+                if (targetRec.isOn()) payload.targets.push("recruits");
+
+                if (!payload.targets.length) {
+                    error.textContent = "Выберите, куда отправить.";
+                    return;
+                }
+
+            }
+
+            send.disabled = true;
+
+            try {
+
+                await ipcRenderer.invoke(archon ? "shoot-publish" : "shoot-submit", payload);
+
+                body.textContent = "";
+
+                body.appendChild(gEl("div", "g-chip ok", archon ? "✅ Отправлено" : "✅ Заявка отправлена"));
+
+                body.appendChild(gEl("p", "g-text", archon
+                    ? "Сообщение и опрос опубликованы в новостях выбранных групп."
+                    : "Архонт её проверит. Когда будет решение — придёт уведомление."));
+
+                body.appendChild(gButton("Закрыть", closeNow, "primary"));
+
+                refreshShoots();
+
+            } catch (e) {
+
+                error.textContent = String((e && e.message) || e).replace(/^Error invoking remote method '[^']+': (Error: )?/, "");
+
+                send.disabled = false;
+
+            }
+
+        }, "primary");
+
+        form.appendChild(send);
+
+        try {
+
+            const people = await ipcRenderer.invoke("shoot-people");
+
+            peopleHost.textContent = "";
+
+            mainBox = peopleBox("Из SkyNix", people.main || []);
+            recBox = peopleBox("Из новобранцев", people.recruits || []);
+
+            peopleHost.appendChild(mainBox);
+            peopleHost.appendChild(recBox);
+
+        } catch (e) {
+
+            peopleHost.textContent = "";
+
+            peopleHost.appendChild(gEl("div", "g-error", String((e && e.message) || e).replace(/^Error invoking remote method '[^']+': (Error: )?/, "")));
+
+        }
+
+    }
+
+    // ---------------- Заявки на съёмки (Архонт) ----------------
+
+    async function openShootReview() {
+
+        if (!isArchonUser()) return;
+
+        const body = openWindow("Заявки на съёмки", true);
+
+        body.appendChild(gEl("p", "g-muted", "Загружаю…"));
+
+        let data;
+
+        try {
+            data = await ipcRenderer.invoke("shoots-get");
+        } catch (e) {
+            body.textContent = "";
+            body.appendChild(gEl("div", "g-error", String((e && e.message) || e).replace(/^Error invoking remote method '[^']+': (Error: )?/, "")));
+            return;
+        }
+
+        shootState = data;
+        updateShootBadge();
+
+        body.textContent = "";
+
+        const pending = data.pending || [];
+
+        function addReports() {
+
+            const reports = data.reports || [];
+
+            if (!reports.length) return;
+
+            body.appendChild(gEl("div", "g-set-title", "Не ответили в опросах"));
+
+            const log = gEl("div", "g-log");
+
+            for (const r of reports.slice(0, 8)) {
+
+                const row = gEl("div", "g-log-row");
+
+                const top = gEl("div", "g-log-top");
+
+                top.appendChild(gEl("span", "g-log-who", r.title));
+                top.appendChild(gEl("span", "g-tag " + (r.missing.length ? "mute" : "ok"),
+                    [].concat(r.group || []).map(g => g === "recruits" ? "Новобранцы" : "SkyNix").join(" + ") + " · " + ruShootDate(r.date) + " " + r.time));
+
+                row.appendChild(top);
+
+                row.appendChild(gEl("div", "g-log-reason", r.missing.length
+                    ? "Не проголосовали (" + r.missing.length + " из " + r.total + "): " + r.missing.join(", ")
+                    : "Проголосовали все."));
+
+                log.appendChild(row);
+
+            }
+
+            body.appendChild(log);
+
+        }
+
+        if (!pending.length) {
+            body.appendChild(gEl("p", "g-muted", "Новых заявок нет."));
+            addReports();
+            return;
+        }
+
+        const list = gEl("div", "g-log");
+
+        for (const r of pending) {
+
+            const card = gEl("div", "g-log-row");
+
+            const top = gEl("div", "g-log-top");
+
+            top.appendChild(gEl("span", "g-log-who", r.by));
+            top.appendChild(gEl("span", "g-tag mute", (r.kind === "stream" ? "Стрим" : "Съёмки") + " · " + ruShootDate(r.date) + " " + r.time + " МСК"));
+
+            card.appendChild(top);
+
+            card.appendChild(gEl("pre", "g-shoot-text", r.text));
+
+            if (!r.canSend) {
+                card.appendChild(gEl("div", "g-error", "Опрос уже не успеть создать: до начала меньше 15 минут. Можно только отказать."));
+            }
+
+            const chips = gEl("div", "g-pickchips");
+
+            const cMain = chipToggle("В группу SkyNix", false);
+            const cRec = chipToggle("В группу новобранцев", false);
+
+            chips.appendChild(cMain);
+            chips.appendChild(cRec);
+
+            if (r.canSend) card.appendChild(chips);
+
+            const err = gEl("div", "g-error");
+
+            const reason = document.createElement("input");
+
+            reason.type = "text";
+            reason.maxLength = 200;
+            reason.placeholder = "Причина отказа";
+            reason.style.display = "none";
+
+            const actions = gEl("div", "g-actions");
+
+            const sendBtn = gButton("Отправить", async () => {
+
+                err.textContent = "";
+
+                const targets = [];
+
+                if (cMain.isOn()) targets.push("main");
+                if (cRec.isOn()) targets.push("recruits");
+
+                if (!targets.length) {
+                    err.textContent = "Выберите, куда отправить.";
+                    return;
+                }
+
+                sendBtn.disabled = true;
+
+                try {
+                    await ipcRenderer.invoke("shoot-decide", { id: r.id, action: "send", targets });
+                    card.remove();
+                    afterDecision(list, body);
+                } catch (e) {
+                    err.textContent = String((e && e.message) || e).replace(/^Error invoking remote method '[^']+': (Error: )?/, "");
+                    sendBtn.disabled = false;
+                }
+
+            }, "primary");
+
+            const rejectBtn = gButton("Отказать", async () => {
+
+                if (reason.style.display === "none") {
+                    reason.style.display = "";
+                    reason.focus();
+                    rejectBtn.textContent = "Подтвердить отказ";
+                    return;
+                }
+
+                err.textContent = "";
+
+                if (!reason.value.trim()) {
+                    err.textContent = "Укажите причину отказа.";
+                    return;
+                }
+
+                rejectBtn.disabled = true;
+
+                try {
+                    await ipcRenderer.invoke("shoot-decide", { id: r.id, action: "reject", reason: reason.value.trim() });
+                    card.remove();
+                    afterDecision(list, body);
+                } catch (e) {
+                    err.textContent = String((e && e.message) || e).replace(/^Error invoking remote method '[^']+': (Error: )?/, "");
+                    rejectBtn.disabled = false;
+                }
+
+            }, "danger");
+
+            if (r.canSend) actions.appendChild(sendBtn);
+
+            actions.appendChild(rejectBtn);
+
+            card.appendChild(reason);
+            card.appendChild(err);
+            card.appendChild(actions);
+
+            list.appendChild(card);
+
+        }
+
+        body.appendChild(list);
+
+        addReports();
+
+    }
+
+    function afterDecision(list, body) {
+
+        if (!list.children.length) {
+            body.appendChild(gEl("p", "g-muted", "Все заявки обработаны."));
+        }
+
+        refreshShoots();
+
+    }
+
+    // ---------------- Написать в новости (Архонт) ----------------
+
+    function openNewsPost() {
+
+        if (!isArchonUser()) return;
+
+        const body = openWindow("Написать в новости", true);
+
+        body.appendChild(gEl("p", "g-muted", "Сообщение отправится от имени бота."));
+
+        const text = document.createElement("textarea");
+
+        text.maxLength = 1900;
+        text.rows = 7;
+        text.placeholder = "Текст новости";
+        text.className = "g-textarea";
+
+        body.appendChild(field("Текст", text));
+
+        body.appendChild(gEl("div", "g-field-label", "Куда отправить"));
+
+        const chips = gEl("div", "g-pickchips");
+
+        const cMain = chipToggle("Telegram · SkyNix", false);
+        const cRec = chipToggle("Telegram · Новобранцы", false);
+        const cDis = chipToggle("Discord", false);
+
+        chips.appendChild(cMain);
+        chips.appendChild(cRec);
+        chips.appendChild(cDis);
+
+        body.appendChild(chips);
+
+        const out = gEl("div", "g-muted small");
+
+        const error = gEl("div", "g-error");
+
+        const send = gButton("Отправить", async () => {
+
+            error.textContent = "";
+            out.textContent = "";
+
+            const targets = [];
+
+            if (cMain.isOn()) targets.push("main");
+            if (cRec.isOn()) targets.push("recruits");
+            if (cDis.isOn()) targets.push("discord");
+
+            if (!text.value.trim()) {
+                error.textContent = "Напишите текст.";
+                return;
+            }
+
+            if (!targets.length) {
+                error.textContent = "Выберите, куда отправить.";
+                return;
+            }
+
+            send.disabled = true;
+
+            try {
+
+                const res = await ipcRenderer.invoke("news-post", { text: text.value, targets });
+
+                const names = { main: "Telegram · SkyNix", recruits: "Telegram · Новобранцы", discord: "Discord" };
+
+                const lines = (res.results || []).map(r => (r.ok ? "✅ " : "❌ ") + names[r.target] + (r.ok ? "" : ": " + r.error));
+
+                out.textContent = lines.join("\n");
+
+                out.style.whiteSpace = "pre-line";
+
+                if (res.ok && (res.results || []).every(r => r.ok)) text.value = "";
+
+            } catch (e) {
+
+                error.textContent = String((e && e.message) || e).replace(/^Error invoking remote method '[^']+': (Error: )?/, "");
+
+            }
+
+            send.disabled = false;
+
+        }, "primary");
+
+        body.appendChild(error);
+        body.appendChild(send);
+        body.appendChild(out);
+
+    }
+
+    // ---------------- Раздел «Съёмки» ----------------
+
+    let shootState = { pending: [], mine: [] };
+
+    async function refreshShoots() {
+
+        if (!canShoot()) return;
+
+        try {
+            shootState = await ipcRenderer.invoke("shoots-get");
+        } catch {
+            return;
+        }
+
+        updateShootBadge();
+
+        updateNotifBadge();
+
+        if (window.__notifRepaint) window.__notifRepaint();
+
+    }
+
+    function updateShootBadge() {
+
+        const btn = document.querySelector('[data-key="shoots"]');
+
+        if (!btn) return;
+
+        const count = (shootState.pending || []).length;
+
+        let badge = btn.querySelector(".g-badge");
+
+        if (!count) {
+            if (badge) badge.remove();
+            return;
+        }
+
+        if (!badge) {
+            badge = gEl("span", "g-badge");
+            btn.appendChild(badge);
+        }
+
+        badge.textContent = count > 9 ? "9+" : String(count);
+
+    }
+
+    function openShootsHub() {
+
+        if (!canShoot()) return;
+
+        const body = openWindow("Съёмки");
+
+        body.appendChild(gEl("p", "g-muted", "Выберите действие."));
+
+        const grid = gEl("div", "g-tiles");
+
+        function tile(title, text, action) {
+
+            const node = gEl("button", "g-tile");
+
+            node.appendChild(gEl("b", "", title));
+            node.appendChild(gEl("span", "", text));
+
+            node.onclick = () => {
+                closeNow();
+                action();
+            };
+
+            grid.appendChild(node);
+
+        }
+
+        tile("Провести съёмки", isArchonUser() ? "Сразу в группы, без проверки" : "Отправить заявку Архонту", openShootForm);
+
+        if (isArchonUser()) {
+            tile("Заявки на съёмки", "Одобрить или отказать", openShootReview);
+            tile("Написать в новости", "Сообщение от имени бота", openNewsPost);
+        }
+
+        body.appendChild(grid);
+
+        const mine = (shootState.mine || []).slice(0, 5);
+
+        if (mine.length) {
+
+            body.appendChild(gEl("div", "g-set-title", "Мои заявки"));
+
+            const log = gEl("div", "g-log");
+
+            for (const r of mine) {
+
+                const row = gEl("div", "g-log-row");
+
+                const top = gEl("div", "g-log-top");
+
+                top.appendChild(gEl("span", "g-log-who", r.title));
+                top.appendChild(gEl("span", "g-tag " + (r.status === "sent" ? "ok" : r.status === "rejected" ? "ban" : "mute"), shootStatusText(r)));
+
+                row.appendChild(top);
+
+                row.appendChild(gEl("div", "g-log-reason", ruShootDate(r.date) + " · " + r.time + " МСК" + (r.status === "rejected" && r.reason ? " · Причина: " + r.reason : "")));
+
+                log.appendChild(row);
+
+            }
+
+            body.appendChild(log);
+
+        }
+
+    }
+
+    window.openShootsHub = openShootsHub;
+    window.openShootForm = openShootForm;
+    window.canShoot = canShoot;
+    window.refreshShoots = refreshShoots;
+
+    ipcRenderer.on("shoots-changed", (event, data) => {
+        shootState = data || { pending: [], mine: [] };
+        updateShootBadge();
+        updateNotifBadge();
+        if (window.__notifRepaint) window.__notifRepaint();
+    });
+
     window.openProfile = openProfile;
     window.openMembersProfiles = openMembers;
     window.openModerationHub = openModerationHub;
@@ -4286,6 +5205,7 @@ const G_ICONS = {
     login: '<path d="M10 4H5v16h5"/><path d="M14 8l4 4-4 4M18 12H9"/>',
     bell: '<path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M10 20a2 2 0 0 0 4 0"/>',
     log: '<path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',
+    film: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 5v14M17 5v14M3 10h4M3 14h4M17 10h4M17 14h4"/>',
     gear: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'
 };
 
@@ -4891,6 +5811,10 @@ function renderInterface(force) {
 
     nav.push({ label: "Wiki", icon: "book", action: () => openWiki() });
 
+    if (window.canShoot && window.canShoot()) {
+        nav.push({ label: "Съёмки", icon: "film", key: "shoots", action: () => window.openShootsHub() });
+    }
+
     if (discordSession && (discordSession.status === "member" || discordSession.status === "recruit")) {
         nav.push({ label: "Уведомления", icon: "bell", key: "notif", action: () => window.openNotifications() });
     }
@@ -4902,6 +5826,8 @@ function renderInterface(force) {
     }
 
     buildNav(nav);
+
+    if (window.refreshShoots) window.refreshShoots();
 
     if (window.updateNotifBadge) window.updateNotifBadge();
 
