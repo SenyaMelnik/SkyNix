@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "v2.1.0"
+        description: "v2.2.0"
         required: true
 
 permissions:
